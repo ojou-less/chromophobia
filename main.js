@@ -5,7 +5,7 @@ var config = {
     physics: {
         default: 'arcade',
         arcade: {
-            gravity: { y: 300 },
+            gravity: { y: 0 },
             debug: false
         }
     },
@@ -102,6 +102,8 @@ function create ()
 
 function update ()
 {
+    let pressed = false;
+    const speed = 200;
     if (gameOver)
     {
         return;
@@ -109,26 +111,54 @@ function update ()
 
     if (cursors.left.isDown)
     {
-        player.setVelocityX(-160);
+        player.setVelocity(-speed, 0);
+        pressed = true;
 
         player.anims.play('left', true);
     }
     else if (cursors.right.isDown)
     {
-        player.setVelocityX(160);
+        player.setVelocity(speed, 0);
+        pressed = true;
 
         player.anims.play('right', true);
     }
-    else
+    else if (cursors.up.isDown)
     {
-        player.setVelocityX(0);
+        player.setVelocity(0, -speed);
+        pressed = true;
 
         player.anims.play('turn');
     }
 
-    if (cursors.up.isDown && player.body.touching.down)
+    if (cursors.down.isDown)
     {
-        player.setVelocityY(-330);
+        player.setVelocity(0, speed);
+        pressed = true;
+        player.anims.play('turn');
+    }
+
+    if (cursors.down.isDown && cursors.left.isDown)
+    {
+        player.setVelocity(-speed, speed);
+        pressed = true;
+    }
+    if (cursors.down.isDown && cursors.right.isDown)
+    {
+        player.setVelocity(speed, speed);
+        pressed = true;
+    }
+    if (cursors.up.isDown && cursors.left.isDown)
+    {
+        player.setVelocity(-speed, -speed);
+        pressed = true;
+    }
+    if (cursors.up.isDown && cursors.right.isDown)
+    {
+        player.setVelocity(speed, -speed);
+    } else if (pressed === false) {
+        player.setVelocity(0, 0);
+        player.anims.play('turn');
     }
 }
 
