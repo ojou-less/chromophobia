@@ -184,13 +184,13 @@ function movement()
 
 class bullet
 {
-    
     constructor(damage)
     {
         this.damage = damage;
+        console.log("yeah");
 
-        this.posX = player.x;
-        this.posY = player.y;
+        this.posX = 0;
+        this.posY = 0;
         this.shoot();
     }
 
