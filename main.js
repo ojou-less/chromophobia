@@ -1,3 +1,6 @@
+
+
+
 var config = {
     type: Phaser.AUTO,
     width: 800,
@@ -201,7 +204,8 @@ class bullet
     shoot()
     {
 
-        if(player.facing === 'left')
+
+        if(cursors.space.isDown)
         {
             let bomb = bombs.create(posX, posY, "bomb");
         }        
