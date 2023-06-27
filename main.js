@@ -114,10 +114,8 @@ function create ()
 function update ()
 {
     movement()
-    console.log(player.x);
-    console.log(player.y);
-
-    new bullet(40);
+    new bullet(80);
+    new bullet(-80);
 }
 
 function movement()
@@ -193,8 +191,8 @@ class bullet
         this.damage = damage;
         console.log("yeah");
 
-        posX = player.x;
-        posY = player.y;
+        posX = player.x - damage;
+        posY = player.y - damage;
         this.shoot();
     }
 
@@ -204,6 +202,11 @@ class bullet
         if(player.facing === 'left')
         {
             let bomb = bombs.create(posX, posY, "bomb");
+            bomb.setBounce(1);
+            bomb.setCollideWorldBounds(true);
+            bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+            bomb.allowGravity = false;
+
         }        
     }
 }
