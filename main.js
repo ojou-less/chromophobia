@@ -24,6 +24,8 @@ var cursors;
 var score = 0;
 var gameOver = false;
 var scoreText;
+var posX;
+var posY;
 
 var game = new Phaser.Game(config);
 
@@ -112,6 +114,8 @@ function create ()
 function update ()
 {
     movement()
+    console.log(player.x);
+    console.log(player.y);
 
     new bullet(40);
 }
@@ -189,17 +193,17 @@ class bullet
         this.damage = damage;
         console.log("yeah");
 
-        this.posX = 0;
-        this.posY = 0;
+        posX = player.x;
+        posY = player.y;
         this.shoot();
     }
 
     shoot()
     {
-        let bomb = bombs.create(posX, posY, "bomb");
-        if(player.facing == 'down')
+
+        if(player.facing === 'left')
         {
-            console.log("yeah");
+            let bomb = bombs.create(posX, posY, "bomb");
         }        
     }
 }
