@@ -114,8 +114,7 @@ function create ()
 function update ()
 {
     movement()
-    new bullet(80);
-    new bullet(-80);
+    
 }
 
 function movement()
@@ -177,19 +176,31 @@ function movement()
     if (cursors.up.isDown && cursors.right.isDown)
     {
         player.setVelocity(speed, -speed);
-    } else if (pressed === false) {
+    }
+    if (cursors.space.isDown)
+    {
+        new bullet(80);
+        new bullet(-80);
+    }
+    else if (pressed === false) {
         player.setVelocity(0, 0);
         player.anims.play('front');
     }
 }
 
-
+/*
+    ToDo:
+    - flugbahn
+    - damage on hit
+    - color
+*/
 class bullet
 {
+    
+
     constructor(damage)
     {
         this.damage = damage;
-        console.log("yeah");
 
         posX = player.x - damage;
         posY = player.y - damage;
@@ -197,19 +208,20 @@ class bullet
     }
 
     shoot()
-    {
-
-        if(player.facing === 'left')
-        {
-            let bomb = bombs.create(posX, posY, "bomb");
-            bomb.setBounce(1);
-            bomb.setCollideWorldBounds(true);
-            bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-            bomb.allowGravity = false;
-
-        }        
+    {    
+        let bomb = bombs.create(posX, posY, "bomb");
+        bomb.setBounce(1);
+        bomb.setCollideWorldBounds(true);
+        bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
+        bomb.allowGravity = false;
     }
 }
+
+/*
+    ToDo:
+    - bombs 
+    -- samething like bullets but bombs
+*/
 /*
 function collectStar (player, star)
 {
