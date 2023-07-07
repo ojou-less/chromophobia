@@ -35,8 +35,9 @@ function preload ()
     this.load.image('ground', 'assets/platform.png');
     this.load.image('star', 'assets/star.png');
     this.load.image('bomb', 'assets/bomb.png');
-    this.load.image('back', 'assets/dudeBack.png');
-    this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+    this.load.spritesheet('idle', 'assets/IdleMain.png', { frameWidth: 21, frameHeight: 30 });
+    this.load.spritesheet('walking', 'assets/WalkingMain.png', { frameWidth: 21, frameHeight: 30 });
+
 }
 
 function create ()
@@ -51,7 +52,8 @@ function create ()
     platforms.create(50, 250, 'ground');
     platforms.create(750, 220, 'ground');
 
-    player = this.physics.add.sprite(100, 450, 'dude');
+    player = this.physics.add.sprite(100, 450, 'idle'[0, 3]);
+    //player.setScale(1.5)
 
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
@@ -59,30 +61,44 @@ function create ()
     player.facing = 'down';
 
     this.anims.create({
-        key: 'left',
-        frames: this.anims.generateFrameNumbers('dude', { start: 0, end: 3 }),
+        key: 'walk-front',
+        frames: this.anims.generateFrameNumbers('walking', {frames:[0, 3, 6, 9]}),
         frameRate: 10,
         repeat: -1
     });
 
     this.anims.create({
-        key: 'front',
-        frames: [ { key: 'dude', frame: 4 } ],
-        frameRate: 20
-    });
-
-    this.anims.create({
-        key: 'right',
-        frames: this.anims.generateFrameNumbers('dude', { start: 5, end: 8 }),
+        key: 'walk-back',
+        frames: this.anims.generateFrameNumbers('walking', {frames:[1, 4, 7, 10]}),
         frameRate: 10,
         repeat: -1
     });
 
     this.anims.create({
-        key: 'back',
-        frames: [ { key: 'back', frame: 0 } ],
-        frameRate: 20
+        key: 'walk-side',
+        frames: this.anims.generateFrameNumbers('walking', {frames:[2, 5, 8, 11]}),
+        frameRate: 10,
+        repeat: -1
     });
+
+    this.anims.create({
+        key: 'idle-front',
+        frames: this.anims.generateFrameNumbers('idle', {frames:[0, 3]}) ,
+        frameRate: 3
+    });
+
+    this.anims.create({
+        key: 'idle-back',
+        frames: this.anims.generateFrameNumbers('idle', {frames:[1, 4]} ),
+        frameRate: 3
+    });
+
+    this.anims.create({
+        key: 'idle-side',
+        frames: this.anims.generateFrameNumbers('idle', {frames:[2, 5]} ),
+        frameRate: 3
+    });
+
 
     cursors = this.input.keyboard.createCursorKeys();
 
@@ -131,7 +147,8 @@ function movement()
         player.setVelocity(-speed, 0);
         pressed = true;
         player.facing = 'left';
-        player.anims.play('left', true);
+        player.anims.play('walk-side', true);
+        player.flipX=true
         
     }
     else if (cursors.right.isDown)
@@ -139,14 +156,15 @@ function movement()
         player.setVelocity(speed, 0);
         pressed = true;
         player.facing = 'right';
-        player.anims.play('right', true);
+        player.anims.play('walk-side', true);
+        player.flipX=false
     }
     else if (cursors.up.isDown)
     {
         player.setVelocity(0, -speed);
         pressed = true;
         player.facing = 'up';
-        player.anims.play('back');
+        player.anims.play('walk-back', true);
     }
 
     if (cursors.down.isDown)
@@ -154,7 +172,7 @@ function movement()
         player.setVelocity(0, speed);
         pressed = true;
         player.facing = 'down';
-        player.anims.play('front');
+        player.anims.play('walk-front', true);
        
     }
 
@@ -184,7 +202,7 @@ function movement()
     }
     else if (pressed === false) {
         player.setVelocity(0, 0);
-        player.anims.play('front');
+        player.anims.play('idle-front', true);
     }
 }
 
@@ -196,8 +214,6 @@ function movement()
 */
 class bullet
 {
-    
-
     constructor(damage)
     {
         this.damage = damage;
