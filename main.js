@@ -19,6 +19,7 @@ let config = {
 };
 
 let player;
+//let player;
 //let stars;
 let enemies;
 
@@ -146,9 +147,9 @@ gameScene.create = function()
     });
 
     cursors = this.input.keyboard.createCursorKeys();
-
-    player = this.physics.add.sprite(100, 450, 'idleMain');
-    player.setCollideWorldBounds(true);
+    player = new MainCharacter(gameScene, 100, 450);
+    //player = this.physics.add.sprite(100, 450, 'idleMain');
+    //player.setCollideWorldBounds(true);
     player.facing = 'south';
 
     /*
