@@ -155,7 +155,7 @@ gameScene.create = function()
     player.facing = 'south';
 
 
-    enemies = new Enemy(gameScene, 100, 100, 50);
+    enemies = new Enemy(gameScene, player, 100, 100, 50, new Bullet(gameScene, 150));
   
 
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
@@ -172,7 +172,7 @@ gameScene.create = function()
 gameScene.update = function()
 {
     movement();
-    enemies.update(player.x, player.y);
+    enemies.update();
     
 }
 
@@ -244,7 +244,6 @@ function movement()
     if (cursors.space.isDown)
     {
         new Bullet(gameScene, player);
-        //console.log("pew")
     }
     else if (pressed === false) {
         player.setVelocity(0, 0);

@@ -1,11 +1,14 @@
 class Enemy
 {
     //constructor(entity, xPos, yPos, type, weakness, speed, health, bullet)
-    constructor(gameObj, xPos, yPos, speed)
+    constructor(gameObj, player, xPos, yPos, speed, bullet)
     {
         this.xPos = xPos;
         this.yPos = yPos;
         this.speed = speed;
+        this.bullet = bullet;
+        this.player = player;
+        
 
         this.directions = 8;
 
@@ -25,17 +28,17 @@ class Enemy
         }
         
         this.entity = gameObj.physics.add.sprite(this.xPos, this.yPos, 'idleEnemy');
-        this.entity.setCollideWorldBounds(true);
+        
     }
 
-    update(playerX, playerY)
+    update()
     {
         this.graphics.clear();
         
         this.xPos = this.entity.body.transform.x;
         this.yPos = this.entity.body.transform.y;
 
-        this.calcDesire(playerX, playerY);
+        this.calcDesire();
         this.move();
 
         for(let i = 0; i < this.directions; i++)
@@ -47,9 +50,23 @@ class Enemy
             this.interest[i] = [0, 0];
         }
         this.line = [];
-        console.log()
+        //console.log(this.entity);
+        this.entity.setCollideWorldBounds(true);
         
         this.entity.anims.play('enemy-idle-front', true);
+
+        this.shoot();
+    }
+
+    shoot()
+    {   
+        let temp = this.magnitude(this.vectorize(this.xPos, this.yPos, this.player.x, this.player.y))
+        console.log("temp: " + temp)
+        if(temp < 200)
+        {
+            
+            this.bullet.shoot(this.entity.body.newVelocity, this.xPos, this.yPos);
+        }
     }
 
     move()
@@ -66,9 +83,12 @@ class Enemy
         this.entity.setVelocity(average[0]*this.speed, average[1]*this.speed);
     }
 
-    calcDesire(playerX, playerY)
+    calcDesire()
     {
-        let toPlayerVec = [playerX - this.xPos, playerY - this.yPos];
+        let playerX = this.player.x;
+        let playerY = this.player.y;
+
+        let toPlayerVec = this.vectorize(this.xPos, this.yPos, playerX, playerY);
         
         let compare = this.normalize(toPlayerVec);
         
@@ -87,15 +107,26 @@ class Enemy
 
     dot(vec1, vec2)
     {
-
         return vec1[0] * vec2[0] + vec1[1] * vec2[1];
+    }
+
+    vectorize(pnt1x, pnt1y, ptn2x, ptn2y)
+    {
+        return [ptn2x - pnt1x, ptn2y- pnt1y];
     }
 
     normalize(vec)
     {
-        let magnitude = Math.sqrt(vec[0]*vec[0] + vec[1]*vec[1]);
+        let magnitude = this.magnitude(vec);
         return [vec[0] / magnitude, vec[1] / magnitude];
     }
+
+    magnitude(vec)
+    {
+        return Math.sqrt(vec[0]*vec[0] + vec[1]*vec[1]);
+    }
+
+
 
 
 }
