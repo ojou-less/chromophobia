@@ -61,6 +61,8 @@ gameScene.create = function()
     platforms.create(50, 250, 'ground');
     platforms.create(750, 220, 'ground');
 
+    
+
     // -----------------------------------------------------------------------------------
     // Player Animations
     this.anims.create({
@@ -144,35 +146,22 @@ gameScene.create = function()
         frameRate: 2
     });
 
+
+
     cursors = this.input.keyboard.createCursorKeys();
 
     player = this.physics.add.sprite(100, 450, 'idleMain');
     player.setCollideWorldBounds(true);
     player.facing = 'south';
 
-    /*
-    stars = this.physics.add.group({
-        key: 'star',
-        repeat: 11,
-        setXY: { x: 12, y: 0, stepX: 70 }
-    });
 
-    stars.children.iterate(function (child) {
-
-        child.setBounceY(Phaser.Math.FloatBetween(0.4, 0.8));
-
-    });
-    */
-
-    enemies = new Enemy(gameScene, 100, 100)
-    
-    //bombs = this.physics.add.group();
-    
+    enemies = new Enemy(gameScene, 100, 100, 50);
+  
 
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
     this.physics.add.collider(player, platforms);
-    //this.physics.add.collider(enemy, platforms);
+    this.physics.add.collider(enemies, platforms);
     //this.physics.add.collider(bombs, platforms);
 
     //this.physics.add.overlap(player, stars, collectStar, null, this);
@@ -182,8 +171,8 @@ gameScene.create = function()
 
 gameScene.update = function()
 {
-    movement()
-    enemies.show()
+    movement();
+    enemies.update(player.x, player.y);
     
 }
 
