@@ -1,12 +1,12 @@
 var config = {
     type: Phaser.AUTO,
     width: 800,
-    height: 600,
+    height: 608,
     physics: {
         default: 'arcade',
         arcade: {
             gravity: { y: 0 },
-            debug: false
+            debug: true
         }
     },
     scene: {
@@ -31,27 +31,46 @@ var game = new Phaser.Game(config);
 
 function preload ()
 {
-    this.load.image('sky', 'assets/sky.png');
-    this.load.image('ground', 'assets/platform.png');
+    // this.load.image('sky', 'assets/sky.png');
+    // this.load.image('ground', 'assets/platform.png');
+    this.load.image("tiles1", "assets/forest_.png");
+    this.load.image("tiles1_resources", "assets/forest_resources.png")
+    this.load.tilemapTiledJSON("map1", "assets/chromophobia_map_v2.json");
+
     this.load.image('star', 'assets/star.png');
     this.load.image('bomb', 'assets/bomb.png');
     this.load.image('back', 'assets/dudeBack.png');
-    this.load.spritesheet('dude', 'assets/dude.png', { frameWidth: 32, frameHeight: 48 });
+
+    this.load.spritesheet('dude', 'assets/dude.png', { 
+        frameWidth: 32, 
+        frameHeight: 48
+    });
 }
 
 function create ()
 {
-    this.add.image(400, 300, 'sky');
+    // this.add.image(400, 300, 'sky');
 
-    platforms = this.physics.add.staticGroup();
+    // platforms = this.physics.add.staticGroup();
 
-    platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+    // platforms.create(400, 568, 'ground').setScale(2).refreshBody();
 
-    platforms.create(600, 400, 'ground');
-    platforms.create(50, 250, 'ground');
-    platforms.create(750, 220, 'ground');
+    // platforms.create(600, 400, 'ground');
+    // platforms.create(50, 250, 'ground');
+    // platforms.create(750, 220, 'ground');
 
-    player = this.physics.add.sprite(100, 450, 'dude');
+    const map = this.make.tilemap({
+        key: "map1",
+        tileWidth: 16,
+        tileHeight: 16
+    });
+
+    const tileset = map.addTilesetImage("forest_", "tiles1");
+    const treetiles = map.addTilesetImage("forest_ [resources]", "tiles1_resources");
+    const bglayer = map.createLayer("Background", tileset, 0, 0);
+    const treelayer = map.createLayer("Trees", treetiles, 0, 0);
+
+    player = this.physics.add.sprite(200, 400, 'dude');
 
     player.setBounce(0.2);
     player.setCollideWorldBounds(true);
@@ -102,7 +121,8 @@ function create ()
 
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
-    this.physics.add.collider(player, platforms);
+    this.physics.add.collider(player, treelayer);
+    treelayer.setCollisionBetween(15, 29);      //what the fuck bro
     this.physics.add.collider(stars, platforms);
     this.physics.add.collider(bombs, platforms);
 
