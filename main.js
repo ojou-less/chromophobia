@@ -19,7 +19,6 @@ let config = {
 };
 
 let player;
-//let player;
 //let stars;
 let enemies;
 
