@@ -4,6 +4,7 @@ const SCREENHEIGHT = 600;
 let gameScene = new Phaser.Scene('Game');
 
 let config = {
+
     type: Phaser.AUTO,
     width: SCREENWIDTH,
     height: SCREENHEIGHT,
