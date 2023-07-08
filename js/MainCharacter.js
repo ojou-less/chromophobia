@@ -1,10 +1,11 @@
-class MainCharacter
+class MainCharacter extends Phaser.Physics.Arcade.Sprite
 {
     //constructor(entity, xPos, yPos, type, weakness, speed, health, bullet)
     constructor(gameObj, xPos, yPos, speed)
     {
-        this.xPos = xPos;
-        this.yPos = yPos;
+        super(gameObj, xPos, yPos, 'assets/IdleMain.png');
+        //this.xPos = xPos;
+        //this.yPos = yPos;
         //this.facing = 'south'
         /*
         this.type = type;
@@ -15,8 +16,8 @@ class MainCharacter
 
          */
 
-        this.entity = gameObj.physics.add.sprite(this.xPos, this.yPos, 'idleMain');
-        this.entity.setCollideWorldBounds(true);
+        //this.entity = gameObj.physics.add.sprite(this.xPos, this.yPos, 'idleMain');
+        //this.entity.setCollideWorldBounds(true);
     }
 
     show()

@@ -148,8 +148,8 @@ gameScene.create = function()
 
     cursors = this.input.keyboard.createCursorKeys();
     player = new MainCharacter(gameScene, 100, 450);
-    //player = this.physics.add.sprite(100, 450, 'idleMain');
-    //player.setCollideWorldBounds(true);
+    player = this.physics.add.sprite(100, 450, 'idleMain');
+    player.setCollideWorldBounds(true);
     player.facing = 'south';
 
     /*
@@ -185,8 +185,8 @@ gameScene.create = function()
 gameScene.update = function()
 {
     movement()
-    enemies.show()
-    
+    enemies.show();
+
 }
 
 
