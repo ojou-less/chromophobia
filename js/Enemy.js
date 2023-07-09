@@ -5,14 +5,12 @@ class Enemy
     {
         this.xPos = xPos;
         this.yPos = yPos;
+
         this.speed = speed;
         //this.bullet = bullet;
         this.player = player;
 
         this.bullet;
-
-        //console.log(gameScene);
-        
 
         this.directions = 8;
 
@@ -65,7 +63,7 @@ class Enemy
 
     shoot(gameScene, speed)
     {   
-        this.bullet = new Bullet(gameScene, speed)
+        this.bullet = new Bullet(gameScene, this.entity, speed)
         let temp = this.magnitude(this.vectorize(this.xPos, this.yPos, this.player.x, this.player.y))
         if(temp < 200)
         {
@@ -106,7 +104,7 @@ class Enemy
 
     getEntity()
     {
-        return this.entity
+        return this.entity;
     }
 
     getBulletEntity()
