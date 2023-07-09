@@ -36,81 +36,81 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
 
         if (cursors.left.isDown)
         {
-            player.setVelocity(-speed, 0);
+            this.entity.setVelocity(-speed, 0);
             pressed = true;
-            player.facing = 'east';
-            player.anims.play('main-walk-side', true);
-            player.flipX=true
+            this.entity.facing = 'east';
+            this.entity.anims.play('main-walk-side', true);
+            this.entity.flipX=true
 
         }
         else if (cursors.right.isDown)
         {
-            player.setVelocity(speed, 0);
+            this.entity.setVelocity(speed, 0);
             pressed = true;
-            player.facing = 'west';
-            player.anims.play('main-walk-side', true);
-            player.flipX=false
+            this.entity.facing = 'west';
+            this.entity.anims.play('main-walk-side', true);
+            this.entity.flipX=false
         }
         else if (cursors.up.isDown)
         {
-            player.setVelocity(0, -speed);
+            this.entity.setVelocity(0, -speed);
             pressed = true;
-            player.facing = 'north';
-            player.anims.play('main-walk-back', true);
+            this.entity.facing = 'north';
+            this.entity.anims.play('main-walk-back', true);
         }
 
         if (cursors.down.isDown)
         {
-            player.setVelocity(0, speed);
+            this.entity.setVelocity(0, speed);
             pressed = true;
-            player.facing = 'south';
-            player.anims.play('main-walk-front', true);
+            this.entity.facing = 'south';
+            this.entity.anims.play('main-walk-front', true);
 
         }
 
         if (cursors.down.isDown && cursors.left.isDown)
         {
-            player.setVelocity(-speed, speed);
+            this.entity.setVelocity(-speed, speed);
             pressed = true;
         }
         if (cursors.down.isDown && cursors.right.isDown)
         {
-            player.setVelocity(speed, speed);
+            this.entity.setVelocity(speed, speed);
             pressed = true;
         }
         if (cursors.up.isDown && cursors.left.isDown)
         {
-            player.setVelocity(-speed, -speed);
+            this.entity.setVelocity(-speed, -speed);
             pressed = true;
         }
         if (cursors.up.isDown && cursors.right.isDown)
         {
-            player.setVelocity(speed, -speed);
+            this.entity.setVelocity(speed, -speed);
         }
         if (cursors.space.isDown)
         {
-            new Bullet(gameScene, player);
+            new Bullet(gameScene, this.entity);
             //console.log("pew")
         }
         else if (pressed === false) {
-            player.setVelocity(0, 0);
-            if(player.facing === 'south')
+            this.entity.setVelocity(0, 0);
+            if(this.entity.facing === 'south')
             {
-                player.anims.play('main-idle-front', true);
+                this.entity.anims.play('main-idle-front', true);
             }
-            else if(player.facing === 'north')
+            else if(this.entity.facing === 'north')
             {
-                player.anims.play('main-idle-back', true);
+                this.entity.anims.play('main-idle-back', true);
             }
-            else if(player.facing === 'east')
+            else if(this.entity.facing === 'east')
             {
-                player.anims.play('main-idle-side', true);
-                player.flipX=true
+                this.entity.anims.play('main-idle-side', true);
+                this.entity.flipX=true
             }
             else
             {
-                player.anims.play('main-idle-side', true);
-                player.flipX=false
+                this.entity.anims.play('main-idle-side', true);
+                this.entity.flipX=false
             }
 
         }

@@ -186,7 +186,7 @@ gameScene.create = function()
 
 gameScene.update = function()
 {
-    movement()
+    player.movement()
     enemies.show();
 
 }
