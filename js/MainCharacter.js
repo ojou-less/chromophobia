@@ -3,9 +3,10 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
     speed;
     xPos;
     yPos;
+    health;
 
     //constructor(entity, xPos, yPos, type, weakness, speed, health, bullet)
-    constructor(gameObj, xPos, yPos, speed)
+    constructor(gameObj, xPos, yPos, speed, health)
     {
         super(gameObj, xPos, yPos, 'assets/IdleMain.png');
         //this.xPos = xPos;
@@ -19,6 +20,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         this.bullet = bullet;
 
          */
+        this.health = health;
         this.speed = speed;
         this.xPos = xPos;
         this.yPos = yPos;

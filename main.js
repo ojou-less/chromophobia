@@ -146,7 +146,7 @@ gameScene.create = function()
     });
 
     cursors = this.input.keyboard.createCursorKeys();
-    player = new MainCharacter(gameScene, 100, 450, 200);
+    player = new MainCharacter(gameScene, 100, 450, 200, 400);
 
     /*
     stars = this.physics.add.group({
