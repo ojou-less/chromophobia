@@ -1,5 +1,9 @@
 class MainCharacter extends Phaser.Physics.Arcade.Sprite
 {
+    speed;
+    xPos;
+    yPos;
+
     //constructor(entity, xPos, yPos, type, weakness, speed, health, bullet)
     constructor(gameObj, xPos, yPos, speed)
     {
@@ -15,10 +19,14 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         this.bullet = bullet;
 
          */
-
+        this.speed = speed;
+        this.xPos = xPos;
+        this.yPos = yPos;
         this.entity = gameObj.physics.add.sprite(this.xPos, this.yPos, 'idleMain');
         this.entity.setCollideWorldBounds(true);
+        this.entity.facing = "south";
     }
+
 
     show()
     {
@@ -28,7 +36,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
     movement()
     {
         let pressed = false;
-        const speed = 200;
+        this.speed = 200;
         if (gameOver)
         {
             return;
@@ -36,7 +44,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
 
         if (cursors.left.isDown)
         {
-            this.entity.setVelocity(-speed, 0);
+            this.entity.setVelocity(-this.speed, 0);
             pressed = true;
             this.entity.facing = 'east';
             this.entity.anims.play('main-walk-side', true);
@@ -45,7 +53,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         }
         else if (cursors.right.isDown)
         {
-            this.entity.setVelocity(speed, 0);
+            this.entity.setVelocity(this.speed, 0);
             pressed = true;
             this.entity.facing = 'west';
             this.entity.anims.play('main-walk-side', true);
@@ -53,7 +61,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         }
         else if (cursors.up.isDown)
         {
-            this.entity.setVelocity(0, -speed);
+            this.entity.setVelocity(0, -this.speed);
             pressed = true;
             this.entity.facing = 'north';
             this.entity.anims.play('main-walk-back', true);
@@ -61,7 +69,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
 
         if (cursors.down.isDown)
         {
-            this.entity.setVelocity(0, speed);
+            this.entity.setVelocity(0, this.speed);
             pressed = true;
             this.entity.facing = 'south';
             this.entity.anims.play('main-walk-front', true);
@@ -70,22 +78,22 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
 
         if (cursors.down.isDown && cursors.left.isDown)
         {
-            this.entity.setVelocity(-speed, speed);
+            this.entity.setVelocity(-this.speed, this.speed);
             pressed = true;
         }
         if (cursors.down.isDown && cursors.right.isDown)
         {
-            this.entity.setVelocity(speed, speed);
+            this.entity.setVelocity(this.speed, this.speed);
             pressed = true;
         }
         if (cursors.up.isDown && cursors.left.isDown)
         {
-            this.entity.setVelocity(-speed, -speed);
+            this.entity.setVelocity(-this.speed, -this.speed);
             pressed = true;
         }
         if (cursors.up.isDown && cursors.right.isDown)
         {
-            this.entity.setVelocity(speed, -speed);
+            this.entity.setVelocity(this.speed, -this.speed);
         }
         if (cursors.space.isDown)
         {
@@ -105,7 +113,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
             else if(this.entity.facing === 'east')
             {
                 this.entity.anims.play('main-idle-side', true);
-                this.entity.flipX=true
+                this.entity.flipX = true
             }
             else
             {
@@ -114,6 +122,10 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
             }
 
         }
+    }
+
+    getEntity() {
+        return this.entity;
     }
 
 

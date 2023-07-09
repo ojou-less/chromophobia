@@ -146,13 +146,7 @@ gameScene.create = function()
     });
 
     cursors = this.input.keyboard.createCursorKeys();
-    player = new MainCharacter(gameScene, 100, 450);
-    /*
-    player = this.physics.add.sprite(100, 450, 'idleMain');
-    player.setCollideWorldBounds(true);
-    player.facing = 'south';
-
-     */
+    player = new MainCharacter(gameScene, 100, 450, 200);
 
     /*
     stars = this.physics.add.group({
@@ -175,7 +169,7 @@ gameScene.create = function()
 
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
-    this.physics.add.collider(player, platforms);
+    this.physics.add.collider(player.getEntity(), platforms);
     //this.physics.add.collider(enemy, platforms);
     //this.physics.add.collider(bombs, platforms);
 
@@ -190,105 +184,6 @@ gameScene.update = function()
     enemies.show();
 
 }
-
-
-
-
-function movement()
-{
-    let pressed = false;
-    const speed = 200;
-    if (gameOver)
-    {
-        return;
-    }
-
-    if (cursors.left.isDown)
-    {
-        player.setVelocity(-speed, 0);
-        pressed = true;
-        player.facing = 'east';
-        player.anims.play('main-walk-side', true);
-        player.flipX=true
-        
-    }
-    else if (cursors.right.isDown)
-    {
-        player.setVelocity(speed, 0);
-        pressed = true;
-        player.facing = 'west';
-        player.anims.play('main-walk-side', true);
-        player.flipX=false
-    }
-    else if (cursors.up.isDown)
-    {
-        player.setVelocity(0, -speed);
-        pressed = true;
-        player.facing = 'north';
-        player.anims.play('main-walk-back', true);
-    }
-
-    if (cursors.down.isDown)
-    {
-        player.setVelocity(0, speed);
-        pressed = true;
-        player.facing = 'south';
-        player.anims.play('main-walk-front', true);
-       
-    }
-
-    if (cursors.down.isDown && cursors.left.isDown)
-    {
-        player.setVelocity(-speed, speed);
-        pressed = true;
-    }
-    if (cursors.down.isDown && cursors.right.isDown)
-    {
-        player.setVelocity(speed, speed);
-        pressed = true;
-    }
-    if (cursors.up.isDown && cursors.left.isDown)
-    {
-        player.setVelocity(-speed, -speed);
-        pressed = true;
-    }
-    if (cursors.up.isDown && cursors.right.isDown)
-    {
-        player.setVelocity(speed, -speed);
-    }
-    if (cursors.space.isDown)
-    {
-        new Bullet(gameScene, player);
-        //console.log("pew")
-    }
-    else if (pressed === false) {
-        player.setVelocity(0, 0);
-        if(player.facing === 'south')
-        {
-            player.anims.play('main-idle-front', true);
-        }
-        else if(player.facing === 'north')
-        {
-            player.anims.play('main-idle-back', true);
-        }
-        else if(player.facing === 'east')
-        {
-            player.anims.play('main-idle-side', true);
-            player.flipX=true
-        }
-        else
-        {
-            player.anims.play('main-idle-side', true);
-            player.flipX=false
-        }
-        
-    }
-}
-
-
-
-
-
 
 /*
     ToDo:
