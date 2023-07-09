@@ -1,13 +1,32 @@
 class Bullet
 {
-    constructor(gameScene, speed)
+    constructor(gameObj, character, facing, speed)
     {
         //this.damage = damage;
         this.speed = speed;
-        this.bullet = gameScene.physics.add.group();
+
+        this.bullet = gameObj.physics.add.group();
+        this.playerShoot(facing, speed);
+
     }
 
-    shoot(directionsVec, xPos, yPos)
+    playerShoot(facing, speed)
+    {
+        this.bullet.create(this.xPos, this.yPos, "bomb");
+        if (facing === "south") {
+            this.bullet.setVelocity(0, speed);
+        } else if (facing === "north") {
+            this.bullet.setVelocity(0, -speed);
+        } else if (facing === "west") {
+            this.bullet.setVelocity(speed, 0);
+        } else if (facing === "east") {
+            this.bullet.setVelocity(-speed, 0);
+        }
+
+
+    }
+
+    enemyShoot(directionsVec, xPos, yPos)
     {   
         let dir = [directionsVec.x, directionsVec.y];
 
@@ -26,6 +45,7 @@ class Bullet
     {
         let magnitude = Math.sqrt(vec[0]*vec[0] + vec[1]*vec[1]);
         return [vec[0] / magnitude, vec[1] / magnitude];
+
     }
 
     getEntity()

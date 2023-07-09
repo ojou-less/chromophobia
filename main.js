@@ -4,14 +4,16 @@ const SCREENHEIGHT = 600;
 let gameScene = new Phaser.Scene('Game');
 
 let config = {
+
     type: Phaser.AUTO,
-    width: SCREENWIDTH,
-    height: SCREENHEIGHT,
+    width: 800,
+    height: 608,
+
     physics: {
         default: 'arcade',
         arcade: {
             gravity: { y: 0 },
-            debug: false
+            debug: true
         }
     },
     scene: gameScene
@@ -33,10 +35,15 @@ let game = new Phaser.Game(config);
 
 gameScene.preload = function()
 {
-    this.load.image('sky', 'assets/sky.png');
-    this.load.image('ground', 'assets/platform.png');
+    // this.load.image('sky', 'assets/sky.png');
+    // this.load.image('ground', 'assets/platform.png');
+    this.load.image("tiles1", "assets/forest_.png");
+    this.load.image("tiles1_resources", "assets/forest_resources.png")
+    this.load.tilemapTiledJSON("map1", "assets/chromophobia_map_v2.json");
+
     this.load.image('star', 'assets/star.png');
     this.load.image('bomb', 'assets/bomb.png');
+
 
 
     // -----------------------------------------------------------------------------------
@@ -49,19 +56,35 @@ gameScene.preload = function()
     this.load.spritesheet('idleEnemy', 'assets/IdleEnemy.png', { frameWidth: 21, frameHeight: 30 });
     this.load.spritesheet('walkingEnemy', 'assets/WalkingEnemy.png', { frameWidth: 21, frameHeight: 30 });
 
+
 }
 
 gameScene.create = function()
 {
-    this.add.image(400, 300, 'sky');
+    // this.add.image(400, 300, 'sky');
 
-    platforms = this.physics.add.staticGroup();
-    platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-    platforms.create(600, 400, 'ground');
-    platforms.create(50, 250, 'ground');
-    platforms.create(750, 220, 'ground');
 
-    
+    // platforms = this.physics.add.staticGroup();
+
+    // platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+
+    // platforms.create(600, 400, 'ground');
+    // platforms.create(50, 250, 'ground');
+    // platforms.create(750, 220, 'ground');
+
+    const map = this.make.tilemap({
+        key: "map1",
+        tileWidth: 16,
+        tileHeight: 16
+    });
+
+    const tileset = map.addTilesetImage("forest_", "tiles1");
+    const treetiles = map.addTilesetImage("forest_ [resources]", "tiles1_resources");
+    const bglayer = map.createLayer("Background", tileset, 0, 0);
+    const treelayer = map.createLayer("Trees", treetiles, 0, 0);
+
+    player = this.physics.add.sprite(200, 400, 'dude');
+
 
     // -----------------------------------------------------------------------------------
     // Player Animations
@@ -147,12 +170,15 @@ gameScene.create = function()
     });
 
 
+    this.physics.add.collider(player, treelayer);
+    treelayer.setCollisionBetween(16, 28);
+    this.physics.add.collider(stars, platforms);
+    this.physics.add.collider(bombs, platforms);
+
+
 
     cursors = this.input.keyboard.createCursorKeys();
-
-    player = this.physics.add.sprite(100, 450, 'idleMain');
-    player.setCollideWorldBounds(true);
-    player.facing = 'south';
+    player = new MainCharacter(gameScene, 100, 450, 200, 400);
 
 
     enemies = new Enemy(gameScene, player, 100, 100, 50);
@@ -161,10 +187,6 @@ gameScene.create = function()
 
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
-    this.physics.add.collider(player, platforms);
-    this.physics.add.collider(enemies.getEntity(), platforms);
-    this.physics.add.collider(enemies.getBulletEntity(), platforms);
-
     //this.physics.add.overlap(player, stars, collectStar, null, this);
 
     //this.physics.add.collider(player, bombs, hitBomb, null, this);
@@ -172,107 +194,11 @@ gameScene.create = function()
 
 gameScene.update = function()
 {
-    movement();
+
+    player.movement();
     enemies.update();
-    enemies.shoot(gameScene, 150)
-    
-    
+    enemies.shoot(gameScene, 150);
 }
-
-
-
-
-function movement()
-{
-    let pressed = false;
-    const speed = 200;
-    if (gameOver)
-    {
-        return;
-    }
-
-    if (cursors.left.isDown)
-    {
-        player.setVelocity(-speed, 0);
-        pressed = true;
-        player.facing = 'east';
-        player.anims.play('main-walk-side', true);
-        player.flipX=true
-        
-    }
-    else if (cursors.right.isDown)
-    {
-        player.setVelocity(speed, 0);
-        pressed = true;
-        player.facing = 'west';
-        player.anims.play('main-walk-side', true);
-        player.flipX=false
-    }
-    else if (cursors.up.isDown)
-    {
-        player.setVelocity(0, -speed);
-        pressed = true;
-        player.facing = 'north';
-        player.anims.play('main-walk-back', true);
-    }
-
-    if (cursors.down.isDown)
-    {
-        player.setVelocity(0, speed);
-        pressed = true;
-        player.facing = 'south';
-        player.anims.play('main-walk-front', true);
-       
-    }
-
-    if (cursors.down.isDown && cursors.left.isDown)
-    {
-        player.setVelocity(-speed, speed);
-        pressed = true;
-    }
-    if (cursors.down.isDown && cursors.right.isDown)
-    {
-        player.setVelocity(speed, speed);
-        pressed = true;
-    }
-    if (cursors.up.isDown && cursors.left.isDown)
-    {
-        player.setVelocity(-speed, -speed);
-        pressed = true;
-    }
-    if (cursors.up.isDown && cursors.right.isDown)
-    {
-        player.setVelocity(speed, -speed);
-    }
-    if (cursors.space.isDown)
-    {
-        new Bullet(gameScene, player);
-    }
-    else if (pressed === false) {
-        player.setVelocity(0, 0);
-        if(player.facing === 'south')
-        {
-            player.anims.play('main-idle-front', true);
-        }
-        else if(player.facing === 'north')
-        {
-            player.anims.play('main-idle-back', true);
-        }
-        else if(player.facing === 'east')
-        {
-            player.anims.play('main-idle-side', true);
-            player.flipX=true
-        }
-        else
-        {
-            player.anims.play('main-idle-side', true);
-            player.flipX=false
-        }
-        
-    }
-}
-
-
 
 
 /*
