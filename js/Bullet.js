@@ -1,11 +1,11 @@
 class Bullet
 {
-    constructor(gameObj, speed)
+    constructor(gameScene, speed)
     {
         
         //this.damage = damage;
         this.speed = speed;
-        this.bullet = gameObj.physics.add.group();
+        this.bullet = gameScene.physics.add.group();
     }
 
     shoot(directionsVec, xPos, yPos)

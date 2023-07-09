@@ -1,12 +1,12 @@
 class Enemy
 {
     //constructor(entity, xPos, yPos, type, weakness, speed, health, bullet)
-    constructor(gameObj, player, xPos, yPos, speed, bullet)
+    constructor(gameObj, player, xPos, yPos, speed)
     {
         this.xPos = xPos;
         this.yPos = yPos;
         this.speed = speed;
-        this.bullet = bullet;
+        //this.bullet = bullet;
         this.player = player;
         
 
@@ -28,6 +28,7 @@ class Enemy
         }
         
         this.entity = gameObj.physics.add.sprite(this.xPos, this.yPos, 'idleEnemy');
+        this.entity.setCollideWorldBounds(true);
         
     }
 
@@ -58,14 +59,15 @@ class Enemy
         this.shoot();
     }
 
-    shoot()
+    shoot(gameScene, speed)
     {   
+        let bullet = new Bullet(gameScene, speed)
         let temp = this.magnitude(this.vectorize(this.xPos, this.yPos, this.player.x, this.player.y))
         console.log("temp: " + temp)
         if(temp < 200)
         {
             
-            this.bullet.shoot(this.entity.body.newVelocity, this.xPos, this.yPos);
+            bullet.shoot(this.entity.body.newVelocity, this.xPos, this.yPos);
         }
     }
 
@@ -99,6 +101,11 @@ class Enemy
         }
     }
 
+    getEntity()
+    {
+        return this.entity
+    }
+
     
     scalar(scalar, vec)
     {
@@ -125,8 +132,4 @@ class Enemy
     {
         return Math.sqrt(vec[0]*vec[0] + vec[1]*vec[1]);
     }
-
-
-
-
 }
