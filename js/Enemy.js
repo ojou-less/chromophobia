@@ -8,6 +8,10 @@ class Enemy
         this.speed = speed;
         //this.bullet = bullet;
         this.player = player;
+
+        this.bullet;
+
+        //console.log(gameScene);
         
 
         this.directions = 8;
@@ -56,18 +60,17 @@ class Enemy
         
         this.entity.anims.play('enemy-idle-front', true);
 
-        this.shoot();
+        //this.shoot();
     }
 
     shoot(gameScene, speed)
     {   
-        let bullet = new Bullet(gameScene, speed)
+        this.bullet = new Bullet(gameScene, speed)
         let temp = this.magnitude(this.vectorize(this.xPos, this.yPos, this.player.x, this.player.y))
-        console.log("temp: " + temp)
         if(temp < 200)
         {
             
-            bullet.shoot(this.entity.body.newVelocity, this.xPos, this.yPos);
+            this.bullet.shoot(this.entity.body.newVelocity, this.xPos, this.yPos);
         }
     }
 
@@ -104,6 +107,11 @@ class Enemy
     getEntity()
     {
         return this.entity
+    }
+
+    getBulletEntity()
+    {
+        return this.bullet.getEntity();
     }
 
     

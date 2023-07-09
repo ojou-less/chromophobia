@@ -2,7 +2,6 @@ class Bullet
 {
     constructor(gameScene, speed)
     {
-        
         //this.damage = damage;
         this.speed = speed;
         this.bullet = gameScene.physics.add.group();
@@ -27,5 +26,10 @@ class Bullet
     {
         let magnitude = Math.sqrt(vec[0]*vec[0] + vec[1]*vec[1]);
         return [vec[0] / magnitude, vec[1] / magnitude];
+    }
+
+    getEntity()
+    {
+        return this.bullet;
     }
 }

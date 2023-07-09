@@ -156,13 +156,14 @@ gameScene.create = function()
 
 
     enemies = new Enemy(gameScene, player, 100, 100, 50);
+    enemies.shoot(gameScene, 150);
   
 
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
     this.physics.add.collider(player, platforms);
     this.physics.add.collider(enemies.getEntity(), platforms);
-    //this.physics.add.collider(bombs, platforms);
+    this.physics.add.collider(enemies.getBulletEntity(), platforms);
 
     //this.physics.add.overlap(player, stars, collectStar, null, this);
 
@@ -173,7 +174,8 @@ gameScene.update = function()
 {
     movement();
     enemies.update();
-    enemies.shoot(gameScene, 150);
+    enemies.shoot(gameScene, 150)
+    
     
 }
 
