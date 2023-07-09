@@ -24,8 +24,10 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         this.speed = speed;
         this.xPos = xPos;
         this.yPos = yPos;
+
         this.entity = gameObj.physics.add.sprite(this.xPos, this.yPos, 'idleMain');
         this.entity.setCollideWorldBounds(true);
+        
         this.entity.facing = "south";
     }
 
@@ -99,7 +101,8 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         }
         if (cursors.space.isDown)
         {
-           new Bullet(gameScene, this.entity, this.entity.facing, 300);
+            let bullet = new Bullet(gameScene, this.entity, 300);
+            bullet.playerShoot(this.entity.facing)
             if (pressed === false) {
                 this.entity.setVelocity(0,0);
             }
@@ -127,10 +130,8 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
 
         }
     }
-
-    getEntity() {
+    getEntity() 
+    {
         return this.entity;
     }
-
-
 }
