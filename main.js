@@ -122,7 +122,7 @@ function create ()
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
 
     this.physics.add.collider(player, treelayer);
-    treelayer.setCollisionBetween(15, 29);      //what the fuck bro AAAA
+    treelayer.setCollisionBetween(16, 28);
     this.physics.add.collider(stars, platforms);
     this.physics.add.collider(bombs, platforms);
 
