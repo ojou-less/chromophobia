@@ -181,17 +181,11 @@ gameScene.create = function()
     player = new MainCharacter(gameScene, 100, 450, 200, 400);
 
 
-    enemies = new Enemy(gameScene, player, 100, 100, 50, new Bullet(gameScene, 150));
+    enemies = new Enemy(gameScene, player, 100, 100, 50);
+    enemies.shoot(gameScene, 150);
   
 
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
-
-
-    this.physics.add.collider(player.getEntity(), platforms);
-    //this.physics.add.collider(enemy, platforms);
-
-
-    //this.physics.add.collider(bombs, platforms);
 
     //this.physics.add.overlap(player, stars, collectStar, null, this);
 
@@ -200,10 +194,12 @@ gameScene.create = function()
 
 gameScene.update = function()
 {
-    player.movement()
-        enemies.update();
 
+    player.movement();
+    enemies.update();
+    enemies.shoot(gameScene, 150);
 }
+
 
 /*
     ToDo:
