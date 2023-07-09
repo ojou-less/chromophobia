@@ -6,13 +6,14 @@ let gameScene = new Phaser.Scene('Game');
 let config = {
 
     type: Phaser.AUTO,
-    width: SCREENWIDTH,
-    height: SCREENHEIGHT,
+    width: 800,
+    height: 608,
+
     physics: {
         default: 'arcade',
         arcade: {
             gravity: { y: 0 },
-            debug: false
+            debug: true
         }
     },
     scene: gameScene
@@ -34,10 +35,15 @@ let game = new Phaser.Game(config);
 
 gameScene.preload = function()
 {
-    this.load.image('sky', 'assets/sky.png');
-    this.load.image('ground', 'assets/platform.png');
+    // this.load.image('sky', 'assets/sky.png');
+    // this.load.image('ground', 'assets/platform.png');
+    this.load.image("tiles1", "assets/forest_.png");
+    this.load.image("tiles1_resources", "assets/forest_resources.png")
+    this.load.tilemapTiledJSON("map1", "assets/chromophobia_map_v2.json");
+
     this.load.image('star', 'assets/star.png');
     this.load.image('bomb', 'assets/bomb.png');
+
 
 
     // -----------------------------------------------------------------------------------
@@ -50,19 +56,35 @@ gameScene.preload = function()
     this.load.spritesheet('idleEnemy', 'assets/IdleEnemy.png', { frameWidth: 21, frameHeight: 30 });
     this.load.spritesheet('walkingEnemy', 'assets/WalkingEnemy.png', { frameWidth: 21, frameHeight: 30 });
 
+
 }
 
 gameScene.create = function()
 {
-    this.add.image(400, 300, 'sky');
+    // this.add.image(400, 300, 'sky');
 
-    platforms = this.physics.add.staticGroup();
-    platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-    platforms.create(600, 400, 'ground');
-    platforms.create(50, 250, 'ground');
-    platforms.create(750, 220, 'ground');
 
-    
+    // platforms = this.physics.add.staticGroup();
+
+    // platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+
+    // platforms.create(600, 400, 'ground');
+    // platforms.create(50, 250, 'ground');
+    // platforms.create(750, 220, 'ground');
+
+    const map = this.make.tilemap({
+        key: "map1",
+        tileWidth: 16,
+        tileHeight: 16
+    });
+
+    const tileset = map.addTilesetImage("forest_", "tiles1");
+    const treetiles = map.addTilesetImage("forest_ [resources]", "tiles1_resources");
+    const bglayer = map.createLayer("Background", tileset, 0, 0);
+    const treelayer = map.createLayer("Trees", treetiles, 0, 0);
+
+    player = this.physics.add.sprite(200, 400, 'dude');
+
 
     // -----------------------------------------------------------------------------------
     // Player Animations
@@ -146,6 +168,12 @@ gameScene.create = function()
         frames: this.anims.generateFrameNumbers('idleEnemy', {frames:[2, 5]} ),
         frameRate: 2
     });
+
+
+    this.physics.add.collider(player, treelayer);
+    treelayer.setCollisionBetween(16, 28);
+    this.physics.add.collider(stars, platforms);
+    this.physics.add.collider(bombs, platforms);
 
 
 
