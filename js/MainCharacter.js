@@ -99,8 +99,8 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         }
         if (cursors.space.isDown)
         {
-            new Bullet(gameScene, this.entity);
-            //console.log("pew")
+           new Bullet(gameScene, this.entity, this.entity.facing, this.speed);
+
         }
         else if (pressed === false) {
             this.entity.setVelocity(0, 0);
