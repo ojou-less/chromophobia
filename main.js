@@ -38,7 +38,8 @@ gameScene.preload = function()
 
     // -----------------------------------------------------------------------------------
     // Loading Player Assests
-
+    this.load.audio("pewpew", "assets/pewpew.wav");
+    this.load.audio("gunshot", "assets/gunshot.wav");
     this.load.image("tiles1", "assets/forest_.png");
     this.load.image("tiles1_resources", "assets/forest_resources.png")
     this.load.tilemapTiledJSON("map1", "assets/chromophobia_map_v2.json");

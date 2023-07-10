@@ -8,6 +8,10 @@ class Bullet
         this.xPos = character.x;
         this.yPos = character.y;
 
+        //let gunshot = gameObj.sound.add("gunshot", {volume: 0.01}, { loop: false});
+        //gunshot.play();
+        let pewpew = gameObj.sound.add("pewpew", {volume: 0.01}, { loop: false});
+        pewpew.play();
         this.bullet = gameObj.physics.add.group();
     }
 
