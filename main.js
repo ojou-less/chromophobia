@@ -6,13 +6,14 @@ let gameScene = new Phaser.Scene('Game');
 let config = {
 
     type: Phaser.AUTO,
-    width: SCREENWIDTH,
-    height: SCREENHEIGHT,
+    width: 800,
+    height: 608,
+
     physics: {
         default: 'arcade',
         arcade: {
             gravity: { y: 0 },
-            debug: false
+            debug: true
         }
     },
     scene: gameScene
@@ -34,10 +35,17 @@ let game = new Phaser.Game(config);
 
 gameScene.preload = function()
 {
-    this.load.image('sky', 'assets/sky.png');
-    this.load.image('ground', 'assets/platform.png');
+
+    // -----------------------------------------------------------------------------------
+    // Loading Player Assests
+
+    this.load.image("tiles1", "assets/forest_.png");
+    this.load.image("tiles1_resources", "assets/forest_resources.png")
+    this.load.tilemapTiledJSON("map1", "assets/chromophobia_map_v2.json");
+
     this.load.image('star', 'assets/star.png');
     this.load.image('bomb', 'assets/bomb.png');
+
 
 
     // -----------------------------------------------------------------------------------
@@ -50,19 +58,32 @@ gameScene.preload = function()
     this.load.spritesheet('idleEnemy', 'assets/IdleEnemy.png', { frameWidth: 21, frameHeight: 30 });
     this.load.spritesheet('walkingEnemy', 'assets/WalkingEnemy.png', { frameWidth: 21, frameHeight: 30 });
 
+
 }
 
 gameScene.create = function()
 {
-    this.add.image(400, 300, 'sky');
+    // this.add.image(400, 300, 'sky');
 
-    platforms = this.physics.add.staticGroup();
-    platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-    platforms.create(600, 400, 'ground');
-    platforms.create(50, 250, 'ground');
-    platforms.create(750, 220, 'ground');
 
-    
+    // platforms = this.physics.add.staticGroup();
+
+    // platforms.create(400, 568, 'ground').setScale(2).refreshBody();
+
+    // platforms.create(600, 400, 'ground');
+    // platforms.create(50, 250, 'ground');
+    // platforms.create(750, 220, 'ground');
+
+    const map = this.make.tilemap({
+        key: "map1",
+        tileWidth: 16,
+        tileHeight: 16
+    });
+
+    const tileset = map.addTilesetImage("forest_", "tiles1");
+    const treetiles = map.addTilesetImage("forest_ [resources]", "tiles1_resources");
+    const bglayer = map.createLayer("Background", tileset, 0, 0);
+    const treelayer = map.createLayer("Trees", treetiles, 0, 0);
 
     // -----------------------------------------------------------------------------------
     // Player Animations
@@ -147,76 +168,26 @@ gameScene.create = function()
         frameRate: 2
     });
 
-
-
     cursors = this.input.keyboard.createCursorKeys();
     player = new MainCharacter(gameScene, 100, 450, 200, 400);
 
+    
+    this.physics.add.collider(player.getEntity(), treelayer);
+    treelayer.setCollisionBetween(5, 28);
 
-    enemies = new Enemy(gameScene, player, 100, 100, 50, new Bullet(gameScene, 150));
+
+    enemies = new Enemy(gameScene, player.getEntity(), 100, 100, 50);
+    enemies.shoot(gameScene, 150);
   
+    this.physics.add.collider(player.getEntity(), enemies.getEntity());
 
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
-
-
-    this.physics.add.collider(player.getEntity(), platforms);
-    //this.physics.add.collider(enemy, platforms);
-
-
-    //this.physics.add.collider(bombs, platforms);
-
-    //this.physics.add.overlap(player, stars, collectStar, null, this);
-
-    //this.physics.add.collider(player, bombs, hitBomb, null, this);
 }
 
 gameScene.update = function()
 {
-    player.movement()
-        enemies.update();
 
+    player.movement();
+    enemies.update();
+    enemies.shoot(gameScene, 150);
 }
-
-/*
-    ToDo:
-    - bombs 
-    -- samething like bullets but bombs
-*/
-/*
-function collectStar (player, star)
-{
-    star.disableBody(true, true);
-
-    score += 10;
-    scoreText.setText('Score: ' + score);
-
-    if (stars.countActive(true) === 0)
-    {
-        stars.children.iterate(function (child) {
-
-            child.enableBody(true, child.x, 0, true, true);
-
-        });
-
-        var x = (player.x < 400) ? Phaser.Math.Between(400, 800) : Phaser.Math.Between(0, 400);
-
-        var bomb = bombs.create(x, 16, "bomb");
-        bomb.setBounce(1);
-        bomb.setCollideWorldBounds(true);
-        bomb.setVelocity(Phaser.Math.Between(-200, 200), 20);
-        bomb.allowGravity = false;
-
-    }
-}
-
-function hitBomb (player, bomb)
-{
-    this.physics.pause();
-
-    player.setTint(0xff0000);
-
-    player.anims.play("turn");
-
-    gameOver = true;
-}
-*/
