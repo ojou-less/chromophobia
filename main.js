@@ -185,7 +185,10 @@ gameScene.create = function()
     bglayer.setTileIndexCallback([39, 40, 41, 61, 62, 63, 83, 84, 85], ()=>{
         console.log("portal betreten");
     });
-    
+
+    this.input.on("pointerdown", ()=>{
+        this.scene.start("scene2");
+    });
 
     enemies = new Enemy(gameScene, player.getEntity(), 100, 100, 50);
     enemies.shoot(gameScene, 150);
