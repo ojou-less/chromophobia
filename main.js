@@ -1,5 +1,5 @@
 const SCREENWIDTH = 800;
-const SCREENHEIGHT = 600;
+const SCREENHEIGHT = 608;
 
 let gameScene = new Phaser.Scene('Game');
 
@@ -40,8 +40,8 @@ gameScene.preload = function()
     // Loading Player Assests
 
     this.load.image("tiles1", "assets/forest_.png");
-    this.load.image("tiles1_resources", "assets/forest_resources.png")
-    this.load.tilemapTiledJSON("map1", "assets/chromophobia_map_v2.json");
+    this.load.image("tiles1_resources", "assets/forest_resources.png");
+    this.load.tilemapTiledJSON("map1", "assets/chromophobia_map_v4.json");
 
     this.load.image('star', 'assets/star.png');
     this.load.image('bomb', 'assets/bomb.png');
@@ -171,10 +171,21 @@ gameScene.create = function()
     cursors = this.input.keyboard.createCursorKeys();
     player = new MainCharacter(gameScene, 100, 450, 200, 400);
 
-    
+    this.physics.add.collider(player.getEntity(), bglayer);
     this.physics.add.collider(player.getEntity(), treelayer);
-    treelayer.setCollisionBetween(5, 28);
+    // treelayer.setCollisionBetween(214, 228);
 
+    treelayer.setCollisionByProperty({collides:true});
+    // bglayer.setTileLocationCallback(24, 4, 3, 3, ()=>{
+    //     alert("portal wurde betreten!");
+    //     console.log("portal wurde betreten!");
+
+    //     bglayer.setTileLocationCallback(24, 4, 3, 3, null); //rekursive call weil sonst infinite loop
+    // });
+    bglayer.setTileIndexCallback([39, 40, 41, 61, 62, 63, 83, 84, 85], ()=>{
+        console.log("portal betreten");
+    });
+    
 
     enemies = new Enemy(gameScene, player.getEntity(), 100, 100, 50);
     enemies.shoot(gameScene, 150);
@@ -186,8 +197,9 @@ gameScene.create = function()
 
 gameScene.update = function()
 {
-
     player.movement();
     enemies.update();
     enemies.shoot(gameScene, 150);
+
+    // debug.console(player.x, player.y);   cant find variable "debug", wieso?
 }
