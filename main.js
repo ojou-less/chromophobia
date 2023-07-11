@@ -38,7 +38,10 @@ gameScene.preload = function()
 
     // -----------------------------------------------------------------------------------
     // Loading Player Assests
-
+    this.load.audio("background", "assets/Monkeys-Spinning-Monkeys.mp3");
+    this.load.audio("hitsound", "assets/roblox-death-sound-effect_69KVqYY.mp3");
+    this.load.audio("pewpew", "assets/pewpew.wav");
+    this.load.audio("gunshot", "assets/gunshot.wav");
     this.load.image("tiles1", "assets/forest_.png");
     this.load.image("tiles1_resources", "assets/forest_resources.png")
     this.load.tilemapTiledJSON("map1", "assets/chromophobia_map_v2.json");
@@ -168,6 +171,8 @@ gameScene.create = function()
 
     this.physics.add.overlap(player.bullet, enemies.getEntity(), test1, null, this);
     this.physics.add.overlap(enemies.bullet, player.getEntity(), test1, null, this);
+    let background = this.sound.add("background", {volume: 1});
+    background.play();
 }
 
 function test1(character, bullet)
@@ -179,6 +184,7 @@ function test1(character, bullet)
     bullet.setActive(false);
     bullet.setVisible(false);
     console.log(character.health);
+
 }
 
 gameScene.update = function()

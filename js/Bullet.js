@@ -5,6 +5,10 @@ class Bullet extends Phaser.Physics.Arcade.Sprite
         super(scene, x, y, 'bomb');
         this.damage;
         this.color;
+        //let gunshot = gameObj.sound.add("gunshot", {volume: 0.01}, { loop: false});
+        //gunshot.play();
+        let pewpew = gameObj.sound.add("pewpew", {volume: 0.01}, { loop: false});
+        pewpew.play();
     }
 
     shoot(direction, x, y, speed)
