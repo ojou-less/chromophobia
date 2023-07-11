@@ -1,16 +1,22 @@
 class Enemy
 {
-    //constructor(entity, xPos, yPos, type, weakness, speed, health, bullet)
-    constructor(gameObj, player, xPos, yPos, speed, bullet)
+    constructor(gameObj, player, xPos, yPos, speed, reach, health, weakness, bullet)
     {
         this.gameScene = gameObj;
-
+        this.player = player;
         this.xPos = xPos;
         this.yPos = yPos;
+        this.reach = reach;
 
+        this.entity = gameObj.physics.add.sprite(this.xPos, this.yPos, 'idleEnemy');
+        this.entity.setCollideWorldBounds(true);
+        this.entity.health = health;
+        this.entity.weakness = weakness;
+
+        
         this.speed = speed;
-        this.player = player;
-
+        //this.health = health;
+        //this.weakness = weakness;
         this.bullet = bullet;
 
         this.directions = 8;
@@ -30,8 +36,19 @@ class Enemy
             this.interest.push([0, 0]);
         }
         
-        this.entity = gameObj.physics.add.sprite(this.xPos, this.yPos, 'idleEnemy');
-        this.entity.setCollideWorldBounds(true);
+        this.entity.hit = function(damage, color)
+        {
+
+            if(this.weakness === color)
+            {
+                this.health -= 2*damage;
+            }
+            else
+            {
+                this.health -= damage;
+            }
+        }
+        
         
     }
 
@@ -63,7 +80,7 @@ class Enemy
     {   
         let temp = this.magnitude(this.vectorize(this.xPos, this.yPos, this.player.x, this.player.y));
         let direction = [this.entity.body.newVelocity.x, this.entity.body.newVelocity.y]
-        if(temp < 200)
+        if(temp < this.reach)
         {
             this.bullet.shootBullet(direction, this.xPos, this.yPos);
         }
@@ -82,6 +99,21 @@ class Enemy
         average = this.normalize(average);
         this.entity.setVelocity(average[0]*this.speed, average[1]*this.speed);
     }
+
+    /*
+    hit(damage, color)
+    {
+        console.log("ouch");
+        if(this.weakness == color)
+        {
+            this.health -= 2*damage;
+        }
+        else
+        {
+            this.health -= damage;
+        }
+    }
+    */
 
     calcDesire()
     {

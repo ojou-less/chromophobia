@@ -158,33 +158,32 @@ gameScene.create = function()
     });
 
     cursors = this.input.keyboard.createCursorKeys();
-    player = new MainCharacter(gameScene, 100, 450, 200, 400, new Bullets(gameScene, 400, 200));
+    player = new MainCharacter(gameScene, 100, 450, 200, 400, new Bullets(gameScene, 400, 200, 50, 'white'));
+    //console.log(player);
 
-    
-    this.physics.add.collider(player.getEntity(), treelayer);
-    treelayer.setCollisionBetween(5, 28);
-
-    enemies = new Enemy(gameScene, player.getEntity(), 100, 100, 50, new Bullets(gameScene, 200, 500));
-    //enemies.shoot(gameScene, 150);
+    enemies = new Enemy(gameScene, player.getEntity(), 100, 100, 100, 300, 200, 'blue', new Bullets(gameScene, 200, 500, 50, 'red'));
+    //console.log(enemies);
   
     this.physics.add.collider(player.getEntity(), enemies.getEntity());
-    //this.physics.add.collider(player.getBulletEntity(), enemies.getEntity());
 
-    //this.physics.add.collider(enemies.getBulletEntity(), player.getEntity(), test(), null, this);
-
-    function test()
-    {
-        console.log("player got hit");
-    }
-
-    //scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+    this.physics.add.overlap(player.bullet, enemies.getEntity(), test1, null, this);
+    this.physics.add.overlap(enemies.bullet, player.getEntity(), test1, null, this);
+    //this.physics.add.overlap(player.bullet, enemies.getEntity(), test1);
+    //this.physics.add.overlap(enemies.bullet, player.getEntity(), test1);
 }
 
-
+function test1(character, bullet)
+{  
+    if(bullet.active)
+    {
+        character.hit(bullet.damage, bullet.color);
+    }
+    bullet.setActive(false);
+    bullet.setVisible(false);
+}
 
 gameScene.update = function()
 {
-
     player.movement();
     enemies.update();
     //enemies.shoot(gameScene, 150);

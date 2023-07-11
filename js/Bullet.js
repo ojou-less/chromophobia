@@ -3,6 +3,8 @@ class Bullet extends Phaser.Physics.Arcade.Sprite
     constructor (scene, x, y)
     {
         super(scene, x, y, 'bomb');
+        this.damage;
+        this.color;
     }
 
     shoot(direction, x, y, speed)
@@ -42,7 +44,7 @@ class Bullet extends Phaser.Physics.Arcade.Sprite
 
 class Bullets extends Phaser.Physics.Arcade.Group
 {
-    constructor (scene, speed, reload)
+    constructor (scene, speed, reload, damage, color)
     {
         super(scene.physics.world, scene);
 
@@ -53,10 +55,19 @@ class Bullets extends Phaser.Physics.Arcade.Group
             visible: false,
             classType: Bullet
         });
+
+        
         this.scene = scene;
 
         this.speed = speed;
         this.reload= reload;
+
+        for (let i = 0; i < this.children.entries.length; i++) 
+        {
+            this.children.entries[i].damage = damage;
+            this.children.entries[i].color = color;
+
+        }
 
         this.justShoot = false;
 
@@ -77,68 +88,5 @@ class Bullets extends Phaser.Physics.Arcade.Group
         }
     }
 }
-
-
-
-
-
-
-/*
-class Bullet
-{
-    constructor(gameObj, character, speed, damage)
-    {
-        this.damage = damage;
-        this.speed = speed;
-
-        this.xPos = character.x;
-        this.yPos = character.y;
-        this.timedEvent = gameObj.time;
-
-        this.bullet = gameObj.physics.add.group();
-    }
-
-    playerShoot(facing)
-    {
-        this.bullet.create(this.xPos, this.yPos, "bomb");
-        if (facing === "south") {
-            this.bullet.setVelocity(0, this.speed);
-        } else if (facing === "north") {
-            this.bullet.setVelocity(0, -this.speed);
-        } else if (facing === "west") {
-            this.bullet.setVelocity(this.speed, 0);
-        } else if (facing === "east") {
-            this.bullet.setVelocity(-this.speed, 0);
-        }
-    }
-
-    shoot(directionsVec, xPos, yPos)
-    {   
-        let dir = [directionsVec.x, directionsVec.y];
-
-        let temp = this.scalar(this.speed, this.normalize(dir));
-        //console.log("bullet speed: "+temp);
-        this.bullet.create(xPos, yPos, "bomb");
-        this.bullet.setVelocity(temp[0], temp[1]);
-    }
-
-    scalar(scalar, vec)
-    {
-        return [scalar * vec[0], scalar * vec[1]];
-    }
-
-    normalize(vec)
-    {
-        let magnitude = Math.sqrt(vec[0]*vec[0] + vec[1]*vec[1]);
-        return [vec[0] / magnitude, vec[1] / magnitude];
-
-    }
-
-    getEntity()
-    {
-        return this.bullet;
-    }
-}
-*/
 
 

@@ -17,10 +17,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         this.weakness = weakness;
         this.speed = speed;
         this.health = health;
-    
-
          */
-        this.health = health;
         this.speed = speed;
         this.xPos = xPos;
         this.yPos = yPos;
@@ -30,6 +27,13 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         this.entity.setCollideWorldBounds(true);
         
         this.entity.facing = "south";
+
+        this.entity.health = health;
+        
+        this.entity.hit = function(damage)
+        {
+            this.health -= damage;
+        }
     }
 
     show()
@@ -105,7 +109,6 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         }
         if (cursors.space.isDown)
         {
-            //this.bullet.playerShoot(this.entity.facing)
             if (pressed === false) {
                 this.entity.setVelocity(0,0);
             }
