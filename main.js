@@ -172,7 +172,7 @@ gameScene.create = function()
 
     this.physics.add.overlap(player.bullet, enemies.getEntity(), test1, null, this);
     this.physics.add.overlap(enemies.bullet, player.getEntity(), test1, null, this);
-    let background = this.sound.add("background", {volume: 1});
+    let background = this.sound.add("background", {volume: 0.5});
     background.play();
 }
 
@@ -181,10 +181,10 @@ function test1(character, bullet)
     if(bullet.active)
     {
         character.hit(bullet.damage, bullet.color);
-        let gotshot = this.sound.add("hitsound", {volume: 1}, { loop: false});
+        let gotshot = this.sound.add("hitsound", {volume: 0.1}, { loop: false});
         gotshot.play();
         if (character.health === 0) {
-            let dyingSound = this.sound.add("gameover", {volume: 1});
+            let dyingSound = this.sound.add("gameover", {volume: 0.1});
             dyingSound.play();
         }
     }

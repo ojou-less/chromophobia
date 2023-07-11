@@ -8,7 +8,7 @@ class Bullet extends Phaser.Physics.Arcade.Sprite
         this.color;
         //let gunshot = gameObj.sound.add("gunshot", {volume: 0.01}, { loop: false});
         //gunshot.play();
-        this.pewpew = scene.sound.add("pewpew", {volume: 0.3}, { loop: false});
+        this.pewpew = scene.sound.add("pewpew", {volume: 0.1}, { loop: false});
 
     }
 
