@@ -3,6 +3,7 @@ const SCREENWIDTH = 800;
 const SCREENHEIGHT = 608;
 
 let gameScene = new Phaser.Scene('Game');
+//let scene2 = new Scene2;
 
 let config = {
 
@@ -18,6 +19,7 @@ let config = {
         }
     },
 
+    scene: [gameScene, Scene2]
 };
 
 let player;
@@ -45,8 +47,8 @@ gameScene.preload = function()
     this.load.audio("pewpew", "assets/pewpew.wav");
     this.load.audio("gunshot", "assets/gunshot.wav");
     this.load.image("tiles1", "assets/forest_.png");
-    this.load.image("tiles1_resources", "assets/forest_resources.png")
-    this.load.tilemapTiledJSON("map1", "assets/chromophobia_map_v2.json");
+    this.load.image("tiles1_resources", "assets/forest_resources.png");
+    this.load.tilemapTiledJSON("map1", "assets/chromophobia_map_v4.json");
 
     this.load.image('star', 'assets/star.png');
     this.load.image('bomb', 'assets/bomb.png');
@@ -166,8 +168,29 @@ gameScene.create = function()
     player = new MainCharacter(gameScene, 100, 450, 200, 400, new Bullets(gameScene, 400, 200, 50, 'white'));
     //console.log(player);
 
+
+    this.physics.add.collider(player.getEntity(), bglayer);
+    this.physics.add.collider(player.getEntity(), treelayer);
+    // treelayer.setCollisionBetween(214, 228);
+
+    treelayer.setCollisionByProperty({collides:true});
+    // bglayer.setTileLocationCallback(24, 4, 3, 3, ()=>{
+    //     alert("portal wurde betreten!");
+    //     console.log("portal wurde betreten!");
+
+    //     bglayer.setTileLocationCallback(24, 4, 3, 3, null); //rekursive call weil sonst infinite loop
+    // });
+    bglayer.setTileIndexCallback([39, 40, 41, 61, 62, 63, 83, 84, 85], ()=>{
+        console.log("portal betreten");
+    });
+
+    this.input.on("pointerdown", ()=>{
+        this.scene.start('scene2');
+    });
+
     enemies = new Enemy(gameScene, player.getEntity(), 100, 100, 100, 300, 200, 'blue', new Bullets(gameScene, 200, 500, 50, 'red'));
     //console.log(enemies);
+
   
     this.physics.add.collider(player.getEntity(), enemies.getEntity());
 
@@ -211,6 +234,4 @@ gameScene.update = function()
 {
     player.movement();
     enemies.update();
-    //enemies.shoot(gameScene, 150);
-    //console.log(enemies.getBulletEntity());
 }
