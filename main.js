@@ -1,3 +1,4 @@
+
 const SCREENWIDTH = 800;
 const SCREENHEIGHT = 608;
 
@@ -9,7 +10,7 @@ let config = {
     type: Phaser.AUTO,
     width: 800,
     height: 608,
-
+    scene: gameScene,
     physics: {
         default: 'arcade',
         arcade: {
@@ -17,6 +18,7 @@ let config = {
             debug: false
         }
     },
+
     scene: [gameScene, Scene2]
 };
 
@@ -29,7 +31,7 @@ let bombs;
 let cursors;
 let score = 0;
 let gameOver = false;
-let scoreText;
+let gameoverText;
 
 
 let game = new Phaser.Game(config);
@@ -194,8 +196,12 @@ gameScene.create = function()
 
     this.physics.add.overlap(player.bullet, enemies.getEntity(), test1, null, this);
     this.physics.add.overlap(enemies.bullet, player.getEntity(), test1, null, this);
-    let background = this.sound.add("background", {volume: 0.5});
+    let background = this.sound.add("background", {volume: 0.1});
     background.play();
+
+    this.gameoverText = this.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
+    this.gameoverText.setOrigin(0.5);
+    this.gameoverText.setVisible(false);
 }
 
 function test1(character, bullet)
@@ -203,11 +209,19 @@ function test1(character, bullet)
     if(bullet.active)
     {
         character.hit(bullet.damage, bullet.color);
-        let gotshot = this.sound.add("hitsound", {volume: 0.1}, { loop: false});
+        let gotshot = this.sound.add("hitsound", {volume: 0.5}, { loop: false});
         gotshot.play();
         if (character.health === 0) {
-            let dyingSound = this.sound.add("gameover", {volume: 0.1});
+            let dyingSound = this.sound.add("gameover", {volume: 0.3});
+            this.physics.pause();
+
+            // show game over text
+            this.gameoverText.setVisible(true);
+
+            gameScene.sound.stopAll();
             dyingSound.play();
+            gameScene.preload();
+            this.input.on('pointerdown', () => this.scene.restart());
         }
     }
     bullet.setActive(false);
