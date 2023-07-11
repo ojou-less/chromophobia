@@ -15,15 +15,11 @@ class Bullet extends Phaser.Physics.Arcade.Sprite
     shoot(direction, x, y, speed)
     {
         let temp = this.scalar(speed, this.normalize(direction));
-        
         this.body.reset(x, y);
-
         this.setActive(true);
         this.setVisible(true);
-
         this.setVelocity(temp[0], temp[1]);
-
-        this.pewpew.play();
+      //  this.pewpew.play();
     }
 
     scalar(scalar, vec)
@@ -63,9 +59,7 @@ class Bullets extends Phaser.Physics.Arcade.Group
             classType: Bullet
         });
 
-        
         this.scene = scene;
-
         this.speed = speed;
         this.reload= reload;
 
@@ -73,11 +67,8 @@ class Bullets extends Phaser.Physics.Arcade.Group
         {
             this.children.entries[i].damage = damage;
             this.children.entries[i].color = color;
-
         }
-
         this.justShoot = false;
-
     }
 
     shootBullet(direction, x, y)
