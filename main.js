@@ -190,17 +190,15 @@ function test1(character, bullet)
         gotshot.play();
         if (character.health === 0) {
             let dyingSound = this.sound.add("gameover", {volume: 0.5});
-            dyingSound.play();
             this.physics.pause();
-            this.gameOver = true;
+
             // show game over text
             this.gameoverText.setVisible(true);
-            setTimeout(() => {
-                game.sound.destroy();
-            }, 1500)
 
-          this.input.on('pointerdown', () => location.reload());
-          //  console.log(this.input.on);
+            gameScene.sound.stopAll();
+            dyingSound.play();
+            gameScene.preload();
+            this.input.on('pointerdown', () => this.scene.restart());
         }
     }
     bullet.setActive(false);

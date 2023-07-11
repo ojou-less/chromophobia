@@ -1,6 +1,5 @@
 class Bullet extends Phaser.Physics.Arcade.Sprite
 {
-    pewpew;
     constructor (scene, x, y)
     {
         super(scene, x, y, 'bomb');
@@ -8,7 +7,8 @@ class Bullet extends Phaser.Physics.Arcade.Sprite
         this.color;
         //let gunshot = gameObj.sound.add("gunshot", {volume: 0.01}, { loop: false});
         //gunshot.play();
-        this.pewpew = scene.sound.add("pewpew", {volume: 0.1}, { loop: false});
+        this.pewpew;
+        //= scene.sound.add("pewpew", {volume: 0.1}, { loop: false});
 
     }
 
@@ -19,7 +19,7 @@ class Bullet extends Phaser.Physics.Arcade.Sprite
         this.setActive(true);
         this.setVisible(true);
         this.setVelocity(temp[0], temp[1]);
-      //  this.pewpew.play();
+        this.pewpew.play();
     }
 
     scalar(scalar, vec)
@@ -65,6 +65,8 @@ class Bullets extends Phaser.Physics.Arcade.Group
 
         for (let i = 0; i < this.children.entries.length; i++) 
         {
+
+            this.children.entries[i].pewpew = scene.sound.add("pewpew", {volume: 0.1}, { loop: false});
             this.children.entries[i].damage = damage;
             this.children.entries[i].color = color;
         }
