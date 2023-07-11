@@ -1,5 +1,5 @@
 const SCREENWIDTH = 800;
-const SCREENHEIGHT = 600;
+const SCREENHEIGHT = 608;
 
 let gameScene = new Phaser.Scene('Game');
 
@@ -13,18 +13,18 @@ let config = {
         default: 'arcade',
         arcade: {
             gravity: { y: 0 },
-            debug: true
+            debug: false
         }
     },
     scene: gameScene
 };
 
 let player;
-//let stars;
+
 let enemies;
 
 let bombs;
-let platforms;
+
 let cursors;
 let score = 0;
 let gameOver = false;
@@ -63,17 +63,6 @@ gameScene.preload = function()
 
 gameScene.create = function()
 {
-    // this.add.image(400, 300, 'sky');
-
-
-    // platforms = this.physics.add.staticGroup();
-
-    // platforms.create(400, 568, 'ground').setScale(2).refreshBody();
-
-    // platforms.create(600, 400, 'ground');
-    // platforms.create(50, 250, 'ground');
-    // platforms.create(750, 220, 'ground');
-
     const map = this.make.tilemap({
         key: "map1",
         tileWidth: 16,
@@ -169,25 +158,33 @@ gameScene.create = function()
     });
 
     cursors = this.input.keyboard.createCursorKeys();
-    player = new MainCharacter(gameScene, 100, 450, 200, 400);
+    player = new MainCharacter(gameScene, 100, 450, 200, 400, new Bullets(gameScene, 400, 200, 50, 'white'));
+    //console.log(player);
 
-    
-    this.physics.add.collider(player.getEntity(), treelayer);
-    treelayer.setCollisionBetween(5, 28);
-
-
-    enemies = new Enemy(gameScene, player.getEntity(), 100, 100, 50);
-    enemies.shoot(gameScene, 150);
+    enemies = new Enemy(gameScene, player.getEntity(), 100, 100, 100, 300, 200, 'blue', new Bullets(gameScene, 200, 500, 50, 'red'));
+    //console.log(enemies);
   
     this.physics.add.collider(player.getEntity(), enemies.getEntity());
 
-    scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+    this.physics.add.overlap(player.bullet, enemies.getEntity(), test1, null, this);
+    this.physics.add.overlap(enemies.bullet, player.getEntity(), test1, null, this);
+}
+
+function test1(character, bullet)
+{  
+    if(bullet.active)
+    {
+        character.hit(bullet.damage, bullet.color);
+    }
+    bullet.setActive(false);
+    bullet.setVisible(false);
+    console.log(character.health);
 }
 
 gameScene.update = function()
 {
-
     player.movement();
     enemies.update();
-    enemies.shoot(gameScene, 150);
+    //enemies.shoot(gameScene, 150);
+    //console.log(enemies.getBulletEntity());
 }

@@ -1,38 +1,22 @@
-class Bullet
+class Bullet extends Phaser.Physics.Arcade.Sprite
 {
-    constructor(gameObj, character, speed)
+    constructor (scene, x, y)
     {
-        //this.damage = damage;
-        this.speed = speed;
-
-        this.xPos = character.x;
-        this.yPos = character.y;
-
-        this.bullet = gameObj.physics.add.group();
+        super(scene, x, y, 'bomb');
+        this.damage;
+        this.color;
     }
 
-    playerShoot(facing)
+    shoot(direction, x, y, speed)
     {
-        this.bullet.create(this.xPos, this.yPos, "bomb");
-        if (facing === "south") {
-            this.bullet.setVelocity(0, this.speed);
-        } else if (facing === "north") {
-            this.bullet.setVelocity(0, -this.speed);
-        } else if (facing === "west") {
-            this.bullet.setVelocity(this.speed, 0);
-        } else if (facing === "east") {
-            this.bullet.setVelocity(-this.speed, 0);
-        }
-    }
+        let temp = this.scalar(speed, this.normalize(direction));
+        
+        this.body.reset(x, y);
 
-    shoot(directionsVec, xPos, yPos)
-    {   
-        let dir = [directionsVec.x, directionsVec.y];
+        this.setActive(true);
+        this.setVisible(true);
 
-        let temp = this.scalar(this.speed, this.normalize(dir));
-        //console.log("bullet speed: "+temp);
-        this.bullet.create(xPos, yPos, "bomb");
-        this.bullet.setVelocity(temp[0], temp[1]);
+        this.setVelocity(temp[0], temp[1]);
     }
 
     scalar(scalar, vec)
@@ -47,8 +31,62 @@ class Bullet
 
     }
 
-    getEntity()
+    preUpdate (time, delta)
     {
-        return this.bullet;
+        super.preUpdate(time, delta);
+        if (this.x <= -32 || this.x >= SCREENWIDTH + 32 || this.y <= -32 || this.y >= SCREENHEIGHT + 32)
+        {
+            this.setActive(false);
+            this.setVisible(false);
+        }
     }
 }
+
+class Bullets extends Phaser.Physics.Arcade.Group
+{
+    constructor (scene, speed, reload, damage, color)
+    {
+        super(scene.physics.world, scene);
+
+        this.createMultiple({
+            frameQuantity: 15,
+            key: 'bomb',
+            active: false,
+            visible: false,
+            classType: Bullet
+        });
+
+        
+        this.scene = scene;
+
+        this.speed = speed;
+        this.reload= reload;
+
+        for (let i = 0; i < this.children.entries.length; i++) 
+        {
+            this.children.entries[i].damage = damage;
+            this.children.entries[i].color = color;
+
+        }
+
+        this.justShoot = false;
+
+    }
+
+    shootBullet(direction, x, y)
+    {        
+        if (!(this.justShoot))
+        {
+            const bullet = this.getFirstDead(false);
+            if (bullet)
+            {
+                bullet.shoot(direction, x, y, this.speed);
+                this.justShoot = true;
+                
+                this.scene.time.delayedCall(this.reload, function(){this.justShoot = false;}, [], this);
+            }
+        }
+    }
+}
+
+
