@@ -38,6 +38,7 @@ gameScene.preload = function()
 
     // -----------------------------------------------------------------------------------
     // Loading Player Assests
+    this.load.audio("background", "assets/Monkeys-Spinning-Monkeys.mp3");
     this.load.audio("hitsound", "assets/roblox-death-sound-effect_69KVqYY.mp3");
     this.load.audio("pewpew", "assets/pewpew.wav");
     this.load.audio("gunshot", "assets/gunshot.wav");
@@ -184,6 +185,8 @@ gameScene.create = function()
     this.physics.add.collider(player.getEntity(), enemies.getEntity());
 
     scoreText = this.add.text(16, 16, 'score: 0', { fontSize: '32px', fill: '#000' });
+    let background = this.sound.add("background", {volume: 1});
+    background.play();
 }
 
 gameScene.update = function()
