@@ -1,16 +1,17 @@
 class Enemy
 {
     //constructor(entity, xPos, yPos, type, weakness, speed, health, bullet)
-    constructor(gameObj, player, xPos, yPos, speed)
+    constructor(gameObj, player, xPos, yPos, speed, bullet)
     {
+        this.gameScene = gameObj;
+
         this.xPos = xPos;
         this.yPos = yPos;
 
         this.speed = speed;
-        //this.bullet = bullet;
         this.player = player;
 
-        this.bullet;
+        this.bullet = bullet;
 
         this.directions = 8;
 
@@ -53,22 +54,18 @@ class Enemy
             this.interest[i] = [0, 0];
         }
         this.line = [];
-        //console.log(this.entity);
-        this.entity.setCollideWorldBounds(true);
-        
         this.entity.anims.play('enemy-idle-front', true);
 
-        //this.shoot();
+        this.shoot();
     }
 
-    shoot(gameScene, speed)
+    shoot()
     {   
-        this.bullet = new Bullet(gameScene, this.entity, speed)
-        let temp = this.magnitude(this.vectorize(this.xPos, this.yPos, this.player.x, this.player.y))
+        let temp = this.magnitude(this.vectorize(this.xPos, this.yPos, this.player.x, this.player.y));
+        let direction = [this.entity.body.newVelocity.x, this.entity.body.newVelocity.y]
         if(temp < 200)
         {
-            
-            this.bullet.shoot(this.entity.body.newVelocity, this.xPos, this.yPos);
+            this.bullet.shootBullet(direction, this.xPos, this.yPos);
         }
     }
 
@@ -106,12 +103,11 @@ class Enemy
     {
         return this.entity;
     }
-
+    
     getBulletEntity()
     {
         return this.bullet.getEntity();
     }
-
     
     scalar(scalar, vec)
     {

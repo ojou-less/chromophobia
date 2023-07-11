@@ -6,7 +6,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
     health;
 
     //constructor(entity, xPos, yPos, type, weakness, speed, health, bullet)
-    constructor(gameObj, xPos, yPos, speed, health)
+    constructor(gameObj, xPos, yPos, speed, health, bullet)
     {
         super(gameObj, xPos, yPos, 'assets/IdleMain.png');
         //this.xPos = xPos;
@@ -17,20 +17,20 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         this.weakness = weakness;
         this.speed = speed;
         this.health = health;
-        this.bullet = bullet;
+    
 
          */
         this.health = health;
         this.speed = speed;
         this.xPos = xPos;
         this.yPos = yPos;
+        this.bullet = bullet;
 
         this.entity = gameObj.physics.add.sprite(this.xPos, this.yPos, 'idleMain');
         this.entity.setCollideWorldBounds(true);
         
         this.entity.facing = "south";
     }
-
 
     show()
     {
@@ -41,6 +41,10 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
     {
         let pressed = false;
         this.speed = 200;
+
+        this.xPos = this.entity.body.transform.x;
+        this.yPos = this.entity.body.transform.y;
+
         if (gameOver)
         {
             return;
@@ -101,10 +105,25 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         }
         if (cursors.space.isDown)
         {
-            let bullet = new Bullet(gameScene, this.entity, 300);
-            bullet.playerShoot(this.entity.facing)
+            //this.bullet.playerShoot(this.entity.facing)
             if (pressed === false) {
                 this.entity.setVelocity(0,0);
+            }
+            if(this.entity.facing === 'north')
+            {
+                this.bullet.shootBullet([0, -1], this.xPos, this.yPos);
+            }
+            else if(this.entity.facing === 'east')
+            {
+                this.bullet.shootBullet([-1, 0], this.xPos, this.yPos);
+            }
+            else if(this.entity.facing === 'south')
+            {
+                this.bullet.shootBullet([0, 1], this.xPos, this.yPos);
+            }
+            else
+            {
+                this.bullet.shootBullet([1, 0], this.xPos, this.yPos);
             }
         }
         else if (pressed === false) {
@@ -133,5 +152,15 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
     getEntity() 
     {
         return this.entity;
+    }
+
+    getBulletEntity()
+    {
+        console.log(this.bullet);
+        if(this.bullet !== null)
+        {
+            console.log(this.bullet);
+            return this.bullet.getEntity();
+        }
     }
 }
