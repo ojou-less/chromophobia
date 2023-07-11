@@ -180,6 +180,8 @@ function test1(character, bullet)
     if(bullet.active)
     {
         character.hit(bullet.damage, bullet.color);
+        let gotshot = this.sound.add("hitsound", {volume: 1}, { loop: false});
+        gotshot.play();
     }
     bullet.setActive(false);
     bullet.setVisible(false);
