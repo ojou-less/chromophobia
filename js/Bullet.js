@@ -1,6 +1,5 @@
 class Bullet extends Phaser.Physics.Arcade.Sprite
 {
-    pewpew;
     constructor (scene, x, y)
     {
         super(scene, x, y, 'bomb');
