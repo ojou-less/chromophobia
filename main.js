@@ -2,6 +2,7 @@ const SCREENWIDTH = 800;
 const SCREENHEIGHT = 608;
 
 let gameScene = new Phaser.Scene('Game');
+//let scene2 = new Scene2;
 
 let config = {
 
@@ -16,7 +17,7 @@ let config = {
             debug: true
         }
     },
-    scene: gameScene
+    scene: [gameScene, Scene2]
 };
 
 let player;
@@ -187,7 +188,7 @@ gameScene.create = function()
     });
 
     this.input.on("pointerdown", ()=>{
-        this.scene.start("scene2");
+        this.scene.start('scene2');
     });
 
     enemies = new Enemy(gameScene, player.getEntity(), 100, 100, 50);
