@@ -168,8 +168,6 @@ gameScene.create = function()
 
     this.physics.add.overlap(player.bullet, enemies.getEntity(), test1, null, this);
     this.physics.add.overlap(enemies.bullet, player.getEntity(), test1, null, this);
-    //this.physics.add.overlap(player.bullet, enemies.getEntity(), test1);
-    //this.physics.add.overlap(enemies.bullet, player.getEntity(), test1);
 }
 
 function test1(character, bullet)
@@ -180,6 +178,7 @@ function test1(character, bullet)
     }
     bullet.setActive(false);
     bullet.setVisible(false);
+    console.log(character.health);
 }
 
 gameScene.update = function()
