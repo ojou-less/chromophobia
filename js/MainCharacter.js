@@ -4,6 +4,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
     xPos;
     yPos;
     health;
+    bulletShot;
 
     //constructor(entity, xPos, yPos, type, weakness, speed, health, bullet)
     constructor(gameObj, xPos, yPos, speed, health, bullet)
@@ -43,6 +44,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
 
     movement()
     {
+        this.bulletShot = false;
         let pressed = false;
         this.speed = 200;
 
@@ -85,7 +87,6 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
             pressed = true;
             this.entity.facing = 'south';
             this.entity.anims.play('main-walk-front', true);
-
         }
 
         if (cursors.down.isDown && cursors.left.isDown)
