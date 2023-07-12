@@ -22,13 +22,14 @@ let config = {
 };
 
 let player;
-let enemies;
+//let enemies = [];
 
 let bombs;
 
 let cursors;
 let gameOver = false;
 let gameoverText;
+let roomText;
 
 
 let game = new Phaser.Game(config);
@@ -65,11 +66,12 @@ gameScene.preload = function()
     this.load.spritesheet('idleEnemy', 'assets/images/IdleEnemy.png', { frameWidth: 21, frameHeight: 30 });
     this.load.spritesheet('walkingEnemy', 'assets/images/WalkingEnemy.png', { frameWidth: 21, frameHeight: 30 });
 
-
+    console.log("preload");
 }
 
 gameScene.create = function()
 {
+    console.log("create");
     const map = this.make.tilemap({
         key: "map1",
         tileWidth: 16,
@@ -166,12 +168,11 @@ gameScene.create = function()
 
     cursors = this.input.keyboard.createCursorKeys();
     player = new MainCharacter(gameScene, 100, 450, 200, 400, new Bullets(gameScene, 400, 200, 50, 'white'));
-    //console.log(player);
-
+    this.enemies = [new Enemy(gameScene, player.getEntity(), 100, 100, 100, 300, 200, 'blue', new Bullets(gameScene, 200, 500, 50, 'red'))];
+    this.enemies.push(new Enemy(gameScene, player.getEntity(), 400, 400, 100, 300, 200, 'blue', new Bullets(gameScene, 200, 500, 50, 'red')));
 
     this.physics.add.collider(player.getEntity(), bglayer);
     this.physics.add.collider(player.getEntity(), treelayer);
-    // treelayer.setCollisionBetween(214, 228);
 
     treelayer.setCollisionByProperty({collides:true});
     // bglayer.setTileLocationCallback(24, 4, 3, 3, ()=>{
@@ -184,54 +185,68 @@ gameScene.create = function()
         console.log("portal betreten");
     });
 
-    this.input.on("pointerdown", ()=>{
+    this.input.keyboard.on("keydown-A", () =>{
+        //room1.preload();
         this.scene.start(room1);
     });
 
-    enemies = new Enemy(gameScene, player.getEntity(), 100, 100, 100, 300, 200, 'blue', new Bullets(gameScene, 200, 500, 50, 'red'));
-    //console.log(enemies);
+    
 
-  
-    this.physics.add.collider(player.getEntity(), enemies.getEntity());
+    for(let i = 0; i < this.enemies.length; i++)
+    {
+        console.log(this.enemies[i]);
+        for(let j = 0; j < this.enemies.length; j++)
+        {
+            this.physics.add.collider(this.enemies[i].getEntity(), this.enemies[j].getEntity());
+        }
 
-    this.physics.add.overlap(player.bullet, enemies.getEntity(), test1, null, this);
-    this.physics.add.overlap(enemies.bullet, player.getEntity(), test1, null, this);
-    let background = this.sound.add("background", {volume: 0.1});
+        this.physics.add.collider(player.getEntity(), this.enemies[i].getEntity());
+        this.physics.add.overlap(player.bullet, this.enemies[i].getEntity(), test1, null, this);
+        this.physics.add.overlap(this.enemies[i].bullet, player.getEntity(), test1, null, this);
+        this.physics.add.collider(this.enemies[i].getEntity(), treelayer);
+    }
+    
+    let background = this.sound.add("background", {volume: 0.01});
     background.play();
 
-    this.gameoverText = this.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
-    this.gameoverText.setOrigin(0.5);
-    this.gameoverText.setVisible(false);
+    gameoverText = gameScene.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
+    roomText = gameScene.add.text(16, 16, "Main Room", {fontSize: "16px", fill: "#000"});
+    gameoverText.setOrigin(0.5);
+    gameoverText.setVisible(false);
 }
 
 function test1(character, bullet)
-{  
+{
     if(bullet.active)
     {
         character.hit(bullet.damage, bullet.color);
-        let gotshot = this.sound.add("hitsound", {volume: 0.5}, { loop: false});
+        let gotshot = this.sound.add("hitsound", {volume: 0.01}, { loop: false});
         gotshot.play();
-        if (character.health === 0) {
-            let dyingSound = this.sound.add("gameover", {volume: 0.3});
-            this.physics.pause();
+        console.log(character.health);
 
-            // show game over text
-            this.gameoverText.setVisible(true);
-
-            gameScene.sound.stopAll();
-            dyingSound.play();
-            gameScene.preload();
-            this.input.on('pointerdown', () => this.scene.restart());
+        if(character.dead())
+        {
+            bullet.setVisible(false);
+            for(let i = 0; i < this.enemies.length; i++)
+            {
+                if(this.enemies[i].getEntity() === character)
+                {
+                    this.enemies[i].entity = null;
+                    this.enemies.splice(i,1);
+                    console.log(this.enemies);
+                }
+            }
         }
     }
     bullet.setActive(false);
     bullet.setVisible(false);
-    console.log(character.health);
-
 }
 
 gameScene.update = function()
 {
     player.movement();
-    enemies.update();
+    for(let i = 0; i < this.enemies.length; i++)
+    {
+        this.enemies[i].update();
+    }
 }
