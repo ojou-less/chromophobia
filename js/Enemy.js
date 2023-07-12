@@ -48,13 +48,23 @@ class Enemy
                 this.health -= damage;
             }
         }
-        
-        
+
+        this.entity.dead = function ()
+        {
+            if(this.health <= 0)
+            {
+                this.setTint(0xff0000);
+                this.setVelocity(0);
+                return true;
+            }
+        }
     }
 
     update()
     {
         this.graphics.clear();
+        //console.log("update");
+        //console.log(this.entity.body);
         
         this.xPos = this.entity.body.transform.x;
         this.yPos = this.entity.body.transform.y;
@@ -77,10 +87,10 @@ class Enemy
     }
 
     shoot()
-    {   
+    {
         let temp = this.magnitude(this.vectorize(this.xPos, this.yPos, this.player.x, this.player.y));
         let direction = [this.entity.body.newVelocity.x, this.entity.body.newVelocity.y]
-        if(temp < this.reach)
+        if(temp < this.reach && this.player.health > 0)
         {
             this.bullet.shootBullet(direction, this.xPos, this.yPos);
         }
@@ -99,21 +109,6 @@ class Enemy
         average = this.normalize(average);
         this.entity.setVelocity(average[0]*this.speed, average[1]*this.speed);
     }
-
-    /*
-    hit(damage, color)
-    {
-        console.log("ouch");
-        if(this.weakness == color)
-        {
-            this.health -= 2*damage;
-        }
-        else
-        {
-            this.health -= damage;
-        }
-    }
-    */
 
     calcDesire()
     {
