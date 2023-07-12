@@ -1,9 +1,9 @@
-let room1 = new Phaser.Scene('room1');
+let room2 = new Phaser.Scene('room2');
 let room1Text;
 let gameoverTextRoom1;
 
 
-room1.preload = function()
+room2.preload = function()
 {
     
     // -----------------------------------------------------------------------------------
@@ -16,9 +16,9 @@ room1.preload = function()
 
     // -----------------------------------------------------------------------------------
     // Loading Image Assests
-    this.load.image("tiles1", "assets/images/forest_.png");
-    this.load.image("tiles1_resources", "assets/images/forest_resources.png");
-    this.load.tilemapTiledJSON("map1", "assets/json/chromophobia_map_v4.json");
+    this.load.image("tiles2", "assets/images/swamp_.png");
+    this.load.image("tiles2_resources", "assets/images/swamp_resources.png");
+    this.load.tilemapTiledJSON("map2", "assets/json/chromophobia_room2.json");
 
     this.load.image('star', 'assets/images/star.png');
     this.load.image('bomb', 'assets/images/bomb.png');
@@ -35,19 +35,20 @@ room1.preload = function()
 }
 
     
-room1.create = function()
+room2.create = function()
 {
     
     const map = this.make.tilemap({
-        key: "map1",
+        key: "map2",
         tileWidth: 16,
         tileHeight: 16
     });
 
-    const tileset = map.addTilesetImage("forest_", "tiles1");
-    const treetiles = map.addTilesetImage("forest_ [resources]", "tiles1_resources");
+    const tileset = map.addTilesetImage("swamp_", "tiles2");
+    const treetiles = map.addTilesetImage("swamp_ [resources]", "tiles2_resources");
     const bglayer = map.createLayer("Background", tileset, 0, 0);
-    const treelayer = map.createLayer("Trees", treetiles, 0, 0);
+    const treelayer = map.createLayer("Obstacles", treetiles, 0, 0);
+    const portallayer = map.createLayer("Portal", tileset, 0, 0);
     
 
     // -----------------------------------------------------------------------------------
@@ -143,25 +144,15 @@ room1.create = function()
 
     this.physics.add.collider(player.getEntity(), bglayer);
     this.physics.add.collider(player.getEntity(), treelayer);
-    // treelayer.setCollisionBetween(214, 228);
+    this.physics.add.collider(player.getEntity(), portallayer, enterRoom3, null, this);
 
     treelayer.setCollisionByProperty({collides:true});
-    // bglayer.setTileLocationCallback(24, 4, 3, 3, ()=>{
-    //     alert("portal wurde betreten!");
-    //     console.log("portal wurde betreten!");
-
-    //     bglayer.setTileLocationCallback(24, 4, 3, 3, null); //rekursive call weil sonst infinite loop
-    // });
-    bglayer.setTileIndexCallback([39, 40, 41, 61, 62, 63, 83, 84, 85], ()=>{
-        console.log("portal betreten");
-    });
+    portallayer.setCollisionByProperty({teleports:true});
 
 
-    this.input.keyboard.on("keydown-A", () => {
-        gameScene.preload();
-
-        this.scene.start(gameScene);
-    });
+    function enterRoom3(){
+        this.scene.start(room3);
+    }
 
     this.physics.add.collider(player.getEntity(), enemies.getEntity());
 
@@ -169,8 +160,8 @@ room1.create = function()
     this.physics.add.overlap(enemies.bullet, player.getEntity(), test2, null, this);
     
 
-    room1Text = room1.add.text(16, 16, "Room1 Room", {fontSize: "16px", fill: "#000"});
-    gameoverTextRoom1 = room1.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
+    room1Text = room2.add.text(16, 16, "Room1 Room", {fontSize: "16px", fill: "#000"});
+    gameoverTextRoom1 = room2.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
     gameoverTextRoom1.setOrigin(0.5);
     gameoverTextRoom1.setVisible(false);
 }
@@ -199,7 +190,7 @@ function test2(character, bullet)
 
 
     
-room1.update = function() 
+room2.update = function() 
 {
     player.movement();
     enemies.update();
