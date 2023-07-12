@@ -18,7 +18,7 @@ let config = {
         }
     },
 
-    scene: [gameScene, room1]
+    scene: [gameScene, room2, room3]
 };
 
 let player;
@@ -177,11 +177,12 @@ gameScene.create = function()
     this.physics.add.collider(player.getEntity(), portallayer, enterRoom2, null, this);
 
     treelayer.setCollisionByProperty({collides:true});
+    portallayer.setCollisionByProperty({teleports:true});
 
     function enterRoom2() {
         console.log("hallo")
-        room1.preload();
-        this.scene.start(room1);
+        room2.preload();
+        this.scene.start(room2);
     };
 
     
@@ -205,6 +206,7 @@ gameScene.create = function()
 
     gameoverText = gameScene.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
     roomText = gameScene.add.text(16, 16, "Main Room", {fontSize: "16px", fill: "#000"});
+    portalText = gameScene.add.text(215, 18, "Enter Portal to resume to next Stage", {fontSize: "16px", fill: "#000"});
     gameoverText.setOrigin(0.5);
     gameoverText.setVisible(false);
 }
