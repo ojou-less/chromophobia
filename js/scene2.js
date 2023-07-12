@@ -37,6 +37,7 @@ room1.preload = function()
     
 room1.create = function()
 {
+    
     const map = this.make.tilemap({
         key: "map1",
         tileWidth: 16,
@@ -47,6 +48,7 @@ room1.create = function()
     const treetiles = map.addTilesetImage("forest_ [resources]", "tiles1_resources");
     const bglayer = map.createLayer("Background", tileset, 0, 0);
     const treelayer = map.createLayer("Trees", treetiles, 0, 0);
+    
 
     // -----------------------------------------------------------------------------------
     // Player Animations
@@ -154,6 +156,7 @@ room1.create = function()
         console.log("portal betreten");
     });
 
+
     this.input.keyboard.on("keydown-A", () => {
         gameScene.preload();
 
@@ -164,6 +167,7 @@ room1.create = function()
 
     this.physics.add.overlap(player.bullet, enemies.getEntity(), test2, null, this);
     this.physics.add.overlap(enemies.bullet, player.getEntity(), test2, null, this);
+    
 
     room1Text = room1.add.text(16, 16, "Room1 Room", {fontSize: "16px", fill: "#000"});
     gameoverTextRoom1 = room1.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
@@ -179,15 +183,13 @@ function test2(character, bullet)
         character.hit(bullet.damage, bullet.color);
         let gotshot = this.sound.add("hitsound", {volume: 0.01}, { loop: false});
         gotshot.play();
-        if (character.health === 0) {
-            let dyingSound = this.sound.add("gameover", {volume: 0.01});
-            room1.physics.pause();
-            gameoverTextRoom1.setVisible(true);
-            room1.sound.stopAll();
-            dyingSound.play();
-            gameScene.preload();
-            this.input.on('pointerdown', () => this.scene.start(gameScene));
+        if(enemies.getEntity() === character)
+        {
+            console.log("nice");
         }
+        console.log(enemies);
+        console.log(character);
+        character.dead();
     }
     bullet.setActive(false);
     bullet.setVisible(false);

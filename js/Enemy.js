@@ -53,7 +53,8 @@ class Enemy
         {
             if(this.health <= 0)
             {
-                console.log("i'm dead now");
+                //console.log("i'm dead now");
+                //console.log(this);
                 return true;
             }
         }
@@ -62,6 +63,8 @@ class Enemy
     update()
     {
         this.graphics.clear();
+        //console.log("update");
+        //console.log(this.entity.body);
         
         this.xPos = this.entity.body.transform.x;
         this.yPos = this.entity.body.transform.y;
@@ -107,11 +110,6 @@ class Enemy
         this.entity.setVelocity(average[0]*this.speed, average[1]*this.speed);
     }
 
-    dead()
-    {
-        
-    }
-
     calcDesire()
     {
         let playerX = this.player.x;
@@ -127,7 +125,7 @@ class Enemy
             this.interest[i] = this.scalar(temp, this.basisDirections[i]);
         }
     }
-
+    
     getEntity()
     {
         return this.entity;
