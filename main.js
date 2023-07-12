@@ -241,6 +241,7 @@ function test1(character, bullet)
                     console.log(this.enemies);
                 }
             }
+
         }
     }
     bullet.setActive(false);
