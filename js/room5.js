@@ -1,9 +1,9 @@
-let room4 = new Phaser.Scene('room4');
-let room4Text;
-let gameoverTextRoom4;
+let room5 = new Phaser.Scene('room5');
+let room5Text;
+let gameoverTextRoom5;
 
 
-room4.preload = function()
+room5.preload = function()
 {
     
     // -----------------------------------------------------------------------------------
@@ -16,9 +16,8 @@ room4.preload = function()
 
     // -----------------------------------------------------------------------------------
     // Loading Image Assests
-    this.load.image("tiles4", "assets/images/desert_.png");
-    this.load.image("tiles4_resources", "assets/images/desert_fountain.png");
-    this.load.tilemapTiledJSON("map4", "assets/json/chromophobia_room4.json");
+    this.load.image("tiles5", "assets/images/cave_.png");
+    this.load.tilemapTiledJSON("map5", "assets/json/chromophobia_room5.json");
 
     this.load.image('star', 'assets/images/star.png');
     this.load.image('bomb', 'assets/images/bomb.png');
@@ -35,42 +34,37 @@ room4.preload = function()
 }
 
     
-room4.create = function()
+room5.create = function()
 {
     
     const map = this.make.tilemap({
-        key: "map4",        //ändern auf map3 und den rest des ganzen
+        key: "map5",        //ändern auf map3 und den rest des ganzen
         tileWidth: 16,
         tileHeight: 16
     });
 
-    const tileset = map.addTilesetImage("desert_", "tiles4");
-    const treetiles = map.addTilesetImage("desert_ [fountain]", "tiles4_resources");
+    const tileset = map.addTilesetImage("cave_", "tiles5");
     const bglayer = map.createLayer("Background", tileset, 0, 0);
-    const healingfountainlayer = map.createLayer("Fountain", treetiles, 0, 0);
+    const lavapitlayer = map.createLayer("Obstacles", tileset, 0, 0);
     const portallayer = map.createLayer("Portal", tileset, 0, 0);
     
 
     cursors = this.input.keyboard.createCursorKeys();
     player = new MainCharacter(this, 100, 450, 200, 400, new Bullets(this, 400, 200, 50, 'white'));
-    // enemies = new Enemy(this, player.getEntity(), 100, 100, 100, 300, 200, 'blue', new Bullets(this, 200, 500, 50, 'red'));
+    enemies = new Enemy(this, player.getEntity(), 100, 100, 100, 300, 200, 'blue', new Bullets(this, 200, 500, 50, 'red'));
     //console.log(player);
 
 
     this.physics.add.collider(player.getEntity(), bglayer);
-    this.physics.add.collider(player.getEntity(), healingfountainlayer, healPlayer, null, this);
+    this.physics.add.collider(player.getEntity(), lavapitlayer);
     this.physics.add.collider(player.getEntity(), portallayer, enterRoom5, null, this);
 
-    healingfountainlayer.setCollisionByProperty({heals:true});
+    lavapitlayer.setCollisionByProperty({collides:true});
     portallayer.setCollisionByProperty({teleports:true});
 
 
     function enterRoom5(){
-        this.scene.start(room5);
-    }
-
-    function healPlayer(){
-        console.log("healing player...");
+        console.log("wann gibts endlich room 5 >:(");
     }
 
     this.physics.add.collider(player.getEntity(), enemies.getEntity());
@@ -79,10 +73,10 @@ room4.create = function()
     this.physics.add.overlap(enemies.bullet, player.getEntity(), test2, null, this);
     
 
-    room4Text = room4.add.text(16, 16, "Room4 Room", {fontSize: "16px", fill: "#000"});
-    gameoverTextRoom4 = room4.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
-    gameoverTextRoom4.setOrigin(0.5);
-    gameoverTextRoom4.setVisible(false);
+    room5Text = room5.add.text(16, 16, "Room5 Room", {fontSize: "16px", fill: "#000"});
+    gameoverTextRoom5 = room5.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
+    gameoverTextRoom5.setOrigin(0.5);
+    gameoverTextRoom5.setVisible(false);
 }
 
 function test2(character, bullet)
@@ -107,8 +101,8 @@ function test2(character, bullet)
 
 }
     
-room4.update = function() 
+room5.update = function() 
 {
     player.movement();
-    // enemies.update();
+    enemies.update();
 }
