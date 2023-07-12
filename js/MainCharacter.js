@@ -40,12 +40,11 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         {
             if(this.health <= 0)
             {
-                let dyingSound = gameObj.sound.add("gameover", {volume: 0.01});
+                let dyingSound = gameObj.sound.add("gameover", {volume: 0.1});
                 gameObj.physics.pause();
                 // show game over text
 
                 gameoverText.setVisible(true);
-
                 gameScene.sound.stopAll();
                 dyingSound.play();
                 gameObj.input.on('pointerdown', () => gameScene.scene.restart());
