@@ -142,7 +142,7 @@ room5.update = function()
         // winningSound.play();
 
         this.input.on('pointerdown', () =>{
-            this.scene.start(gameScene)
+            location.reload();
         });
     }
 }
