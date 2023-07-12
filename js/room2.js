@@ -52,7 +52,7 @@ room2.create = function()
     
 
     let playerBullets = [new Bullets(this, 200, 200, 50, 'red'), new Bullets(this, 50, 200, 300, 'blue'), new Bullets(this, 600, 500, 150, 'green')];
-    player = new MainCharacter(this, 100, 450, 200, 400, playerBullets);
+    player = new MainCharacter(this, 100, 450, 200, this.get, playerBullets);
     
     this.enemies = [new Enemy(this, player.getEntity(), 100, 100, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red'))];
     this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red')));
@@ -69,6 +69,7 @@ room2.create = function()
     function enterRoom3()
     {
         this.scene.start(room3);
+        room3.get = player.entity.health;
     }
 
     for(let i = 0; i < this.enemies.length; i++)

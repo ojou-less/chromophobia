@@ -14,7 +14,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         this.xPos = xPos;
         this.yPos = yPos;
         this.bullets = bullet;
-        this.health = health;
+        this.healthMax = 400;
 
         this.bullet = bullet[0];
 
@@ -63,7 +63,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         this.graphics.clear();
         if(this.entity.health > 0)
         {
-            let line = new Phaser.Geom.Line(this.xPos-(healthWidth *(this.entity.health/ this.health)), this.yPos-20, this.xPos+(healthWidth *(this.entity.health/ this.health)),  this.yPos-20);
+            let line = new Phaser.Geom.Line(this.xPos-(healthWidth *(this.entity.health/ this.healthMax)), this.yPos-20, this.xPos+(healthWidth *(this.entity.health/ this.healthMax)),  this.yPos-20);
             this.graphics.lineStyle(5, 0x00ff00);
             this.graphics.strokeLineShape(line);
         }

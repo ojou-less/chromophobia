@@ -180,6 +180,8 @@ gameScene.create = function()
     function enterRoom2() 
     {
         this.scene.start(room2);
+        room2.get = player.entity.health;
+        //console.log("im herererererererererererer");
     }
 
     for(let i = 0; i < this.enemies.length; i++)
@@ -248,6 +250,7 @@ function calcDamage(character, bullet)
 
         }
     }
+    console.log(character.health);
     bullet.setActive(false);
     bullet.setVisible(false);
 }
