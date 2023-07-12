@@ -96,7 +96,7 @@ room5.create = function()
     gameoverText = this.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
     gameoverText.setOrigin(0.5);
     gameoverText.setVisible(false);
-    winTextRoom5 = this.add.text(400, 300, "Congratulations you won!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
+    winTextRoom5 = this.add.text(400, 300, "Congratulations you beat the game!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
     winTextRoom5.setOrigin(0.5);
     winTextRoom5.setVisible(false);
 }
