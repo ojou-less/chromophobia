@@ -77,10 +77,10 @@ class Enemy
     }
 
     shoot()
-    {   
+    {
         let temp = this.magnitude(this.vectorize(this.xPos, this.yPos, this.player.x, this.player.y));
         let direction = [this.entity.body.newVelocity.x, this.entity.body.newVelocity.y]
-        if(temp < this.reach)
+        if(temp < this.reach && this.player.health > 0)
         {
             this.bullet.shootBullet(direction, this.xPos, this.yPos);
         }
