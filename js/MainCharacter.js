@@ -14,10 +14,12 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         this.xPos = xPos;
         this.yPos = yPos;
         this.bullets = bullet;
+        this.health = health;
 
         this.bullet = bullet[0];
 
         this.cursor = gameObj.input.keyboard.addKeys('UP,DOWN,LEFT,RIGHT,SPACE,ONE,TWO,THREE');
+        this.graphics = gameObj.add.graphics();
 
         this.entity = gameObj.physics.add.sprite(this.xPos, this.yPos, 'idleMain');
         this.entity.setCollideWorldBounds(true);
@@ -55,6 +57,18 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         this.entity.anims.play('main-idle-front', true);
     }
 
+    healthBar()
+    {
+        let healthWidth = 20;
+        this.graphics.clear();
+        if(this.entity.health > 0)
+        {
+            let line = new Phaser.Geom.Line(this.xPos-(healthWidth *(this.entity.health/ this.health)), this.yPos-20, this.xPos+(healthWidth *(this.entity.health/ this.health)),  this.yPos-20);
+            this.graphics.lineStyle(5, 0x00ff00);
+            this.graphics.strokeLineShape(line);
+        }
+    }
+
     movement()
     {
         this.bulletShot = false;
@@ -65,6 +79,8 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
 
         this.xPos = this.entity.body.transform.x;
         this.yPos = this.entity.body.transform.y;
+
+        this.healthBar();
 
         if (gameOver)
         {

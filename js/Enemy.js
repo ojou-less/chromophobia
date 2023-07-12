@@ -40,14 +40,15 @@ class Enemy
         
         this.entity.hit = function(damage, color)
         {
-
-            if(this.weakness === color)
-            {
-                this.health -= 2*damage;
-            }
-            else
-            {
-                this.health -= damage;
+            if(this.health > 0){
+                if(this.weakness === color)
+                {
+                    this.health -= 2*damage;
+                }
+                else
+                {
+                    this.health -= damage;
+                }
             }
         }
 
@@ -90,9 +91,15 @@ class Enemy
 
     healthBar()
     {
-        let line = new Phaser.Geom.Line(this.xPos-10, this.yPos-20, this.xPos+10,  this.yPos-20);
-        this.graphics.lineStyle(2, 0x00ff00);
-        this.graphics.strokeLineShape(line);
+        let healthWidth = 20;
+        this.graphics.clear();
+
+        if(this.entity.health > 0)
+        {
+            let line = new Phaser.Geom.Line(this.xPos-(healthWidth *(this.entity.health/ this.health)), this.yPos-20, this.xPos+(healthWidth *(this.entity.health/ this.health)),  this.yPos-20);
+            this.graphics.lineStyle(5, 0x00ff00);
+            this.graphics.strokeLineShape(line);
+        }
     }
 
     shoot()

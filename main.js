@@ -241,6 +241,7 @@ function calcDamage(character, bullet)
             {
                 if(this.enemies[i].getEntity() === character)
                 {
+                    this.enemies[i].healthBar();
                     this.enemies[i].entity = null;
                     this.enemies.splice(i,1);
                     //console.log(this.enemies);
@@ -250,8 +251,6 @@ function calcDamage(character, bullet)
     }
     bullet.setActive(false);
     bullet.setVisible(false);
-    console.log(character.health);
-
 }
 
 gameScene.update = function()
