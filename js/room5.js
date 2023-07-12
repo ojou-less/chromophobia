@@ -1,6 +1,6 @@
 let room5 = new Phaser.Scene('room5');
 let room5Text;
-let gameoverTextRoom5;
+let winTextRoom5;
 
 
 room5.preload = function()
@@ -91,6 +91,9 @@ room5.create = function()
     gameoverText = this.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
     gameoverText.setOrigin(0.5);
     gameoverText.setVisible(false);
+    winTextRoom5 = this.add.text(400, 300, "Congratulations you won!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
+    winTextRoom5.setOrigin(0.5);
+    winTextRoom5.setVisible(false);
 }
 
 function test2(character, bullet)
@@ -121,5 +124,16 @@ room5.update = function()
     for(let i = 0; i < this.enemies.length; i++)
     {
         this.enemies[i].update();
+    }
+    if (this.enemies.length === 0) {
+        this.physics.pause();
+
+        winTextRoom5.setVisible(true);
+        this.sound.stopAll();
+        // winningSound.play();
+
+        this.input.on('pointerdown', () =>{
+            this.scene.start(gameScene)
+        });
     }
 }
