@@ -51,95 +51,11 @@ room2.create = function()
     const portallayer = map.createLayer("Portal", tileset, 0, 0);
     
 
-    // -----------------------------------------------------------------------------------
-    // Player Animations
-    /*
-    this.anims.create({
-        key: 'main-walk-front',
-        frames: this.anims.generateFrameNumbers('walkingMain', {frames:[0, 3, 6, 9]}),
-        frameRate: 7,
-        repeat: -1
-    });
-
-    this.anims.create({
-        key: 'main-walk-back',
-        frames: this.anims.generateFrameNumbers('walkingMain', {frames:[1, 4, 7, 10]}),
-        frameRate: 7,
-        repeat: -1
-    });
-
-    this.anims.create({
-        key: 'main-walk-side',
-        frames: this.anims.generateFrameNumbers('walkingMain', {frames:[2, 5, 8, 11]}),
-        frameRate: 7,
-        repeat: -1
-    });
-
-    this.anims.create({
-        key: 'main-idle-front',
-        frames: this.anims.generateFrameNumbers('idleMain', {frames:[0, 3]}) ,
-        frameRate: 2
-    });
-
-    this.anims.create({
-        key: 'main-idle-back',
-        frames: this.anims.generateFrameNumbers('idleMain', {frames:[1, 4]} ),
-        frameRate: 2
-    });
-
-    this.anims.create({
-        key: 'main-idle-side',
-        frames: this.anims.generateFrameNumbers('idleMain', {frames:[2, 5]} ),
-        frameRate: 2
-    });
-
-
-    // -----------------------------------------------------------------------------------
-    // Enemy Animations
-    this.anims.create({
-        key: 'enemy-walk-front',
-        frames: this.anims.generateFrameNumbers('walkingEnemy', {frames:[0, 3, 6, 9]}),
-        frameRate: 7,
-        repeat: -1
-    });
-
-    this.anims.create({
-        key: 'enemy-walk-back',
-        frames: this.anims.generateFrameNumbers('walkingEnemy', {frames:[1, 4, 7, 10]}),
-        frameRate: 7,
-        repeat: -1
-    });
-
-    this.anims.create({
-        key: 'enemy-walk-side',
-        frames: this.anims.generateFrameNumbers('walkingEnemy', {frames:[2, 5, 8, 11]}),
-        frameRate: 7,
-        repeat: -1
-    });
-
-    this.anims.create({
-        key: 'enemy-idle-front',
-        frames: this.anims.generateFrameNumbers('idleEnemy', {frames:[0, 3]}) ,
-        frameRate: 2
-    });
-
-    this.anims.create({
-        key: 'enemy-idle-back',
-        frames: this.anims.generateFrameNumbers('idleEnemy', {frames:[1, 4]} ),
-        frameRate: 2
-    });
-
-    this.anims.create({
-        key: 'enemy-idle-side',
-        frames: this.anims.generateFrameNumbers('idleEnemy', {frames:[2, 5]} ),
-        frameRate: 2
-    });
-    */
-
-    cursors = this.input.keyboard.createCursorKeys();
-    player = new MainCharacter(this, 100, 450, 200, 400, new Bullets(this, 400, 200, 50, 'white'));
-    enemies = new Enemy(this, player.getEntity(), 100, 100, 100, 300, 200, 'blue', new Bullets(this, 200, 500, 50, 'red'));
-    //console.log(player);
+    let playerBullets = [new Bullets(this, 200, 200, 50, 'red'), new Bullets(this, 50, 200, 300, 'blue'), new Bullets(this, 600, 500, 150, 'green')];
+    player = new MainCharacter(this, 100, 450, 200, 400, playerBullets);
+    
+    this.enemies = [new Enemy(this, player.getEntity(), 100, 100, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red'))];
+    this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red')));
 
 
     this.physics.add.collider(player.getEntity(), bglayer);
@@ -150,48 +66,46 @@ room2.create = function()
     portallayer.setCollisionByProperty({teleports:true});
 
 
-    function enterRoom3(){
+    function enterRoom3()
+    {
         this.scene.start(room3);
     }
 
-    this.physics.add.collider(player.getEntity(), enemies.getEntity());
-
-    this.physics.add.overlap(player.bullet, enemies.getEntity(), test2, null, this);
-    this.physics.add.overlap(enemies.bullet, player.getEntity(), test2, null, this);
-    
-
-    room1Text = room2.add.text(16, 16, "Room1 Room", {fontSize: "16px", fill: "#000"});
-    gameoverTextRoom1 = room2.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
-    gameoverTextRoom1.setOrigin(0.5);
-    gameoverTextRoom1.setVisible(false);
-}
-
-function test2(character, bullet)
-{
-    if(bullet.active)
+    for(let i = 0; i < this.enemies.length; i++)
     {
-        console.log("Scene 2");
-        character.hit(bullet.damage, bullet.color);
-        let gotshot = this.sound.add("hitsound", {volume: 0.01}, { loop: false});
-        gotshot.play();
-        if(enemies.getEntity() === character)
+        console.log(this.enemies[i]);
+        for(let j = 0; j < this.enemies.length; j++)
         {
-            console.log("nice");
+            this.physics.add.collider(this.enemies[i].getEntity(), this.enemies[j].getEntity());
         }
-        console.log(enemies);
-        console.log(character);
-        character.dead();
+
+        this.physics.add.collider(player.getEntity(), this.enemies[i].getEntity());
+        for(let j = 0; j < player.bullets.length; j++)
+        {
+            this.physics.add.overlap(player.bullets[j], this.enemies[i].getEntity(), calcDamage, null, this);
+        }
+        this.physics.add.overlap(this.enemies[i].bullet, player.getEntity(), calcDamage, null, this);
+        
+        this.physics.add.collider(this.enemies[i].bullet, treelayer, bulletHitObstacles, null, this);
+        this.physics.add.collider(this.enemies[i].getEntity(), treelayer);
     }
-    bullet.setActive(false);
-    bullet.setVisible(false);
-    console.log(character.health);
 
+    for(let i = 0; i < player.bullets.length; i++)
+    {
+            this.physics.add.collider(player.bullets[i], treelayer, bulletHitObstacles, null, this);
+    }
+    
+    roomText = this.add.text(16, 16, "Room2 Room", {fontSize: "16px", fill: "#000"});
+    gameoverText = this.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
+    gameoverText.setOrigin(0.5);
+    gameoverText.setVisible(false);
 }
-
-
     
 room2.update = function() 
 {
     player.movement();
-    enemies.update();
+    for(let i = 0; i < this.enemies.length; i++)
+    {
+        this.enemies[i].update();
+    }
 }

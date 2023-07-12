@@ -177,13 +177,10 @@ gameScene.create = function()
     treelayer.setCollisionByProperty({collides:true});
     portallayer.setCollisionByProperty({teleports:true});
 
-    function enterRoom2() {
-        console.log("hallo")
-        room2.preload();
+    function enterRoom2() 
+    {
         this.scene.start(room2);
-    };
-
-    
+    }
 
     for(let i = 0; i < this.enemies.length; i++)
     {
@@ -205,10 +202,10 @@ gameScene.create = function()
     }
 
     for(let i = 0; i < player.bullets.length; i++)
-        {
+    {
             this.physics.add.collider(player.bullets[i], treelayer, bulletHitObstacles, null, this);
-        }
-    //this.physics.add.collider(player.bullet, treelayer, bulletHitObstacles, null, this);
+    }
+    
     
     let background = this.sound.add("background", {volume: 0.01});
     background.play();

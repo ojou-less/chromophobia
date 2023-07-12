@@ -49,10 +49,12 @@ room5.create = function()
     const portallayer = map.createLayer("Portal", tileset, 0, 0);
     
 
-    cursors = this.input.keyboard.createCursorKeys();
-    player = new MainCharacter(this, 100, 450, 200, 400, new Bullets(this, 400, 200, 50, 'white'));
-    enemies = new Enemy(this, player.getEntity(), 100, 100, 100, 300, 200, 'blue', new Bullets(this, 200, 500, 50, 'red'));
-    //console.log(player);
+    let playerBullets = [new Bullets(this, 200, 200, 50, 'red'), new Bullets(this, 50, 200, 300, 'blue'), new Bullets(this, 600, 500, 150, 'green')];
+    player = new MainCharacter(this, 100, 450, 200, 400, playerBullets);
+    
+    this.enemies = [new Enemy(this, player.getEntity(), 100, 100, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red'))];
+    this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red')));
+
 
 
     this.physics.add.collider(player.getEntity(), bglayer);
@@ -67,16 +69,28 @@ room5.create = function()
         console.log("wann gibts endlich room 5 >:(");
     }
 
-    this.physics.add.collider(player.getEntity(), enemies.getEntity());
+    for(let i = 0; i < this.enemies.length; i++)
+    {
+        console.log(this.enemies[i]);
+        for(let j = 0; j < this.enemies.length; j++)
+        {
+            this.physics.add.collider(this.enemies[i].getEntity(), this.enemies[j].getEntity());
+        }
 
-    this.physics.add.overlap(player.bullet, enemies.getEntity(), test2, null, this);
-    this.physics.add.overlap(enemies.bullet, player.getEntity(), test2, null, this);
+        this.physics.add.collider(player.getEntity(), this.enemies[i].getEntity());
+        for(let j = 0; j < player.bullets.length; j++)
+        {
+            this.physics.add.overlap(player.bullets[j], this.enemies[i].getEntity(), calcDamage, null, this);
+        }
+        this.physics.add.overlap(this.enemies[i].bullet, player.getEntity(), calcDamage, null, this);
+        
+        this.physics.add.collider(this.enemies[i].getEntity(), lavapitlayer);
+    }
     
-
-    room5Text = room5.add.text(16, 16, "Room5 Room", {fontSize: "16px", fill: "#000"});
-    gameoverTextRoom5 = room5.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
-    gameoverTextRoom5.setOrigin(0.5);
-    gameoverTextRoom5.setVisible(false);
+    roomText = this.add.text(16, 16, "Room5 Room", {fontSize: "16px", fill: "#000"});
+    gameoverText = this.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
+    gameoverText.setOrigin(0.5);
+    gameoverText.setVisible(false);
 }
 
 function test2(character, bullet)
@@ -104,5 +118,8 @@ function test2(character, bullet)
 room5.update = function() 
 {
     player.movement();
-    enemies.update();
+    for(let i = 0; i < this.enemies.length; i++)
+    {
+        this.enemies[i].update();
+    }
 }
