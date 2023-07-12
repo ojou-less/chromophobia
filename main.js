@@ -17,8 +17,7 @@ let config = {
             debug: false
         }
     },
-
-    scene: [gameScene, room2, room3]
+    scene: [gameScene, room2, room3, room4]
 };
 
 let player;
