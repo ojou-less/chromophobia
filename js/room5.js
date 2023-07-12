@@ -66,7 +66,11 @@ room5.create = function()
 
     function lavaKill()
     {
-        player.entity.health -= 4;
+
+        if (player.entity.health - 4 > 0) {
+            player.entity.health -= 4;
+        }
+        console.log(player.entity.health);
     }
 
 
