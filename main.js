@@ -8,7 +8,7 @@ let config = {
     type: Phaser.AUTO,
     width: 800,
     height: 608,
-    //scene: gameScene,
+    scene: [gameScene, room2, room3, room4, room5],
     physics: {
         default: 'arcade',
         arcade: {
@@ -16,7 +16,6 @@ let config = {
             debug: false
         }
     },
-    scene: [gameScene, room2, room3, room4, room5]
 };
 
 let player;
@@ -181,7 +180,6 @@ gameScene.create = function()
         room2.preload();
         if (this.enemies.length === 0) {
             console.log("Alle gegner tot");
-            room2.create();
             this.scene.start(room2);
         }
         console.log("Noch nicht alle tot")
@@ -219,7 +217,7 @@ gameScene.create = function()
 
     gameoverText = gameScene.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
     roomText = gameScene.add.text(16, 16, "Main Room", {fontSize: "16px", fill: "#000"});
-    portalText = gameScene.add.text(215, 18, "Enter Portal to resume to next Stage", {fontSize: "16px", fill: "#000"});
+    portalText = gameScene.add.text(215, 18, "Kill all the enemies to enter Portal to resume to next Stage", {fontSize: "16px", fill: "#000"});
     gameoverText.setOrigin(0.5);
     gameoverText.setVisible(false);
 }
