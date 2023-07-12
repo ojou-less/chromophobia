@@ -8,7 +8,7 @@ let config = {
     type: Phaser.AUTO,
     width: 800,
     height: 608,
-    //scene: gameScene,
+    scene: [gameScene, room2, room3, room4, room5],
     physics: {
         default: 'arcade',
         arcade: {
@@ -16,7 +16,6 @@ let config = {
             debug: false
         }
     },
-    scene: [gameScene, room2, room3, room4, room5]
 };
 
 let player;
@@ -37,7 +36,7 @@ gameScene.preload = function()
     // -----------------------------------------------------------------------------------
     // Loading Audio Assests
     this.load.audio("gameover", "assets/audios/dyingsound.mp3");
-    this.load.audio("background", "assets/audios/Monkeys-Spinning-Monkeys.mp3");
+    this.load.audio("background", "assets/audios/nature-soundstropicaljunglebirds-108380.mp3");
     this.load.audio("hitsound", "assets/audios/roblox-death-sound-effect_69KVqYY.mp3");
     this.load.audio("pewpew", "assets/audios/pewpew.wav");
     this.load.audio("gunshot", "assets/audios/gunshot.wav");
@@ -177,11 +176,13 @@ gameScene.create = function()
     treelayer.setCollisionByProperty({collides:true});
     portallayer.setCollisionByProperty({teleports:true});
 
-    function enterRoom2() 
-    {
-        this.scene.start(room2);
-        room2.get = player.entity.health;
-        //console.log("im herererererererererererer");
+
+    function enterRoom2() {
+        if (this.enemies.length === 0) {
+            this.scene.start(room2);
+            room2.get = player.entity.health
+        }
+        
     }
 
     for(let i = 0; i < this.enemies.length; i++)
@@ -209,12 +210,12 @@ gameScene.create = function()
     }
     
     
-    let background = this.sound.add("background", {volume: 0.01});
+    let background = this.sound.add("background", {volume: 0.5});
     background.play();
 
     gameoverText = gameScene.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
     roomText = gameScene.add.text(16, 16, "Main Room", {fontSize: "16px", fill: "#000"});
-    portalText = gameScene.add.text(215, 18, "Enter Portal to resume to next Stage", {fontSize: "16px", fill: "#000"});
+    portalText = gameScene.add.text(215, 18, "Kill all the enemies to enter Portal to resume to next Stage", {fontSize: "16px", fill: "#000"});
     gameoverText.setOrigin(0.5);
     gameoverText.setVisible(false);
 }
@@ -230,7 +231,7 @@ function calcDamage(character, bullet)
     if(bullet.active)
     {
         character.hit(bullet.damage, bullet.color);
-        let gotshot = this.sound.add("hitsound", {volume: 0.01}, { loop: false});
+        let gotshot = this.sound.add("hitsound", {volume: 0.1}, { loop: false});
         gotshot.play();
         console.log(character.health);
 

@@ -68,8 +68,10 @@ room4.create = function()
 
 
     function enterRoom5(){
-        this.scene.start(room5);
-        room5.get = player.entity.health;
+        if (this.enemies.length === 0) {
+          this.scene.start(room5);
+          room5.get = player.entity.health;
+        }
     }
 
     function healPlayer(){

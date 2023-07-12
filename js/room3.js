@@ -71,10 +71,11 @@ room3.create = function()
     portallayer.setCollisionByProperty({teleports:false});
 
 
-    function enterRoom4()
-    {
-        this.scene.start(room4);
-        room4.get = player.entity.health;
+    function enterRoom4(){
+        if (this.enemies.length === 0) {
+            this.scene.start(room4);
+            room4.get = player.entity.health;
+        }
     }
 
     for(let i = 0; i < this.enemies.length; i++)
