@@ -151,7 +151,12 @@ room2.create = function()
 
 
     function enterRoom3(){
-        this.scene.start(room3);
+        room3.preload();
+        if (this.enemies.length === 0) {
+
+            this.scene.start(room3);
+        }
+
     }
 
     this.physics.add.collider(player.getEntity(), enemies.getEntity());
