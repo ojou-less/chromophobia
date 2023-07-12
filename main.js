@@ -29,6 +29,7 @@ let bombs;
 let cursors;
 let gameOver = false;
 let gameoverText;
+let roomText;
 
 
 let game = new Phaser.Game(config);
@@ -184,7 +185,8 @@ gameScene.create = function()
         console.log("portal betreten");
     });
 
-    this.input.on("pointerdown", ()=>{
+    this.input.keyboard.on("keydown-A", () =>{
+        room1.preload();
         this.scene.start(room1);
     });
 
@@ -194,18 +196,19 @@ gameScene.create = function()
   
     this.physics.add.collider(player.getEntity(), enemies.getEntity());
 
-    this.physics.add.overlap(player.bullet, enemies.getEntity(), test1, null, this);
-    this.physics.add.overlap(enemies.bullet, player.getEntity(), test1, null, this);
+    this.physics.add.overlap(player.bullet, enemies.getEntity(), gameScene.test1, null, this);
+    this.physics.add.overlap(enemies.bullet, player.getEntity(), gameScene.test1, null, this);
     let background = this.sound.add("background", {volume: 0.1});
     background.play();
 
-    this.gameoverText = this.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
-    this.gameoverText.setOrigin(0.5);
-    this.gameoverText.setVisible(false);
+    gameoverText = gameScene.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
+    roomText = gameScene.add.text(16, 16, "Main Room", {fontSize: "16px", fill: "#000"});
+    gameoverText.setOrigin(0.5);
+    gameoverText.setVisible(false);
 }
 
-function test1(character, bullet)
-{  
+gameScene.test1(character, bullet)
+{
     if(bullet.active)
     {
         character.hit(bullet.damage, bullet.color);
@@ -214,14 +217,14 @@ function test1(character, bullet)
         if (character.health === 0) {
             let dyingSound = this.sound.add("gameover", {volume: 0.3});
             this.physics.pause();
-
             // show game over text
-            this.gameoverText.setVisible(true);
+
+            gameoverText.setVisible(true);
 
             gameScene.sound.stopAll();
             dyingSound.play();
             gameScene.preload();
-            this.input.on('pointerdown', () => this.scene.restart());
+            this.input.on('pointerdown', () => this.scene.start(gameScene));
         }
     }
     bullet.setActive(false);

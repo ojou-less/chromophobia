@@ -1,4 +1,6 @@
-let room1 = new Phaser.Scene('Game');
+let room1 = new Phaser.Scene('room1');
+let room1Text;
+let gameoverTextRoom1;
 
 
 room1.preload = function()
@@ -150,29 +152,39 @@ room1.create = function()
         console.log("portal betreten");
     });
 
-    this.input.on("pointerdown", ()=>{
+    this.input.keyboard.on("keydown-A", () => {
+        gameScene.preload();
+
         this.scene.start(gameScene);
     });
 
-    
     this.physics.add.collider(player.getEntity(), enemies.getEntity());
 
-    this.physics.add.overlap(player.bullet, enemies.getEntity(), test1, null, this);
-    this.physics.add.overlap(enemies.bullet, player.getEntity(), test1, null, this);
-    let background = this.sound.add("background", {volume: 0.5});
-    background.play();
+    this.physics.add.overlap(player.bullet, enemies.getEntity(), room1.test2, null, this);
+    this.physics.add.overlap(enemies.bullet, player.getEntity(), room1.test2, null, this);
+
+    room1Text = room1.add.text(16, 16, "Room1 Room", {fontSize: "16px", fill: "#000"});
+    gameoverTextRoom1 = room1.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
+    gameoverTextRoom1.setOrigin(0.5);
+    gameoverTextRoom1.setVisible(false);
 }
-    
-function test1(character, bullet)
-{  
+
+room1.test2(character, bullet)
+{
     if(bullet.active)
     {
+        console.log("Scene 2");
         character.hit(bullet.damage, bullet.color);
         let gotshot = this.sound.add("hitsound", {volume: 0.1}, { loop: false});
         gotshot.play();
         if (character.health === 0) {
             let dyingSound = this.sound.add("gameover", {volume: 0.1});
+            room1.physics.pause();
+            gameoverTextRoom1.setVisible(true);
+            room1.sound.stopAll();
             dyingSound.play();
+            gameScene.preload();
+            this.input.on('pointerdown', () => this.scene.start(gameScene));
         }
     }
     bullet.setActive(false);
@@ -180,6 +192,8 @@ function test1(character, bullet)
     console.log(character.health);
 
 }
+
+
     
 room1.update = function() 
 {
