@@ -178,9 +178,13 @@ gameScene.create = function()
     portallayer.setCollisionByProperty({teleports:true});
 
     function enterRoom2() {
-        console.log("hallo")
         room2.preload();
-        this.scene.start(room2);
+        if (this.enemies.length === 0) {
+            console.log("Alle gegner tot");
+            room2.create();
+            this.scene.start(room2);
+        }
+        console.log("Noch nicht alle tot")
     };
 
     

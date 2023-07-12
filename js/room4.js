@@ -66,7 +66,11 @@ room4.create = function()
 
 
     function enterRoom5(){
-        this.scene.start(room5);
+        gameScene.preload();
+        if (this.enemies.length === 0) {
+
+            this.scene.start(gameScene);
+        }
     }
 
     function healPlayer(){

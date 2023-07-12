@@ -71,8 +71,10 @@ room3.create = function()
 
 
     function enterRoom4(){
-        this.scene.start(room4);
-        console.log("bruh");
+        if (this.enemies.length === 0) {
+
+            this.scene.start(room4);
+        }
     }
 
     this.physics.add.collider(player.getEntity(), enemies.getEntity());
