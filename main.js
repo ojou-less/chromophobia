@@ -178,10 +178,10 @@ gameScene.create = function()
 
 
     function enterRoom2() {
-        if (this.enemies.length === 0) {
+      //  if (this.enemies.length === 0) {
             this.scene.start(room2);
             room2.get = player.entity.health;
-        }
+     //   }
         
     }
 
