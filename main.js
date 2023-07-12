@@ -1,8 +1,7 @@
-
 const SCREENWIDTH = 800;
 const SCREENHEIGHT = 608;
 
-let gameScene = new Phaser.Scene('Game');
+let gameScene = new Phaser.Scene('Lobby');
 
 let config = {
 
@@ -172,15 +171,9 @@ gameScene.create = function()
     this.enemies.push(new Enemy(gameScene, player.getEntity(), 400, 400, 70, 200, 200, 'blue', new Bullets(gameScene, 200, 700, 40, 'red')));
 
     this.physics.add.collider(player.getEntity(), bglayer);
-    this.physics.add.collider(player.getEntity(), treelayer, tst, null, this);
+    this.physics.add.collider(player.getEntity(), treelayer);
 
     treelayer.setCollisionByProperty({collides:true});
-    // bglayer.setTileLocationCallback(24, 4, 3, 3, ()=>{
-    //     alert("portal wurde betreten!");
-    //     console.log("portal wurde betreten!");
-
-    //     bglayer.setTileLocationCallback(24, 4, 3, 3, null); //rekursive call weil sonst infinite loop
-    // });
     bglayer.setTileIndexCallback([39, 40, 41, 61, 62, 63, 83, 84, 85], ()=>{
         console.log("portal betreten");
     });
@@ -201,26 +194,32 @@ gameScene.create = function()
         }
 
         this.physics.add.collider(player.getEntity(), this.enemies[i].getEntity());
-        this.physics.add.overlap(player.bullet, this.enemies[i].getEntity(), test1, null, this);
-        this.physics.add.overlap(this.enemies[i].bullet, player.getEntity(), test1, null, this);
+        this.physics.add.overlap(player.bullet, this.enemies[i].getEntity(), calcDamage, null, this);
+        this.physics.add.overlap(this.enemies[i].bullet, player.getEntity(), calcDamage, null, this);
+        
+        this.physics.add.collider(this.enemies[i].bullet, treelayer, bulletHitObstacles, null, this);
         this.physics.add.collider(this.enemies[i].getEntity(), treelayer);
     }
+
+    this.physics.add.collider(player.bullet, treelayer, bulletHitObstacles, null, this);
     
     let background = this.sound.add("background", {volume: 0.01});
     background.play();
 
-    gameoverText = gameScene.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
     roomText = gameScene.add.text(16, 16, "Main Room", {fontSize: "16px", fill: "#000"});
+    
+    gameoverText = gameScene.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
     gameoverText.setOrigin(0.5);
     gameoverText.setVisible(false);
 }
 
-function tst()
+function bulletHitObstacles(bullet)
 {
-    console.log("ouch");
+    bullet.setVisible(false);
+    bullet.setActive(false);
 }
 
-function test1(character, bullet)
+function calcDamage(character, bullet)
 {
     if(bullet.active)
     {
@@ -231,7 +230,7 @@ function test1(character, bullet)
 
         if(character.dead())
         {
-            bullet.setVisible(false);
+            //bullet.setVisible(false);
             for(let i = 0; i < this.enemies.length; i++)
             {
                 if(this.enemies[i].getEntity() === character)

@@ -1,6 +1,6 @@
 let room1 = new Phaser.Scene('room1');
 let room1Text;
-let gameoverTextRoom1;
+//let gameoverTextRoom1;
 
 
 room1.preload = function()
@@ -37,7 +37,6 @@ room1.preload = function()
     
 room1.create = function()
 {
-    
     const map = this.make.tilemap({
         key: "map1",
         tileWidth: 16,
@@ -50,115 +49,24 @@ room1.create = function()
     const treelayer = map.createLayer("Trees", treetiles, 0, 0);
     
 
-    // -----------------------------------------------------------------------------------
-    // Player Animations
-    /*
-    this.anims.create({
-        key: 'main-walk-front',
-        frames: this.anims.generateFrameNumbers('walkingMain', {frames:[0, 3, 6, 9]}),
-        frameRate: 7,
-        repeat: -1
-    });
-
-    this.anims.create({
-        key: 'main-walk-back',
-        frames: this.anims.generateFrameNumbers('walkingMain', {frames:[1, 4, 7, 10]}),
-        frameRate: 7,
-        repeat: -1
-    });
-
-    this.anims.create({
-        key: 'main-walk-side',
-        frames: this.anims.generateFrameNumbers('walkingMain', {frames:[2, 5, 8, 11]}),
-        frameRate: 7,
-        repeat: -1
-    });
-
-    this.anims.create({
-        key: 'main-idle-front',
-        frames: this.anims.generateFrameNumbers('idleMain', {frames:[0, 3]}) ,
-        frameRate: 2
-    });
-
-    this.anims.create({
-        key: 'main-idle-back',
-        frames: this.anims.generateFrameNumbers('idleMain', {frames:[1, 4]} ),
-        frameRate: 2
-    });
-
-    this.anims.create({
-        key: 'main-idle-side',
-        frames: this.anims.generateFrameNumbers('idleMain', {frames:[2, 5]} ),
-        frameRate: 2
-    });
-
-
-    // -----------------------------------------------------------------------------------
-    // Enemy Animations
-    this.anims.create({
-        key: 'enemy-walk-front',
-        frames: this.anims.generateFrameNumbers('walkingEnemy', {frames:[0, 3, 6, 9]}),
-        frameRate: 7,
-        repeat: -1
-    });
-
-    this.anims.create({
-        key: 'enemy-walk-back',
-        frames: this.anims.generateFrameNumbers('walkingEnemy', {frames:[1, 4, 7, 10]}),
-        frameRate: 7,
-        repeat: -1
-    });
-
-    this.anims.create({
-        key: 'enemy-walk-side',
-        frames: this.anims.generateFrameNumbers('walkingEnemy', {frames:[2, 5, 8, 11]}),
-        frameRate: 7,
-        repeat: -1
-    });
-
-    this.anims.create({
-        key: 'enemy-idle-front',
-        frames: this.anims.generateFrameNumbers('idleEnemy', {frames:[0, 3]}) ,
-        frameRate: 2
-    });
-
-    this.anims.create({
-        key: 'enemy-idle-back',
-        frames: this.anims.generateFrameNumbers('idleEnemy', {frames:[1, 4]} ),
-        frameRate: 2
-    });
-
-    this.anims.create({
-        key: 'enemy-idle-side',
-        frames: this.anims.generateFrameNumbers('idleEnemy', {frames:[2, 5]} ),
-        frameRate: 2
-    });
-    */
-
     cursors = this.input.keyboard.createCursorKeys();
     player = new MainCharacter(this, 100, 450, 200, 400, new Bullets(this, 400, 200, 50, 'white'));
     enemies = new Enemy(this, player.getEntity(), 100, 100, 100, 300, 200, 'blue', new Bullets(this, 200, 500, 50, 'red'));
-    //console.log(player);
+    
 
 
     this.physics.add.collider(player.getEntity(), bglayer);
     this.physics.add.collider(player.getEntity(), treelayer);
-    // treelayer.setCollisionBetween(214, 228);
+    
 
     treelayer.setCollisionByProperty({collides:true});
-    // bglayer.setTileLocationCallback(24, 4, 3, 3, ()=>{
-    //     alert("portal wurde betreten!");
-    //     console.log("portal wurde betreten!");
-
-    //     bglayer.setTileLocationCallback(24, 4, 3, 3, null); //rekursive call weil sonst infinite loop
-    // });
     bglayer.setTileIndexCallback([39, 40, 41, 61, 62, 63, 83, 84, 85], ()=>{
         console.log("portal betreten");
     });
 
 
     this.input.keyboard.on("keydown-A", () => {
-        gameScene.preload();
+        //gameScene.preload();
 
         this.scene.start(gameScene);
     });
@@ -170,32 +78,38 @@ room1.create = function()
     
 
     room1Text = room1.add.text(16, 16, "Room1 Room", {fontSize: "16px", fill: "#000"});
-    gameoverTextRoom1 = room1.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
-    gameoverTextRoom1.setOrigin(0.5);
-    gameoverTextRoom1.setVisible(false);
+    gameoverText = room1.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
+    gameoverText.setOrigin(0.5);
+    gameoverText.setVisible(false);
 }
-
+/*
 function test2(character, bullet)
 {
     if(bullet.active)
     {
-        console.log("Scene 2");
         character.hit(bullet.damage, bullet.color);
         let gotshot = this.sound.add("hitsound", {volume: 0.01}, { loop: false});
         gotshot.play();
-        if(enemies.getEntity() === character)
+        console.log(character.health);
+
+        if(character.dead())
         {
-            console.log("nice");
+            //bullet.setVisible(false);
+            for(let i = 0; i < this.enemies.length; i++)
+            {
+                if(this.enemies[i].getEntity() === character)
+                {
+                    this.enemies[i].entity = null;
+                    this.enemies.splice(i,1);
+                    console.log(this.enemies);
+                }
+            }
         }
-        console.log(enemies);
-        console.log(character);
-        character.dead();
     }
     bullet.setActive(false);
     bullet.setVisible(false);
-    console.log(character.health);
-
 }
+*/
 
 
     
