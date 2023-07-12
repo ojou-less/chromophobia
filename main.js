@@ -196,9 +196,9 @@ gameScene.create = function()
   
     this.physics.add.collider(player.getEntity(), enemies.getEntity());
 
-    this.physics.add.overlap(player.bullet, enemies.getEntity(), gameScene.test1, null, this);
-    this.physics.add.overlap(enemies.bullet, player.getEntity(), gameScene.test1, null, this);
-    let background = this.sound.add("background", {volume: 0.1});
+    this.physics.add.overlap(player.bullet, enemies.getEntity(), test1, null, this);
+    this.physics.add.overlap(enemies.bullet, player.getEntity(), test1, null, this);
+    let background = this.sound.add("background", {volume: 0.01});
     background.play();
 
     gameoverText = gameScene.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
@@ -207,15 +207,23 @@ gameScene.create = function()
     gameoverText.setVisible(false);
 }
 
-gameScene.test1(character, bullet)
+function test1(character, bullet)
 {
     if(bullet.active)
     {
         character.hit(bullet.damage, bullet.color);
-        let gotshot = this.sound.add("hitsound", {volume: 0.5}, { loop: false});
+        let gotshot = this.sound.add("hitsound", {volume: 0.01}, { loop: false});
         gotshot.play();
+        console.log(character.health);
+
+        if(character.dead())
+        {
+            character = undefined;
+            
+        }
+        /*
         if (character.health === 0) {
-            let dyingSound = this.sound.add("gameover", {volume: 0.3});
+            let dyingSound = this.sound.add("gameover", {volume: 0.01});
             this.physics.pause();
             // show game over text
 
@@ -226,11 +234,10 @@ gameScene.test1(character, bullet)
             gameScene.preload();
             this.input.on('pointerdown', () => this.scene.start(gameScene));
         }
+        */
     }
     bullet.setActive(false);
     bullet.setVisible(false);
-    console.log(character.health);
-
 }
 
 gameScene.update = function()

@@ -48,8 +48,15 @@ class Enemy
                 this.health -= damage;
             }
         }
-        
-        
+
+        this.entity.dead = function ()
+        {
+            if(this.health <= 0)
+            {
+                console.log("i'm dead now");
+                return true;
+            }
+        }
     }
 
     update()
@@ -100,20 +107,10 @@ class Enemy
         this.entity.setVelocity(average[0]*this.speed, average[1]*this.speed);
     }
 
-    /*
-    hit(damage, color)
+    dead()
     {
-        console.log("ouch");
-        if(this.weakness == color)
-        {
-            this.health -= 2*damage;
-        }
-        else
-        {
-            this.health -= damage;
-        }
+        
     }
-    */
 
     calcDesire()
     {

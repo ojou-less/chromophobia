@@ -66,7 +66,7 @@ class Bullets extends Phaser.Physics.Arcade.Group
         for (let i = 0; i < this.children.entries.length; i++) 
         {
 
-            this.children.entries[i].pewpew = scene.sound.add("pewpew", {volume: 0.1}, { loop: false});
+            this.children.entries[i].pewpew = scene.sound.add("pewpew", {volume: 0.01}, { loop: false});
             this.children.entries[i].damage = damage;
             this.children.entries[i].color = color;
         }

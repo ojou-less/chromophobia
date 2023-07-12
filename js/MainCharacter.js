@@ -35,6 +35,24 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         {
             this.health -= damage;
         }
+
+        this.entity.dead = function()
+        {
+            if(this.health <= 0)
+            {
+                console.log("player is dead now");
+                let dyingSound = gameObj.sound.add("gameover", {volume: 0.01});
+                gameObj.physics.pause();
+                // show game over text
+
+                gameoverText.setVisible(true);
+
+                gameScene.sound.stopAll();
+                dyingSound.play();
+                gameScene.preload();
+                gameObj.input.on('pointerdown', () => gameObj.scene.start(gameScene));
+            }
+        } 
     }
 
     show()
@@ -152,6 +170,11 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
             }
 
         }
+    }
+
+    dead()
+    {
+        
     }
     getEntity() 
     {

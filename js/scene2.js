@@ -50,6 +50,7 @@ room1.create = function()
 
     // -----------------------------------------------------------------------------------
     // Player Animations
+    /*
     this.anims.create({
         key: 'main-walk-front',
         frames: this.anims.generateFrameNumbers('walkingMain', {frames:[0, 3, 6, 9]}),
@@ -130,6 +131,7 @@ room1.create = function()
         frames: this.anims.generateFrameNumbers('idleEnemy', {frames:[2, 5]} ),
         frameRate: 2
     });
+    */
 
     cursors = this.input.keyboard.createCursorKeys();
     player = new MainCharacter(this, 100, 450, 200, 400, new Bullets(this, 400, 200, 50, 'white'));
@@ -160,8 +162,8 @@ room1.create = function()
 
     this.physics.add.collider(player.getEntity(), enemies.getEntity());
 
-    this.physics.add.overlap(player.bullet, enemies.getEntity(), room1.test2, null, this);
-    this.physics.add.overlap(enemies.bullet, player.getEntity(), room1.test2, null, this);
+    this.physics.add.overlap(player.bullet, enemies.getEntity(), test2, null, this);
+    this.physics.add.overlap(enemies.bullet, player.getEntity(), test2, null, this);
 
     room1Text = room1.add.text(16, 16, "Room1 Room", {fontSize: "16px", fill: "#000"});
     gameoverTextRoom1 = room1.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
@@ -169,16 +171,16 @@ room1.create = function()
     gameoverTextRoom1.setVisible(false);
 }
 
-room1.test2(character, bullet)
+function test2(character, bullet)
 {
     if(bullet.active)
     {
         console.log("Scene 2");
         character.hit(bullet.damage, bullet.color);
-        let gotshot = this.sound.add("hitsound", {volume: 0.1}, { loop: false});
+        let gotshot = this.sound.add("hitsound", {volume: 0.01}, { loop: false});
         gotshot.play();
         if (character.health === 0) {
-            let dyingSound = this.sound.add("gameover", {volume: 0.1});
+            let dyingSound = this.sound.add("gameover", {volume: 0.01});
             room1.physics.pause();
             gameoverTextRoom1.setVisible(true);
             room1.sound.stopAll();
