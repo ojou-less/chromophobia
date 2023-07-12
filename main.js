@@ -3,7 +3,6 @@ const SCREENWIDTH = 800;
 const SCREENHEIGHT = 608;
 
 let gameScene = new Phaser.Scene('Game');
-//let scene2 = new Scene2;
 
 let config = {
 
@@ -19,17 +18,15 @@ let config = {
         }
     },
 
-    scene: [gameScene, Scene2]
+    scene: [gameScene, room1]
 };
 
 let player;
-
 let enemies;
 
 let bombs;
 
 let cursors;
-let score = 0;
 let gameOver = false;
 let gameoverText;
 
@@ -40,30 +37,33 @@ gameScene.preload = function()
 {
 
     // -----------------------------------------------------------------------------------
-    // Loading Player Assests
-    this.load.audio("gameover", "assets/dyingsound.mp3");
-    this.load.audio("background", "assets/Monkeys-Spinning-Monkeys.mp3");
-    this.load.audio("hitsound", "assets/roblox-death-sound-effect_69KVqYY.mp3");
-    this.load.audio("pewpew", "assets/pewpew.wav");
-    this.load.audio("gunshot", "assets/gunshot.wav");
-    this.load.image("tiles1", "assets/forest_.png");
-    this.load.image("tiles1_resources", "assets/forest_resources.png");
-    this.load.tilemapTiledJSON("map1", "assets/chromophobia_map_v4.json");
+    // Loading Audio Assests
+    this.load.audio("gameover", "assets/audios/dyingsound.mp3");
+    this.load.audio("background", "assets/audios/Monkeys-Spinning-Monkeys.mp3");
+    this.load.audio("hitsound", "assets/audios/roblox-death-sound-effect_69KVqYY.mp3");
+    this.load.audio("pewpew", "assets/audios/pewpew.wav");
+    this.load.audio("gunshot", "assets/audios/gunshot.wav");
 
-    this.load.image('star', 'assets/star.png');
-    this.load.image('bomb', 'assets/bomb.png');
+    // -----------------------------------------------------------------------------------
+    // Loading Image Assests
+    this.load.image("tiles1", "assets/images/forest_.png");
+    this.load.image("tiles1_resources", "assets/images/forest_resources.png");
+    this.load.tilemapTiledJSON("map1", "assets/json/chromophobia_map_v4.json");
+
+    this.load.image('star', 'assets/images/star.png');
+    this.load.image('bomb', 'assets/images/bomb.png');
 
 
 
     // -----------------------------------------------------------------------------------
     // Loading Player Assests
-    this.load.spritesheet('idleMain', 'assets/IdleMain.png', { frameWidth: 21, frameHeight: 30 });
-    this.load.spritesheet('walkingMain', 'assets/WalkingMain.png', { frameWidth: 21, frameHeight: 30 });
+    this.load.spritesheet('idleMain', 'assets/images/IdleMain.png', { frameWidth: 21, frameHeight: 30 });
+    this.load.spritesheet('walkingMain', 'assets/images/WalkingMain.png', { frameWidth: 21, frameHeight: 30 });
 
     // -----------------------------------------------------------------------------------
     // Loading Player Assests
-    this.load.spritesheet('idleEnemy', 'assets/IdleEnemy.png', { frameWidth: 21, frameHeight: 30 });
-    this.load.spritesheet('walkingEnemy', 'assets/WalkingEnemy.png', { frameWidth: 21, frameHeight: 30 });
+    this.load.spritesheet('idleEnemy', 'assets/images/IdleEnemy.png', { frameWidth: 21, frameHeight: 30 });
+    this.load.spritesheet('walkingEnemy', 'assets/images/WalkingEnemy.png', { frameWidth: 21, frameHeight: 30 });
 
 
 }
@@ -185,7 +185,7 @@ gameScene.create = function()
     });
 
     this.input.on("pointerdown", ()=>{
-        this.scene.start('scene2');
+        this.scene.start(room1);
     });
 
     enemies = new Enemy(gameScene, player.getEntity(), 100, 100, 100, 300, 200, 'blue', new Bullets(gameScene, 200, 500, 50, 'red'));
