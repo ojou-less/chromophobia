@@ -8,7 +8,7 @@ let config = {
     type: Phaser.AUTO,
     width: 800,
     height: 608,
-    scene: gameScene,
+    //scene: gameScene,
     physics: {
         default: 'arcade',
         arcade: {
@@ -25,7 +25,6 @@ let player;
 
 let bombs;
 
-let cursors;
 let gameOver = false;
 let gameoverText;
 let roomText;
@@ -165,10 +164,11 @@ gameScene.create = function()
         frameRate: 2
     });
 
-    cursors = this.input.keyboard.createCursorKeys();
-    player = new MainCharacter(gameScene, 100, 450, 200, 400, new Bullets(gameScene, 400, 200, 50, 'white'));
-    this.enemies = [new Enemy(gameScene, player.getEntity(), 100, 100, 70, 200, 200, 'blue', new Bullets(gameScene, 200, 700, 40, 'red'))];
-    this.enemies.push(new Enemy(gameScene, player.getEntity(), 400, 400, 70, 200, 200, 'blue', new Bullets(gameScene, 200, 700, 40, 'red')));
+    let playerBullets = [new Bullets(this, 200, 200, 50, 'red'), new Bullets(this, 50, 200, 300, 'blue'), new Bullets(this, 600, 500, 150, 'green')]
+    player = new MainCharacter(this, 100, 450, 200, 400, playerBullets);
+    
+    this.enemies = [new Enemy(this, player.getEntity(), 100, 100, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red'))];
+    this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red')));
 
     this.physics.add.collider(player.getEntity(), bglayer);
     this.physics.add.collider(player.getEntity(), treelayer);
@@ -179,7 +179,6 @@ gameScene.create = function()
     });
 
     this.input.keyboard.on("keydown-A", () =>{
-        //room1.preload();
         this.scene.start(room1);
     });
 
@@ -194,21 +193,28 @@ gameScene.create = function()
         }
 
         this.physics.add.collider(player.getEntity(), this.enemies[i].getEntity());
-        this.physics.add.overlap(player.bullet, this.enemies[i].getEntity(), calcDamage, null, this);
+        for(let j = 0; j < player.bullets.length; j++)
+        {
+            this.physics.add.overlap(player.bullets[j], this.enemies[i].getEntity(), calcDamage, null, this);
+        }
         this.physics.add.overlap(this.enemies[i].bullet, player.getEntity(), calcDamage, null, this);
         
         this.physics.add.collider(this.enemies[i].bullet, treelayer, bulletHitObstacles, null, this);
         this.physics.add.collider(this.enemies[i].getEntity(), treelayer);
     }
 
-    this.physics.add.collider(player.bullet, treelayer, bulletHitObstacles, null, this);
+    for(let i = 0; i < player.bullets.length; i++)
+        {
+            this.physics.add.collider(player.bullets[i], treelayer, bulletHitObstacles, null, this);
+        }
+    //this.physics.add.collider(player.bullet, treelayer, bulletHitObstacles, null, this);
     
     let background = this.sound.add("background", {volume: 0.01});
     background.play();
 
-    roomText = gameScene.add.text(16, 16, "Main Room", {fontSize: "16px", fill: "#000"});
+    roomText = this.add.text(16, 16, "Main Room", {fontSize: "16px", fill: "#000"});
     
-    gameoverText = gameScene.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
+    gameoverText = this.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
     gameoverText.setOrigin(0.5);
     gameoverText.setVisible(false);
 }
@@ -237,13 +243,15 @@ function calcDamage(character, bullet)
                 {
                     this.enemies[i].entity = null;
                     this.enemies.splice(i,1);
-                    console.log(this.enemies);
+                    //console.log(this.enemies);
                 }
             }
         }
     }
     bullet.setActive(false);
     bullet.setVisible(false);
+    console.log(character.health);
+
 }
 
 gameScene.update = function()

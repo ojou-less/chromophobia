@@ -13,6 +13,8 @@ class Enemy
         this.entity.health = health;
         this.entity.weakness = weakness;
 
+        this.health = health;
+
         
         this.speed = speed;
         //this.health = health;
@@ -53,6 +55,7 @@ class Enemy
         {
             if(this.health <= 0)
             {
+                this.active = false;
                 this.setTint(0xff0000);
                 this.setVelocity(0);
                 return true;
@@ -63,8 +66,6 @@ class Enemy
     update()
     {
         this.graphics.clear();
-        //console.log("update");
-        //console.log(this.entity.body);
         
         this.xPos = this.entity.body.transform.x;
         this.yPos = this.entity.body.transform.y;
@@ -76,7 +77,7 @@ class Enemy
         {
             this.line.push(new Phaser.Geom.Line(this.xPos, this.yPos, this.xPos + this.interest[i][0]*50, this.yPos + this.interest[i][1]*50));
 
-            this.graphics.lineStyle(2, 0x00ff00);
+            this.graphics.lineStyle(2, 0x00ffff);
             this.graphics.strokeLineShape(this.line[i]);
             this.interest[i] = [0, 0];
         }
@@ -84,6 +85,14 @@ class Enemy
         this.entity.anims.play('enemy-idle-front', true);
 
         this.shoot();
+        this.healthBar();
+    }
+
+    healthBar()
+    {
+        let line = new Phaser.Geom.Line(this.xPos-10, this.yPos-20, this.xPos+10,  this.yPos-20);
+        this.graphics.lineStyle(2, 0x00ff00);
+        this.graphics.strokeLineShape(line);
     }
 
     shoot()
