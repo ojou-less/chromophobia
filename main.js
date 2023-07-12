@@ -168,11 +168,11 @@ gameScene.create = function()
 
     cursors = this.input.keyboard.createCursorKeys();
     player = new MainCharacter(gameScene, 100, 450, 200, 400, new Bullets(gameScene, 400, 200, 50, 'white'));
-    this.enemies = [new Enemy(gameScene, player.getEntity(), 100, 100, 100, 300, 200, 'blue', new Bullets(gameScene, 200, 500, 50, 'red'))];
-    this.enemies.push(new Enemy(gameScene, player.getEntity(), 400, 400, 100, 300, 200, 'blue', new Bullets(gameScene, 200, 500, 50, 'red')));
+    this.enemies = [new Enemy(gameScene, player.getEntity(), 100, 100, 70, 200, 200, 'blue', new Bullets(gameScene, 200, 700, 40, 'red'))];
+    this.enemies.push(new Enemy(gameScene, player.getEntity(), 400, 400, 70, 200, 200, 'blue', new Bullets(gameScene, 200, 700, 40, 'red')));
 
     this.physics.add.collider(player.getEntity(), bglayer);
-    this.physics.add.collider(player.getEntity(), treelayer);
+    this.physics.add.collider(player.getEntity(), treelayer, tst, null, this);
 
     treelayer.setCollisionByProperty({collides:true});
     // bglayer.setTileLocationCallback(24, 4, 3, 3, ()=>{
@@ -213,6 +213,11 @@ gameScene.create = function()
     roomText = gameScene.add.text(16, 16, "Main Room", {fontSize: "16px", fill: "#000"});
     gameoverText.setOrigin(0.5);
     gameoverText.setVisible(false);
+}
+
+function tst()
+{
+    console.log("ouch");
 }
 
 function test1(character, bullet)
