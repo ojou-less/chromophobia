@@ -176,16 +176,14 @@ gameScene.create = function()
     treelayer.setCollisionByProperty({collides:true});
     portallayer.setCollisionByProperty({teleports:true});
 
-    function enterRoom2() {
-        room2.preload();
-        if (this.enemies.length === 0) {
-            console.log("Alle gegner tot");
-            this.scene.start(room2);
-        }
-        console.log("Noch nicht alle tot")
-    };
 
-    
+    function enterRoom2() {
+        if (this.enemies.length === 0) {
+            this.scene.start(room2);
+            room2.get = player.entity.health
+        }
+        
+    }
 
     for(let i = 0; i < this.enemies.length; i++)
     {
@@ -207,10 +205,10 @@ gameScene.create = function()
     }
 
     for(let i = 0; i < player.bullets.length; i++)
-        {
+    {
             this.physics.add.collider(player.bullets[i], treelayer, bulletHitObstacles, null, this);
-        }
-    //this.physics.add.collider(player.bullet, treelayer, bulletHitObstacles, null, this);
+    }
+    
     
     let background = this.sound.add("background", {volume: 0.5});
     background.play();
@@ -253,6 +251,7 @@ function calcDamage(character, bullet)
 
         }
     }
+    console.log(character.health);
     bullet.setActive(false);
     bullet.setVisible(false);
 }
