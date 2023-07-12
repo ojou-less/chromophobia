@@ -72,10 +72,10 @@ room3.create = function()
 
 
     function enterRoom4(){
-      //  if (this.enemies.length === 0) {
+        if (this.enemies.length === 0) {
             this.scene.start(room4);
             room4.get = player.entity.health;
-     //   }
+        }
     }
 
     for(let i = 0; i < this.enemies.length; i++)
