@@ -176,9 +176,9 @@ gameScene.create = function()
     let background = this.sound.add("background", {volume: 0.1});
     background.play();
 
-    this.gameoverText = this.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
-    this.gameoverText.setOrigin(0.5);
-    this.gameoverText.setVisible(false);
+    gameoverText = gameScene.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
+    gameoverText.setOrigin(0.5);
+    gameoverText.setVisible(false);
 }
 
 function test1(character, bullet)
@@ -193,11 +193,11 @@ function test1(character, bullet)
             this.physics.pause();
 
             // show game over text
-            this.gameoverText.setVisible(true);
+            gameoverText.setVisible(true);
 
             gameScene.sound.stopAll();
             dyingSound.play();
-            gameScene.preload();
+           // gameScene.preload();
             this.input.on('pointerdown', () => this.scene.restart());
         }
     }
