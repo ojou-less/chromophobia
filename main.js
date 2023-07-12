@@ -37,7 +37,7 @@ gameScene.preload = function()
     // -----------------------------------------------------------------------------------
     // Loading Audio Assests
     this.load.audio("gameover", "assets/audios/dyingsound.mp3");
-    this.load.audio("background", "assets/audios/Monkeys-Spinning-Monkeys.mp3");
+    this.load.audio("background", "assets/audios/nature-soundstropicaljunglebirds-108380.mp3");
     this.load.audio("hitsound", "assets/audios/roblox-death-sound-effect_69KVqYY.mp3");
     this.load.audio("pewpew", "assets/audios/pewpew.wav");
     this.load.audio("gunshot", "assets/audios/gunshot.wav");
@@ -210,7 +210,7 @@ gameScene.create = function()
         }
     //this.physics.add.collider(player.bullet, treelayer, bulletHitObstacles, null, this);
     
-    let background = this.sound.add("background", {volume: 0.01});
+    let background = this.sound.add("background", {volume: 0.5});
     background.play();
 
     gameoverText = gameScene.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
@@ -231,7 +231,7 @@ function calcDamage(character, bullet)
     if(bullet.active)
     {
         character.hit(bullet.damage, bullet.color);
-        let gotshot = this.sound.add("hitsound", {volume: 0.01}, { loop: false});
+        let gotshot = this.sound.add("hitsound", {volume: 0.1}, { loop: false});
         gotshot.play();
         console.log(character.health);
 
