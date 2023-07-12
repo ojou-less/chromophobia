@@ -53,8 +53,8 @@ class Enemy
         {
             if(this.health <= 0)
             {
-                //console.log("i'm dead now");
-                //console.log(this);
+                this.setTint(0xff0000);
+                this.setVelocity(0);
                 return true;
             }
         }
@@ -125,7 +125,7 @@ class Enemy
             this.interest[i] = this.scalar(temp, this.basisDirections[i]);
         }
     }
-    
+
     getEntity()
     {
         return this.entity;
