@@ -35,6 +35,22 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         {
             this.health -= damage;
         }
+
+        this.entity.dead = function()
+        {
+            if(this.health <= 0)
+            {
+                let dyingSound = gameObj.sound.add("gameover", {volume: 0.01});
+                gameObj.physics.pause();
+                // show game over text
+
+                gameoverText.setVisible(true);
+
+                gameScene.sound.stopAll();
+                dyingSound.play();
+                gameObj.input.on('pointerdown', () => gameScene.scene.restart());
+            }
+        } 
     }
 
     show()
@@ -153,6 +169,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
 
         }
     }
+
     getEntity() 
     {
         return this.entity;
