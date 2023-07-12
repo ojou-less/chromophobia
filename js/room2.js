@@ -80,10 +80,10 @@ room2.create = function()
         console.log(this.enemies[i]);
         for(let j = 0; j < this.enemies.length; j++)
         {
-            this.physics.add.collider(this.enemies[i].getEntity(), this.enemies[j].getEntity());
+            this.physics.add.collider(this.enemies[i].entity, this.enemies[j].entity);
         }
 
-        this.physics.add.collider(player.getEntity(), this.enemies[i].getEntity());
+        this.physics.add.collider(player.getEntity(), this.enemies[i].entity);
         for(let j = 0; j < player.bullets.length; j++)
         {
             this.physics.add.overlap(player.bullets[j], this.enemies[i].getEntity(), calcDamage, null, this);

@@ -54,7 +54,7 @@ room3.create = function()
     const portallayer = map.createLayer("Portal", tileset, 0, 0);
     
 
-    let playerBullets = [new Bullets(this, 200, 200, 50, 'red'), new Bullets(this, 50, 200, 300, 'blue'), new Bullets(this, 600, 500, 150, 'green')];
+    let playerBullets = [new Bullets(this, 200, 200, 50, 'red'), new Bullets(this, 400, 200, 300, 'blue'), new Bullets(this, 600, 500, 150, 'green')];
     player = new MainCharacter(this, 100, 450, 200, this.get, playerBullets);
     
     this.enemies = [new Enemy(this, player.getEntity(), 100, 100, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red'))];

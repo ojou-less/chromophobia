@@ -163,7 +163,7 @@ gameScene.create = function()
         frameRate: 2
     });
 
-    let playerBullets = [new Bullets(this, 200, 200, 50, 'red'), new Bullets(this, 50, 200, 300, 'blue'), new Bullets(this, 600, 500, 150, 'green')]
+    let playerBullets = [new Bullets(this, 200, 200, 50, 'red'), new Bullets(this, 400, 200, 300, 'blue'), new Bullets(this, 600, 500, 150, 'green')];
     player = new MainCharacter(this, 100, 450, 200, 400, playerBullets);
     
     this.enemies = [new Enemy(this, player.getEntity(), 100, 100, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red'))];
@@ -180,7 +180,7 @@ gameScene.create = function()
     function enterRoom2() {
         if (this.enemies.length === 0) {
             this.scene.start(room2);
-            room2.get = player.entity.health
+            room2.get = player.entity.health;
         }
         
     }
@@ -233,11 +233,9 @@ function calcDamage(character, bullet)
         character.hit(bullet.damage, bullet.color);
         let gotshot = this.sound.add("hitsound", {volume: 0.1}, { loop: false});
         gotshot.play();
-        console.log(character.health);
 
         if(character.dead())
         {
-            //bullet.setVisible(false);
             for(let i = 0; i < this.enemies.length; i++)
             {
                 if(this.enemies[i].getEntity() === character)
@@ -245,13 +243,10 @@ function calcDamage(character, bullet)
                     this.enemies[i].healthBar();
                     this.enemies[i].entity = null;
                     this.enemies.splice(i,1);
-                    //console.log(this.enemies);
                 }
             }
-
         }
     }
-    console.log(character.health);
     bullet.setActive(false);
     bullet.setVisible(false);
 }
