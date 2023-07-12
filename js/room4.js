@@ -9,7 +9,7 @@ room4.preload = function()
     // -----------------------------------------------------------------------------------
     // Loading Audio Assests
     this.load.audio("gameover", "assets/audios/dyingsound.mp3");
-    this.load.audio("background", "assets/audios/Monkeys-Spinning-Monkeys.mp3");
+    this.load.audio("elevator", "assets/audios/Elevator-music.mp3");
     this.load.audio("hitsound", "assets/audios/roblox-death-sound-effect_69KVqYY.mp3");
     this.load.audio("pewpew", "assets/audios/pewpew.wav");
     this.load.audio("gunshot", "assets/audios/gunshot.wav");
@@ -37,7 +37,6 @@ room4.preload = function()
     
 room4.create = function()
 {
-    
     const map = this.make.tilemap({
         key: "map4",        //ändern auf map3 und den rest des ganzen
         tileWidth: 16,
@@ -57,7 +56,9 @@ room4.create = function()
     this.enemies = []; //[new Enemy(this, player.getEntity(), 100, 100, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red'))];
     //this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red')));
 
-
+    this.sound.stopByKey('background');
+    let background = this.sound.add("elevator", {volume: 0.3});
+    background.play();
 
     this.physics.add.collider(player.getEntity(), bglayer);
     this.physics.add.collider(player.getEntity(), healingfountainlayer, healPlayer, null, this);
