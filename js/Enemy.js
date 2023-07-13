@@ -117,8 +117,20 @@ class Enemy
     {
         let temp = this.magnitude(this.vectorize(this.xPos, this.yPos, this.player.x, this.player.y));
         let direction = [this.entity.body.newVelocity.x, this.entity.body.newVelocity.y]
+
+        let angle 
+        if(direction[1] < 0)
+        {
+            angle = Math.acos(this.dot(this.facing, [1, 0])/ this.magnitude(this.facing));
+        } 
+        else
+        {
+            angle = Math.PI + Math.acos(this.dot(this.facing, [-1, 0])/ this.magnitude(this.facing));
+        }
+
         if(temp < this.reach && this.player.health > 0)
         {
+            this.bullet.currentBullet().rotation = -angle;
             this.bullet.shootBullet(direction, this.xPos, this.yPos);
         }
     }
