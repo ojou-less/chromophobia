@@ -14,7 +14,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         this.xPos = xPos;
         this.yPos = yPos;
         this.bullets = bullet;
-        this.healthMax = 400;
+        this.healthMax = 700;
 
         this.bullet = bullet[0];
 
@@ -72,7 +72,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
     {
         this.bulletShot = false;
         let pressed = false;
-        this.speed = 200;
+        this.speed = 150;
         let cursors = this.cursor;
 
 

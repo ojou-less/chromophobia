@@ -5,7 +5,6 @@ let gameoverTextRoom4;
 
 room4.preload = function()
 {
-    
     // -----------------------------------------------------------------------------------
     // Loading Audio Assests
     this.load.audio("elevator", "assets/audios/Elevator-music.mp3");
@@ -43,9 +42,9 @@ room4.create = function()
     const bglayer = map.createLayer("Background", tileset, 0, 0);
     const healingfountainlayer = map.createLayer("Fountain", treetiles, 0, 0);
     const portallayer = map.createLayer("Portal", tileset, 0, 0);
-    
 
-    let playerBullets = [new Bullets(this, 200, 200, 50, 'red'), new Bullets(this, 400, 200, 300, 'blue'), new Bullets(this, 600, 500, 150, 'green')];
+    console.log(this.get);
+    let playerBullets = [new Bullets(this, 350, 400, 100, 'red'), new Bullets(this, 350, 400, 100, 'blue'), new Bullets(this, 350, 400, 100, 'green')];
     player = new MainCharacter(this, 100, 450, 200, this.get, playerBullets);
     
     this.enemies = []; //[new Enemy(this, player.getEntity(), 100, 100, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red'))];
@@ -64,7 +63,6 @@ room4.create = function()
 
     function enterRoom5(){
         if (this.enemies.length === 0) {
-          room5.preload();
           this.scene.start(room5);
           room5.get = player.entity.health;
         }
@@ -74,6 +72,7 @@ room4.create = function()
         if(player.healthMax > player.entity.health )
         {
             player.entity.health += 2;
+            console.log(player.entity.health);
         }
     }
 
@@ -101,7 +100,7 @@ room4.create = function()
             this.physics.add.collider(player.bullets[i], healingfountainlayer, bulletHitObstacles, null, this);
     }
 
-    roomtext = this.add.text(16, 16, "Room4 Room", {fontSize: "16px", fill: "#000"});
+    roomtext = this.add.text(16, 16, "Room 4 - Healing Room", {fontSize: "16px", fill: "#000"});
     gameoverText = this.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
     gameoverText.setOrigin(0.5);
     gameoverText.setVisible(false);

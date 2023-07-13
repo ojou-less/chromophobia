@@ -5,7 +5,7 @@ let counter = 0;
 
 room5.preload = function()
 {
-
+    console.log(this.get);
     // -----------------------------------------------------------------------------------
     // Loading Audio Assests
     this.load.audio("lavaBackground", "assets/audios/lava.wav");
@@ -44,12 +44,13 @@ room5.create = function() {
     const portallayer = map.createLayer("Portal", tileset, 0, 0);
 
 
-    let playerBullets = [new Bullets(this, 200, 200, 50, 'red'), new Bullets(this, 400, 200, 300, 'blue'), new Bullets(this, 600, 500, 150, 'green')];
+    let playerBullets = [new Bullets(this, 350, 400, 100, 'red'), new Bullets(this, 350, 400, 100, 'blue'), new Bullets(this, 350, 400, 100, 'green')];
     player = new MainCharacter(this, 100, 450, 200, this.get, playerBullets);
 
-    this.enemies = [new Enemy(this, player.getEntity(), 100, 100, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red'))];
-    this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red')));
-    console.log("preload Room 5");
+    this.enemies = [new Enemy(this, player.getEntity(), 100, 100, 70, 200, 1000, 'green', new Bullets(this, 200, 2000, 100, 'red'))];
+    this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 1000, 'red', new Bullets(this, 200, 2000, 100, 'blue')));
+    this.enemies.push(new Enemy(this, player.getEntity(), 450, 200, 70, 200, 1000, 'blue', new Bullets(this, 200, 2000, 100, 'green')));
+
 
 
     this.physics.add.collider(player.getEntity(), bglayer);
@@ -87,7 +88,7 @@ room5.create = function() {
     }
 
 
-    roomText = this.add.text(16, 16, "Room5 Room", {fontSize: "16px", fill: "#000"}, {font: "Glass TTY VT220"});
+    roomText = this.add.text(16, 16, "Room 5", {fontSize: "16px", fill: "#000"}, {font: "Glass TTY VT220"});
     gameoverText = this.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {
         fontSize: "30px",
         fill: "#000"
