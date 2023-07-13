@@ -17,7 +17,7 @@ room3.preload = function()
     this.load.image("tiles3_fences", "assets/images/tundra_fencesAndWalls.png");
     this.load.tilemapTiledJSON("map3", "assets/json/chromophobia_room3.json");
 
-    this.load.image('star', 'assets/images/star.png');
+
     this.load.image('bomb', 'assets/images/bomb.png');
 
     // -----------------------------------------------------------------------------------
