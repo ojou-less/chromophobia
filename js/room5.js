@@ -9,13 +9,13 @@ room5.preload = function()
     // -----------------------------------------------------------------------------------
     // Loading Audio Assests
     this.load.audio("lavaBackground", "assets/audios/lava.wav");
+    this.load.audio("win", "assets/audios/win.mp3");
 
     // -----------------------------------------------------------------------------------
     // Loading Image Assests
     this.load.image("tiles5", "assets/images/cave_.png");
     this.load.tilemapTiledJSON("map5", "assets/json/chromophobia_room5.json");
 
-    this.load.image('star', 'assets/images/star.png');
     this.load.image('bomb', 'assets/images/bomb.png');
 
     // -----------------------------------------------------------------------------------
@@ -100,8 +100,8 @@ room5.create = function()
     winTextRoom5.setVisible(false);
 
     this.sound.stopByKey('elevator');
-    let background = this.sound.add("lavaBackground", {volume: 0.5});
-    background.play();
+    let lava = this.sound.add("lavaBackground", {volume: 1});
+    lava.play();
 }
 
 function test2(character, bullet)
@@ -134,11 +134,12 @@ room5.update = function()
         this.enemies[i].update();
     }
     if (this.enemies.length === 0) {
+        let winningSound = this.sound.add("win", {volume: 2});
         this.physics.pause();
-
         winTextRoom5.setVisible(true);
         this.sound.stopAll();
-        // winningSound.play();
+
+        winningSound.play();
 
         this.input.on('pointerdown', () =>{
             location.reload();

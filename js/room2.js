@@ -15,7 +15,6 @@ room2.preload = function()
     this.load.image("tiles2_resources", "assets/images/swamp_resources.png");
     this.load.tilemapTiledJSON("map2", "assets/json/chromophobia_room2.json");
 
-    this.load.image('star', 'assets/images/star.png');
     this.load.image('bomb', 'assets/images/bomb.png');
 
     // -----------------------------------------------------------------------------------
