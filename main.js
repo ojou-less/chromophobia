@@ -58,8 +58,9 @@ gameScene.preload = function()
 
     // -----------------------------------------------------------------------------------
     // Loading Player Assests
-    this.load.spritesheet('idleEnemy', 'assets/images/IdleEnemy.png', { frameWidth: 21, frameHeight: 30 });
-    this.load.spritesheet('walkingEnemy', 'assets/images/WalkingEnemy.png', { frameWidth: 21, frameHeight: 30 });
+    this.load.spritesheet('lilaEnemy', 'assets/images/enemyLila.png', { frameWidth: 21, frameHeight: 30 });
+    this.load.spritesheet('redEnemy', 'assets/images/enemyRed.png', { frameWidth: 21, frameHeight: 30 });
+    this.load.spritesheet('greenEnemy', 'assets/images/enemyGreen.png', { frameWidth: 21, frameHeight: 30 });
 
     console.log("preload");
 }
@@ -125,41 +126,37 @@ gameScene.create = function()
     // Enemy Animations
     this.anims.create({
         key: 'enemy-walk-front',
-        frames: this.anims.generateFrameNumbers('walkingEnemy', {frames:[0, 3, 6, 9]}),
+        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[0, 3, 6, 9]}),
         frameRate: 7,
         repeat: -1
     });
 
     this.anims.create({
         key: 'enemy-walk-back',
-        frames: this.anims.generateFrameNumbers('walkingEnemy', {frames:[1, 4, 7, 10]}),
+        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[1, 4, 7, 10]}),
         frameRate: 7,
         repeat: -1
     });
 
     this.anims.create({
         key: 'enemy-walk-side',
-        frames: this.anims.generateFrameNumbers('walkingEnemy', {frames:[2, 5, 8, 11]}),
+        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[2, 5, 8, 11]}),
+        frameRate: 7,
+        repeat: -1
+    });
+    
+    this.anims.create({
+        key: 'enemy-walk-back',
+        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[1, 4, 7, 10]}),
         frameRate: 7,
         repeat: -1
     });
 
     this.anims.create({
-        key: 'enemy-idle-front',
-        frames: this.anims.generateFrameNumbers('idleEnemy', {frames:[0, 3]}) ,
-        frameRate: 2
-    });
-
-    this.anims.create({
-        key: 'enemy-idle-back',
-        frames: this.anims.generateFrameNumbers('idleEnemy', {frames:[1, 4]} ),
-        frameRate: 2
-    });
-
-    this.anims.create({
-        key: 'enemy-idle-side',
-        frames: this.anims.generateFrameNumbers('idleEnemy', {frames:[2, 5]} ),
-        frameRate: 2
+        key: 'enemy-walk-side',
+        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[2, 5, 8, 11]}),
+        frameRate: 7,
+        repeat: -1
     });
 
     let playerBullets = [new Bullets(this, 200, 200, 50, 'red'), new Bullets(this, 400, 200, 300, 'blue'), new Bullets(this, 600, 500, 150, 'green')];
