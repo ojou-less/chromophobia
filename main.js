@@ -57,7 +57,7 @@ gameScene.preload = function()
     this.load.spritesheet('walkingMain', 'assets/images/playerWalking.png', { frameWidth: 21, frameHeight: 30 });
 
     // -----------------------------------------------------------------------------------
-    // Loading Player Assests
+    // Loading Enemy Assests
     this.load.spritesheet('lilaEnemy', 'assets/images/enemyLila.png', { frameWidth: 21, frameHeight: 30 });
     this.load.spritesheet('redEnemy', 'assets/images/enemyRed.png', { frameWidth: 21, frameHeight: 30 });
     this.load.spritesheet('greenEnemy', 'assets/images/enemyGreen.png', { frameWidth: 21, frameHeight: 30 });
@@ -262,8 +262,8 @@ gameScene.create = function()
     let playerBullets = [new Bullets(this, 200, 200, 50, 'red'), new Bullets(this, 400, 200, 300, 'blue'), new Bullets(this, 600, 500, 150, 'green')];
     player = new MainCharacter(this, 100, 450, 200, 400, playerBullets);
     
-    this.enemies = [new Enemy(this, player.getEntity(), 100, 100, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red'))];
-    this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red')));
+    this.enemies = [new Enemy(this, player.getEntity(), 100, 100, 30, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red'))];
+    //this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red')));
 
     this.physics.add.collider(player.getEntity(), bglayer);
     this.physics.add.collider(player.getEntity(), treelayer);
