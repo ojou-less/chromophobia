@@ -64,6 +64,7 @@ room4.create = function()
 
     function enterRoom5(){
         if (this.enemies.length === 0) {
+          room5.preload();
           this.scene.start(room5);
           room5.get = player.entity.health;
         }
