@@ -103,14 +103,14 @@ gameScene.create = function()
     });
 
     this.anims.create({
-        key: "main-walk-south-west",
+        key: 'main-walk-south-west',
         frames: this.anims.generateFrameNumbers("walkingMain", {frames: [4, 9, 14, 19]}),
         frameRate: 7,
         repeat: -1
     });
 
     this.anims.create({
-        key: "main-walk-north-west",
+        key: 'main-walk-north-west',
         frames: this.anims.generateFrameNumbers("walkingMain", {frames: [3, 8, 13, 18]}),
         frameRate: 7,
         repeat: -1

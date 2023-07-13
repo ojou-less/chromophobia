@@ -145,11 +145,11 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         }
         if (cursors.UP.isDown && cursors.RIGHT.isDown)
         {
-            pressed = true;
             this.entity.facing = "north-west";
             this.entity.anims.play('main-walk-north-west', true);
-            this.entity.setVelocity(this.speed, -this.speed);
             this.entity.flipX = false;
+            this.entity.setVelocity(this.speed, -this.speed);
+            pressed = true;
         }
         if(cursors.ONE.isDown)
         {
