@@ -46,7 +46,6 @@ gameScene.preload = function()
     this.load.image("tiles1_resources", "assets/images/forest_resources.png");
     this.load.tilemapTiledJSON("map1", "assets/json/chromophobia_main_room.json");
 
-    this.load.image('star', 'assets/images/star.png');
     this.load.image('bomb', 'assets/images/bomb.png');
 
 
@@ -106,14 +105,14 @@ gameScene.create = function()
     this.anims.create({
         key: "main-walk-south-west",
         frames: this.anims.generateFrameNumbers("walkingMain", {frames: [4, 9, 14, 19]}),
-        framRate: 7,
+        frameRate: 7,
         repeat: -1
     });
 
     this.anims.create({
         key: "main-walk-north-west",
         frames: this.anims.generateFrameNumbers("walkingMain", {frames: [3, 8, 13, 18]}),
-        framRate: 7,
+        frameRate: 7,
         repeat: -1
     });
 
