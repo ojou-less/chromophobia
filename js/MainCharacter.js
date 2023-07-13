@@ -186,10 +186,28 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
                 this.bullet.currentBullet().angle = 90;
                 this.bullet.shootBullet([0, 1], this.xPos, this.yPos);
             }
-            else
+            else if (this.entity.facing === 'west')
             {
                 this.bullet.currentBullet().angle = 0;
                 this.bullet.shootBullet([1, 0], this.xPos, this.yPos);
+            }
+            else if (this.entity.facing === 'south-east')
+            {
+                this.bullet.currentBullet().angle = 135;
+                this.bullet.shootBullet([-0.5, 0.5], this.xPos, this.yPos);
+            }
+            else if (this.entity.facing === 'south-west')
+            {
+                this.bullet.currentBullet().angle = 45;
+                this.bullet.shootBullet([0.5, 0.5], this.xPos, this.yPos);
+            }
+            else if (this.entity.facing === 'north-east')
+            {
+                this.bullet.currentBullet().angle = -135;
+                this.bullet.shootBullet([-0.5, -0.5], this.xPos, this.yPos);
+            } else {
+                this.bullet.currentBullet().angle = -45;
+                this.bullet.shootBullet([0.5, -0.5], this.xPos, this.yPos);
             }
         }
         else if (pressed === false) 
