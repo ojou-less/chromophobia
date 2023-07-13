@@ -16,7 +16,6 @@ room5.preload = function()
     this.load.image("tiles5", "assets/images/cave_.png");
     this.load.tilemapTiledJSON("map5", "assets/json/chromophobia_room5.json");
 
-    this.load.image('star', 'assets/images/star.png');
     this.load.image('bomb', 'assets/images/bomb.png');
 
     // -----------------------------------------------------------------------------------
@@ -101,8 +100,8 @@ room5.create = function()
     winTextRoom5.setVisible(false);
 
     this.sound.stopByKey('elevator');
-    let background = this.sound.add("lavaBackground", {volume: 0.5});
-    background.play();
+    let lava = this.sound.add("lavaBackground", {volume: 1});
+    lava.play();
 }
 
 function test2(character, bullet)
@@ -135,11 +134,11 @@ room5.update = function()
         this.enemies[i].update();
     }
     if (this.enemies.length === 0) {
+        let winningSound = this.sound.add("win", {volume: 2});
         this.physics.pause();
-
         winTextRoom5.setVisible(true);
         this.sound.stopAll();
-        let winningSound = this.sound.add("win", {volume: 0.5}, { loop: false})
+
         winningSound.play();
 
         this.input.on('pointerdown', () =>{

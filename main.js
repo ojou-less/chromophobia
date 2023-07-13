@@ -36,6 +36,7 @@ gameScene.preload = function()
     // -----------------------------------------------------------------------------------
     // Loading Audio Assests
     this.load.audio("gameover", "assets/audios/wilhelmScream.wav");
+    this.load.audio("win", "assets/audios/win.mp3")
     this.load.audio("background", "assets/audios/nature-soundstropicaljunglebirds-108380.mp3");
     this.load.audio("hitsound", "assets/audios/roblox-death-sound-effect_69KVqYY.mp3");
     this.load.audio("pewpew", "assets/audios/pewpew.wav");
