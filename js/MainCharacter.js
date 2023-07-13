@@ -72,7 +72,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
     {
         this.bulletShot = false;
         let pressed = false;
-        this.speed = 200;
+        this.speed = 150;
         let cursors = this.cursor;
 
 
