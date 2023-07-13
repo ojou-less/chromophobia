@@ -8,11 +8,7 @@ room4.preload = function()
     
     // -----------------------------------------------------------------------------------
     // Loading Audio Assests
-    this.load.audio("gameover", "assets/audios/dyingsound.mp3");
     this.load.audio("elevator", "assets/audios/Elevator-music.mp3");
-    this.load.audio("hitsound", "assets/audios/roblox-death-sound-effect_69KVqYY.mp3");
-    this.load.audio("pewpew", "assets/audios/pewpew.wav");
-    this.load.audio("gunshot", "assets/audios/gunshot.wav");
 
     // -----------------------------------------------------------------------------------
     // Loading Image Assests
@@ -55,8 +51,7 @@ room4.create = function()
     
     this.enemies = []; //[new Enemy(this, player.getEntity(), 100, 100, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red'))];
     //this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red')));
-
-    this.sound.stopByKey('background');
+    this.sound.stopByKey('backgroundSnow');
     let background = this.sound.add("elevator", {volume: 0.3});
     background.play();
 
