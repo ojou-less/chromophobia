@@ -53,8 +53,8 @@ gameScene.preload = function()
 
     // -----------------------------------------------------------------------------------
     // Loading Player Assests
-    //this.load.spritesheet('idleMain', 'assets/images/IdleMain.png', { frameWidth: 21, frameHeight: 30 });
-    this.load.spritesheet('walkingMain', 'assets/images/playerWalkking', { frameWidth: 21, frameHeight: 30 });
+    this.load.spritesheet('idleMain', 'assets/images/IdleMain.png', { frameWidth: 21, frameHeight: 30 });
+    this.load.spritesheet('walkingMain', 'assets/images/playerWalking.png', { frameWidth: 21, frameHeight: 30 });
 
     // -----------------------------------------------------------------------------------
     // Loading Player Assests
@@ -83,14 +83,14 @@ gameScene.create = function()
     // -----------------------------------------------------------------------------------
     // Player Animations
     this.anims.create({
-        key: 'main-walk-front',
+        key: 'main-walk-back',
         frames: this.anims.generateFrameNumbers('walkingMain', {frames:[1, 6, 11, 16]}),
         frameRate: 7,
         repeat: -1
     });
 
     this.anims.create({
-        key: 'main-walk-back',
+        key: 'main-walk-front',
         frames: this.anims.generateFrameNumbers('walkingMain', {frames:[0, 5, 10, 15]}),
         frameRate: 7,
         repeat: -1
@@ -98,26 +98,52 @@ gameScene.create = function()
 
     this.anims.create({
         key: 'main-walk-side',
-        frames: this.anims.generateFrameNumbers('walkingMain', {frames:[2, 5, 8, 11]}),
+        frames: this.anims.generateFrameNumbers('walkingMain', {frames:[2, 7, 12, 17]}),
         frameRate: 7,
         repeat: -1
     });
 
     this.anims.create({
-        key: 'main-idle-front',
-        frames: this.anims.generateFrameNumbers('idleMain', {frames:[0, 3]}) ,
-        frameRate: 2
+        key: "main-walk-south-west",
+        frames: this.anims.generateFrameNumbers("walkingMain", {frames: [4, 9, 14, 19]}),
+        framRate: 7,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: "main-walk-north-west",
+        frames: this.anims.generateFrameNumbers("walkingMain", {frames: [3, 8, 13, 18]}),
+        framRate: 7,
+        repeat: -1
     });
 
     this.anims.create({
         key: 'main-idle-back',
-        frames: this.anims.generateFrameNumbers('idleMain', {frames:[1, 4]} ),
+        frames: this.anims.generateFrameNumbers('idleMain', {frames:[1, 6]}) ,
+        frameRate: 2
+    });
+
+    this.anims.create({
+        key: 'main-idle-front',
+        frames: this.anims.generateFrameNumbers('idleMain', {frames:[0, 5]} ),
         frameRate: 2
     });
 
     this.anims.create({
         key: 'main-idle-side',
-        frames: this.anims.generateFrameNumbers('idleMain', {frames:[2, 5]} ),
+        frames: this.anims.generateFrameNumbers('idleMain', {frames:[2, 7]} ),
+        frameRate: 2
+    });
+
+    this.anims.create({
+        key: 'main-idle-south-west',
+        frames: this.anims.generateFrameNumbers('idleMain', {frames:[4, 9]} ),
+        frameRate: 2
+    });
+
+    this.anims.create({
+        key: 'main-idle-north-west',
+        frames: this.anims.generateFrameNumbers('idleMain', {frames:[3, 8]} ),
         frameRate: 2
     });
 
