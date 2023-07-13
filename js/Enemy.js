@@ -7,8 +7,20 @@ class Enemy
         this.xPos = xPos;
         this.yPos = yPos;
         this.reach = reach;
+        if(weakness === 'blue')
+        {
+            this.entity = gameObj.physics.add.sprite(this.xPos, this.yPos, 'enemy-green-front');
+        }
+        else if(weakness === 'red')
+        {
+            this.entity = gameObj.physics.add.sprite(this.xPos, this.yPos, 'enemy-blue-front');
+        }
+        else
+        {
+            this.entity = gameObj.physics.add.sprite(this.xPos, this.yPos, 'enemy-red-front');
+        }
 
-        this.entity = gameObj.physics.add.sprite(this.xPos, this.yPos, 'idleEnemy');
+        
         this.entity.setCollideWorldBounds(true);
         this.entity.health = health;
         this.entity.weakness = weakness;
@@ -17,8 +29,6 @@ class Enemy
 
         
         this.speed = speed;
-        //this.health = health;
-        //this.weakness = weakness;
         this.bullet = bullet;
 
         this.directions = 8;
@@ -31,7 +41,7 @@ class Enemy
 
         this.graphics = gameObj.add.graphics();
 
-        this.line = [];
+        //this.line = [];
         this.interest = [];
         for(let i = 0; i<this.directions; i++)
         {
@@ -62,11 +72,13 @@ class Enemy
                 return true;
             }
         }
+
+        this.facing = [];
     }
 
     update()
     {
-        this.graphics.clear();
+        //this.graphics.clear();
         
         this.xPos = this.entity.body.transform.x;
         this.yPos = this.entity.body.transform.y;
@@ -76,17 +88,178 @@ class Enemy
 
         for(let i = 0; i < this.directions; i++)
         {
-            this.line.push(new Phaser.Geom.Line(this.xPos, this.yPos, this.xPos + this.interest[i][0]*50, this.yPos + this.interest[i][1]*50));
+            //this.line.push(new Phaser.Geom.Line(this.xPos, this.yPos, this.xPos + this.interest[i][0]*50, this.yPos + this.interest[i][1]*50));
 
-            this.graphics.lineStyle(2, 0x00ffff);
-            this.graphics.strokeLineShape(this.line[i]);
+            //this.graphics.lineStyle(2, 0x00ffff);
+            //this.graphics.strokeLineShape(this.line[i]);
             this.interest[i] = [0, 0];
         }
-        this.line = [];
-        this.entity.anims.play('enemy-idle-front', true);
+        //this.line = [];
+        this.interest = [];
+        //this.entity.anims.play('enemy-lila-front', true);
+        this.loadSprite();
 
         this.shoot();
         this.healthBar();
+    }
+
+    loadSprite()
+    {
+        let step = Math.PI/8; 
+        let inbetween = [];
+        for(let i = 1; i<=4; i++)
+        {
+            inbetween.push([i*step])
+        }
+        for(let i = 4; i>=1; i--)
+        {
+            inbetween.push([-1*[i*step]])
+        }
+        let angle = this.dot(this.facing, [1, 0]);
+        if(this.facing[1] < 0)
+        {
+            angle = -1*angle;
+        }
+
+        if(angle > this.facing[0] && angle <= this.facing[1])
+        {
+            if(weakness === 'blue')
+            {
+                this.entity.anims.play('enemy-green-nw', true);
+                this.entity.flipX=false;
+            }
+            else if(weakness === 'red')
+            {
+                this.entity.anims.play('enemy-blue-nw', true);
+                this.entity.flipX=false;
+            }
+            else
+            {
+                this.entity.anims.play('enemy-red-nw', true);
+                this.entity.flipX=false;
+            }
+        }
+        else if(angle > this.facing[1] && angle <= this.facing[2])
+        {
+            if(weakness === 'blue')
+            {
+                this.entity.anims.play('enemy-green-n', true);
+            }
+            else if(weakness === 'red')
+            {
+                this.entity.anims.play('enemy-blue-n', true);
+            }
+            else
+            {
+                this.entity.anims.play('enemy-red-n', true);
+            }
+        }
+        else if(angle > this.facing[2] && angle <= this.facing[3])
+        {
+            if(weakness === 'blue')
+            {
+                this.entity.anims.play('enemy-green-nw', true);
+                this.entity.flipX=true;
+            }
+            else if(weakness === 'red')
+            {
+                this.entity.anims.play('enemy-blue-nw', true);
+                this.entity.flipX=true;
+            }
+            else
+            {
+                this.entity.anims.play('enemy-red-nw', true);
+                this.entity.flipX=true;
+            }
+        }
+        else if(angle > this.facing[3] && angle <= this.facing[4])
+        {
+            if(weakness === 'blue')
+            {
+                this.entity.anims.play('enemy-green-w', true);
+                this.entity.flipX=true;
+            }
+            else if(weakness === 'red')
+            {
+                this.entity.anims.play('enemy-blue-w', true);
+                this.entity.flipX=true;
+            }
+            else
+            {
+                this.entity.anims.play('enemy-red-w', true);
+                this.entity.flipX=true;
+            }
+        }
+        else if(angle > this.facing[4] && angle <= this.facing[5])
+        {
+            if(weakness === 'blue')
+            {
+                this.entity.anims.play('enemy-green-sw', true);
+                this.entity.flipX=true;
+            }
+            else if(weakness === 'red')
+            {
+                this.entity.anims.play('enemy-blue-sw', true);
+                this.entity.flipX=true;
+            }
+            else
+            {
+                this.entity.anims.play('enemy-red-sw', true);
+                this.entity.flipX=true;
+            }
+        }
+        else if(angle > this.facing[5] && angle <= this.facing[6])
+        {
+            if(weakness === 'blue')
+            {
+                this.entity.anims.play('enemy-green-s', true);
+            }
+            else if(weakness === 'red')
+            {
+                this.entity.anims.play('enemy-blue-s', true);
+            }
+            else
+            {
+                this.entity.anims.play('enemy-red-s', true);
+            }
+        }
+        else if(angle > this.facing[6] && angle <= this.facing[7])
+        {
+            if(weakness === 'blue')
+            {
+                this.entity.anims.play('enemy-green-sw', true);
+                this.entity.flipX=false;
+            }
+            else if(weakness === 'red')
+            {
+                this.entity.anims.play('enemy-blue-sw', true);
+                this.entity.flipX=false;
+            }
+            else
+            {
+                this.entity.anims.play('enemy-red-sw', true);
+                this.entity.flipX=false;
+            }
+        }
+        else
+        {
+            if(weakness === 'blue')
+            {
+                this.entity.anims.play('enemy-green-w', true);
+                this.entity.flipX=false;
+            }
+            else if(weakness === 'red')
+            {
+                this.entity.anims.play('enemy-blue-w', true);
+                this.entity.flipX=false;
+            }
+            else
+            {
+                this.entity.anims.play('enemy-red-w', true);
+                this.entity.flipX=false;
+            }
+        }
+
     }
 
     healthBar()
@@ -123,6 +296,7 @@ class Enemy
         average[0] = (average[0] / this.directions);
         average[1] = (average[1] / this.directions);
         average = this.normalize(average);
+        this.facing = average;
         this.entity.setVelocity(average[0]*this.speed, average[1]*this.speed);
     }
 

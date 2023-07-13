@@ -46,7 +46,7 @@ gameScene.preload = function()
     this.load.image("tiles1_resources", "assets/images/forest_resources.png");
     this.load.tilemapTiledJSON("map1", "assets/json/chromophobia_main_room.json");
 
-    this.load.image('star', 'assets/images/star.png');
+    //this.load.image('star', 'assets/images/star.png');
     this.load.image('bomb', 'assets/images/bomb.png');
 
 
@@ -125,21 +125,21 @@ gameScene.create = function()
     // -----------------------------------------------------------------------------------
     // Violet Enemy Animations
     this.anims.create({
-        key: 'enemy-lila-front',
+        key: 'enemy-lila-n',
         frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[0, 5, 10, 15]}),
         frameRate: 7,
         repeat: -1
     });
 
     this.anims.create({
-        key: 'enemy-lila-back',
+        key: 'enemy-lila-s',
         frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[1, 6, 11, 16]}),
         frameRate: 7,
         repeat: -1
     });
 
     this.anims.create({
-        key: 'enemy-lila-side',
+        key: 'enemy-lila-w',
         frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[2, 7, 12, 17]}),
         frameRate: 7,
         repeat: -1
@@ -162,21 +162,21 @@ gameScene.create = function()
     // -----------------------------------------------------------------------------------
     // Green Enemy Animations
     this.anims.create({
-        key: 'enemy-red-front',
+        key: 'enemy-red-n',
         frames: this.anims.generateFrameNumbers('redEnemy', {frames:[0, 5, 10, 15]}),
         frameRate: 7,
         repeat: -1
     });
 
     this.anims.create({
-        key: 'enemy-red-back',
+        key: 'enemy-red-s',
         frames: this.anims.generateFrameNumbers('redEnemy', {frames:[1, 6, 11, 16]}),
         frameRate: 7,
         repeat: -1
     });
 
     this.anims.create({
-        key: 'enemy-red-side',
+        key: 'enemy-red-w',
         frames: this.anims.generateFrameNumbers('redEnemy', {frames:[2, 7, 12, 17]}),
         frameRate: 7,
         repeat: -1
@@ -199,21 +199,21 @@ gameScene.create = function()
     // -----------------------------------------------------------------------------------
     // Red Enemy Animations
     this.anims.create({
-        key: 'enemy-green-front',
+        key: 'enemy-green-n',
         frames: this.anims.generateFrameNumbers('greenEnemy', {frames:[0, 5, 10, 15]}),
         frameRate: 7,
         repeat: -1
     });
 
     this.anims.create({
-        key: 'enemy-green-back',
+        key: 'enemy-green-s',
         frames: this.anims.generateFrameNumbers('greenEnemy', {frames:[1, 6, 11, 16]}),
         frameRate: 7,
         repeat: -1
     });
 
     this.anims.create({
-        key: 'enemy-green-side',
+        key: 'enemy-green-w',
         frames: this.anims.generateFrameNumbers('greenEnemy', {frames:[2, 7, 12, 17]}),
         frameRate: 7,
         repeat: -1
@@ -252,7 +252,6 @@ gameScene.create = function()
             this.scene.start(room2);
             room2.get = player.entity.health;
         }
-        
     }
 
     for(let i = 0; i < this.enemies.length; i++)
