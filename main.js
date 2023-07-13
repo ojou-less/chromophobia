@@ -257,11 +257,11 @@ gameScene.create = function()
         repeat: -1
     });
 
-    let playerBullets = [new Bullets(this, 200, 200, 50, 'red'), new Bullets(this, 400, 200, 300, 'blue'), new Bullets(this, 600, 500, 150, 'green')];
-    player = new MainCharacter(this, 100, 450, 200, 400, playerBullets);
+    let playerBullets = [new Bullets(this, 350, 400, 100, 'red'), new Bullets(this, 350, 400, 100, 'blue'), new Bullets(this, 350, 400, 100, 'green')];
+    player = new MainCharacter(this, 100, 450, 200, 700, playerBullets);
     
-    this.enemies = [new Enemy(this, player.getEntity(), 100, 100, 30, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red'))];
-    //this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red')));
+    this.enemies = [new Enemy(this, player.getEntity(), 100, 100, 30, 200, 700, 'blue', new Bullets(this, 200, 700, 40, 'green'))];
+    this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 700, 'blue', new Bullets(this, 200, 700, 40, 'green')));
 
     this.physics.add.collider(player.getEntity(), bglayer);
     this.physics.add.collider(player.getEntity(), treelayer);
@@ -307,8 +307,8 @@ gameScene.create = function()
     background.play();
 
     gameoverText = gameScene.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
-    roomText = gameScene.add.text(16, 16, "Main Room", {fontSize: "16px", fill: "#000"}, {font: "Glass TTY VT220"});
-    portalText = gameScene.add.text(215, 18, "Kill all the enemies to enter Portal to resume to next Stage", {fontSize: "16px", fill: "#000"});
+    roomText = gameScene.add.text(16, 16, "Room 1", {fontSize: "16px", fill: "#000"}, {font: "Glass TTY VT220"});
+    portalText = gameScene.add.text(200, 18, "Neutralize all enemies and enter portal to resume", {fontSize: "16px", fill: "#000"});
     gameoverText.setOrigin(0.5);
     gameoverText.setVisible(false);
 }

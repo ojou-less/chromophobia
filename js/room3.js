@@ -5,7 +5,7 @@ let gameoverTextRoom3;
 
 room3.preload = function()
 {
-    
+    console.log(this.get);
     // -----------------------------------------------------------------------------------
     // Loading Audio Assests
     this.load.audio("backgroundSnow", "assets/audios/winterBackgroundNoFootsteps.wav");
@@ -47,13 +47,13 @@ room3.create = function()
     const treelayer = map.createLayer("Obstacles", treetiles, 0, 0);
     const fencelayer = map.createLayer("Fences", fencetiles, 0, 0);
     const portallayer = map.createLayer("Portal", tileset, 0, 0);
-    
 
-    let playerBullets = [new Bullets(this, 200, 200, 50, 'red'), new Bullets(this, 400, 200, 300, 'blue'), new Bullets(this, 600, 500, 150, 'green')];
+
+    let playerBullets = [new Bullets(this, 350, 400, 100, 'red'), new Bullets(this, 350, 400, 100, 'blue'), new Bullets(this, 350, 400, 100, 'green')];
     player = new MainCharacter(this, 100, 450, 200, this.get, playerBullets);
-    
-    this.enemies = [new Enemy(this, player.getEntity(), 100, 100, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red'))];
-    this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red')));
+
+    this.enemies = [new Enemy(this, player.getEntity(), 100, 100, 70, 200, 700, 'green', new Bullets(this, 200, 700, 40, 'red'))];
+    this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 700, 'red', new Bullets(this, 200, 700, 40, 'blue')));
 
     this.physics.add.collider(player.getEntity(), bglayer);
     this.physics.add.collider(player.getEntity(), treelayer);
@@ -82,7 +82,6 @@ room3.create = function()
         {
             this.physics.add.collider(this.enemies[i].getEntity(), this.enemies[j].getEntity());
         }
-
         this.physics.add.collider(player.getEntity(), this.enemies[i].getEntity());
         for(let j = 0; j < player.bullets.length; j++)
         {
@@ -99,7 +98,7 @@ room3.create = function()
             this.physics.add.collider(player.bullets[i], treelayer, bulletHitObstacles, null, this);
     }
 
-    roomtext = this.add.text(16, 16, "Room3 Room", {fontSize: "16px", fill: "#000"});
+    roomtext = this.add.text(16, 16, "Room 3", {fontSize: "16px", fill: "#000"});
     gameoverText = this.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
     gameoverText.setOrigin(0.5);
     gameoverText.setVisible(false);
