@@ -8,11 +8,7 @@ room4.preload = function()
     
     // -----------------------------------------------------------------------------------
     // Loading Audio Assests
-    this.load.audio("gameover", "assets/audios/dyingsound.mp3");
-    this.load.audio("background", "assets/audios/Monkeys-Spinning-Monkeys.mp3");
-    this.load.audio("hitsound", "assets/audios/roblox-death-sound-effect_69KVqYY.mp3");
-    this.load.audio("pewpew", "assets/audios/pewpew.wav");
-    this.load.audio("gunshot", "assets/audios/gunshot.wav");
+    this.load.audio("elevator", "assets/audios/Elevator-music.mp3");
 
     // -----------------------------------------------------------------------------------
     // Loading Image Assests
@@ -20,7 +16,6 @@ room4.preload = function()
     this.load.image("tiles4_resources", "assets/images/desert_fountain.png");
     this.load.tilemapTiledJSON("map4", "assets/json/chromophobia_room4.json");
 
-    this.load.image('star', 'assets/images/star.png');
     this.load.image('bomb', 'assets/images/bomb.png');
 
     // -----------------------------------------------------------------------------------
@@ -37,7 +32,6 @@ room4.preload = function()
     
 room4.create = function()
 {
-    
     const map = this.make.tilemap({
         key: "map4",        //ändern auf map3 und den rest des ganzen
         tileWidth: 16,
@@ -51,11 +45,14 @@ room4.create = function()
     const portallayer = map.createLayer("Portal", tileset, 0, 0);
     
 
-    cursors = this.input.keyboard.createCursorKeys();
-    player = new MainCharacter(this, 100, 450, 200, 400, new Bullets(this, 400, 200, 50, 'white'));
-    // enemies = new Enemy(this, player.getEntity(), 100, 100, 100, 300, 200, 'blue', new Bullets(this, 200, 500, 50, 'red'));
-    //console.log(player);
-
+    let playerBullets = [new Bullets(this, 200, 200, 50, 'red'), new Bullets(this, 400, 200, 300, 'blue'), new Bullets(this, 600, 500, 150, 'green')];
+    player = new MainCharacter(this, 100, 450, 200, this.get, playerBullets);
+    
+    this.enemies = []; //[new Enemy(this, player.getEntity(), 100, 100, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red'))];
+    //this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red')));
+    this.sound.stopByKey('backgroundSnow');
+    let background = this.sound.add("elevator", {volume: 0.3});
+    background.play();
 
     this.physics.add.collider(player.getEntity(), bglayer);
     this.physics.add.collider(player.getEntity(), healingfountainlayer, healPlayer, null, this);
@@ -66,49 +63,55 @@ room4.create = function()
 
 
     function enterRoom5(){
-        this.scene.start(room5);
+        if (this.enemies.length === 0) {
+          this.scene.start(room5);
+          room5.get = player.entity.health;
+        }
     }
 
     function healPlayer(){
-        console.log("healing player...");
-    }
-
-    this.physics.add.collider(player.getEntity(), enemies.getEntity());
-
-    this.physics.add.overlap(player.bullet, enemies.getEntity(), test2, null, this);
-    this.physics.add.overlap(enemies.bullet, player.getEntity(), test2, null, this);
-    
-
-    room4Text = room4.add.text(16, 16, "Room4 Room", {fontSize: "16px", fill: "#000"});
-    gameoverTextRoom4 = room4.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
-    gameoverTextRoom4.setOrigin(0.5);
-    gameoverTextRoom4.setVisible(false);
-}
-
-function test2(character, bullet)
-{
-    if(bullet.active)
-    {
-        console.log("Scene 4");
-        character.hit(bullet.damage, bullet.color);
-        let gotshot = this.sound.add("hitsound", {volume: 0.01}, { loop: false});
-        gotshot.play();
-        if(enemies.getEntity() === character)
+        if(player.healthMax > player.entity.health )
         {
-            console.log("nice");
+            player.entity.health += 2;
         }
-        console.log(enemies);
-        console.log(character);
-        character.dead();
     }
-    bullet.setActive(false);
-    bullet.setVisible(false);
-    console.log(character.health);
 
+    for(let i = 0; i < this.enemies.length; i++)
+    {
+        console.log(this.enemies[i]);
+        for(let j = 0; j < this.enemies.length; j++)
+        {
+            this.physics.add.collider(this.enemies[i].getEntity(), this.enemies[j].getEntity());
+        }
+
+        this.physics.add.collider(player.getEntity(), this.enemies[i].getEntity());
+        for(let j = 0; j < player.bullets.length; j++)
+        {
+            this.physics.add.overlap(player.bullets[j], this.enemies[i].getEntity(), calcDamage, null, this);
+        }
+        this.physics.add.overlap(this.enemies[i].bullet, player.getEntity(), calcDamage, null, this);
+        
+        this.physics.add.collider(this.enemies[i].bullet, healingfountainlayer, bulletHitObstacles, null, this);
+        this.physics.add.collider(this.enemies[i].getEntity(), healingfountainlayer);
+    }
+
+    for(let i = 0; i < player.bullets.length; i++)
+    {
+            this.physics.add.collider(player.bullets[i], healingfountainlayer, bulletHitObstacles, null, this);
+    }
+
+    roomtext = this.add.text(16, 16, "Room4 Room", {fontSize: "16px", fill: "#000"});
+    gameoverText = this.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
+    gameoverText.setOrigin(0.5);
+    gameoverText.setVisible(false);
 }
+
     
 room4.update = function() 
 {
     player.movement();
-    // enemies.update();
+    for(let i = 0; i < this.enemies.length; i++)
+    {
+        this.enemies[i].update();
+    }
 }
