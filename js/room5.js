@@ -8,11 +8,7 @@ room5.preload = function()
     
     // -----------------------------------------------------------------------------------
     // Loading Audio Assests
-    this.load.audio("gameover", "assets/audios/dyingsound.mp3");
-    this.load.audio("background", "assets/audios/Monkeys-Spinning-Monkeys.mp3");
-    this.load.audio("hitsound", "assets/audios/roblox-death-sound-effect_69KVqYY.mp3");
-    this.load.audio("pewpew", "assets/audios/pewpew.wav");
-    this.load.audio("gunshot", "assets/audios/gunshot.wav");
+    this.load.audio("lavaBackground", "assets/audios/lava.wav");
 
     // -----------------------------------------------------------------------------------
     // Loading Image Assests
@@ -66,7 +62,6 @@ room5.create = function()
 
     function lavaKill()
     {
-
         if (player.entity.health - 4 > 0) {
             player.entity.health -= 4;
         }
@@ -96,13 +91,17 @@ room5.create = function()
         this.physics.add.collider(this.enemies[i].getEntity(), lavapitlayer);
     }
     
-    roomText = this.add.text(16, 16, "Room5 Room", {fontSize: "16px", fill: "#000"});
+    roomText = this.add.text(16, 16, "Room5 Room", {fontSize: "16px", fill: "#000"}, {font: "Glass TTY VT220"});
     gameoverText = this.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
     gameoverText.setOrigin(0.5);
     gameoverText.setVisible(false);
     winTextRoom5 = this.add.text(400, 300, "Congratulations you beat the game!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
     winTextRoom5.setOrigin(0.5);
     winTextRoom5.setVisible(false);
+
+    this.sound.stopByKey('elevator');
+    let background = this.sound.add("lavaBackground", {volume: 0.5});
+    background.play();
 }
 
 function test2(character, bullet)

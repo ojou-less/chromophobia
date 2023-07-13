@@ -37,7 +37,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         {
             if(this.health <= 0)
             {
-                let dyingSound = gameObj.sound.add("gameover", {volume: 0.1});
+                let dyingSound = gameObj.sound.add("gameover", {volume: 0.5});
                 gameObj.physics.pause();
 
                 gameoverText.setVisible(true);
@@ -73,8 +73,8 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         this.bulletShot = false;
         let pressed = false;
         this.speed = 200;
-        
         let cursors = this.cursor;
+
 
         this.xPos = this.entity.body.transform.x;
         this.yPos = this.entity.body.transform.y;
@@ -177,6 +177,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         }
         else if (pressed === false) 
         {
+
             this.entity.setVelocity(0, 0);
             if(this.entity.facing === 'south')
             {

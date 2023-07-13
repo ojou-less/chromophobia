@@ -8,11 +8,6 @@ room2.preload = function()
     
     // -----------------------------------------------------------------------------------
     // Loading Audio Assests
-    this.load.audio("gameover", "assets/audios/dyingsound.mp3");
-    this.load.audio("background", "assets/audios/Monkeys-Spinning-Monkeys.mp3");
-    this.load.audio("hitsound", "assets/audios/roblox-death-sound-effect_69KVqYY.mp3");
-    this.load.audio("pewpew", "assets/audios/pewpew.wav");
-    this.load.audio("gunshot", "assets/audios/gunshot.wav");
 
     // -----------------------------------------------------------------------------------
     // Loading Image Assests
