@@ -57,7 +57,7 @@ gameScene.preload = function()
     this.load.spritesheet('walkingMain', 'assets/images/playerWalking.png', { frameWidth: 21, frameHeight: 30 });
 
     // -----------------------------------------------------------------------------------
-    // Loading Player Assests
+    // Loading Enemy Assests
     this.load.spritesheet('lilaEnemy', 'assets/images/enemyLila.png', { frameWidth: 21, frameHeight: 30 });
     this.load.spritesheet('redEnemy', 'assets/images/enemyRed.png', { frameWidth: 21, frameHeight: 30 });
     this.load.spritesheet('greenEnemy', 'assets/images/enemyGreen.png', { frameWidth: 21, frameHeight: 30 });
@@ -149,38 +149,112 @@ gameScene.create = function()
 
 
     // -----------------------------------------------------------------------------------
-    // Enemy Animations
+    // Violet Enemy Animations
     this.anims.create({
-        key: 'enemy-walk-front',
-        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[0, 3, 6, 9]}),
+        key: 'enemy-lila-n',
+        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[0, 5, 10, 15]}),
         frameRate: 7,
         repeat: -1
     });
 
     this.anims.create({
-        key: 'enemy-walk-back',
-        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[1, 4, 7, 10]}),
+        key: 'enemy-lila-s',
+        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[1, 6, 11, 16]}),
         frameRate: 7,
         repeat: -1
     });
 
     this.anims.create({
-        key: 'enemy-walk-side',
-        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[2, 5, 8, 11]}),
-        frameRate: 7,
-        repeat: -1
-    });
-    
-    this.anims.create({
-        key: 'enemy-walk-back',
-        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[1, 4, 7, 10]}),
+        key: 'enemy-lila-w',
+        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[2, 7, 12, 17]}),
         frameRate: 7,
         repeat: -1
     });
 
     this.anims.create({
-        key: 'enemy-walk-side',
-        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[2, 5, 8, 11]}),
+        key: 'enemy-lila-nw',
+        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[3, 8, 13, 18]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'enemy-lila-sw',
+        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[4, 9, 14, 19]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    // -----------------------------------------------------------------------------------
+    // Green Enemy Animations
+    this.anims.create({
+        key: 'enemy-red-n',
+        frames: this.anims.generateFrameNumbers('redEnemy', {frames:[0, 5, 10, 15]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'enemy-red-s',
+        frames: this.anims.generateFrameNumbers('redEnemy', {frames:[1, 6, 11, 16]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'enemy-red-w',
+        frames: this.anims.generateFrameNumbers('redEnemy', {frames:[2, 7, 12, 17]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'enemy-red-nw',
+        frames: this.anims.generateFrameNumbers('redEnemy', {frames:[3, 8, 13, 18]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'enemy-red-sw',
+        frames: this.anims.generateFrameNumbers('redEnemy', {frames:[4, 9, 14, 19]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    // -----------------------------------------------------------------------------------
+    // Red Enemy Animations
+    this.anims.create({
+        key: 'enemy-green-n',
+        frames: this.anims.generateFrameNumbers('greenEnemy', {frames:[0, 5, 10, 15]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'enemy-green-s',
+        frames: this.anims.generateFrameNumbers('greenEnemy', {frames:[1, 6, 11, 16]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'enemy-green-w',
+        frames: this.anims.generateFrameNumbers('greenEnemy', {frames:[2, 7, 12, 17]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'enemy-green-nw',
+        frames: this.anims.generateFrameNumbers('greenEnemy', {frames:[3, 8, 13, 18]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'enemy-green-sw',
+        frames: this.anims.generateFrameNumbers('greenEnemy', {frames:[4, 9, 14, 19]}),
         frameRate: 7,
         repeat: -1
     });
@@ -188,8 +262,8 @@ gameScene.create = function()
     let playerBullets = [new Bullets(this, 200, 200, 50, 'red'), new Bullets(this, 400, 200, 300, 'blue'), new Bullets(this, 600, 500, 150, 'green')];
     player = new MainCharacter(this, 100, 450, 200, 400, playerBullets);
     
-    this.enemies = [new Enemy(this, player.getEntity(), 100, 100, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red'))];
-    this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red')));
+    this.enemies = [new Enemy(this, player.getEntity(), 100, 100, 30, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red'))];
+    //this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red')));
 
     this.physics.add.collider(player.getEntity(), bglayer);
     this.physics.add.collider(player.getEntity(), treelayer);
@@ -204,7 +278,6 @@ gameScene.create = function()
             this.scene.start(room2);
             room2.get = player.entity.health;
         }
-        
     }
 
     for(let i = 0; i < this.enemies.length; i++)
