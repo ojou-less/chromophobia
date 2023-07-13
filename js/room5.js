@@ -106,34 +106,13 @@ room5.create = function() {
     lava.play();
     }
 
-    function test2(character, bullet) {
-        if (bullet.active) {
-            console.log("Scene 4");
-            character.hit(bullet.damage, bullet.color);
-            let gotshot = this.sound.add("hitsound", {volume: 0.01}, {loop: false});
-            gotshot.play();
-            if (enemies.getEntity() === character) {
-                console.log("nice");
-            }
-            console.log(enemies);
-            console.log(character);
-            character.dead();
-        }
-        bullet.setActive(false);
-        bullet.setVisible(false);
-        console.log(character.health);
-
-    }
-
     room5.update = function () {
         player.movement();
         for (let i = 0; i < this.enemies.length; i++) {
             this.enemies[i].update();
         }
         if (this.enemies.length === 0) {
-            console.log("außerhalb" + counter);
             if (counter === 0) {
-                console.log("bin drin");
                 this.physics.pause();
                 winTextRoom5.setVisible(true);
                 let winningSound = this.sound.add("winningSound", {volume: 1}, {loop: false});
@@ -141,7 +120,6 @@ room5.create = function() {
                 console.log(winningSound);
                 winningSound.play();
                 counter += 1;
-                console.log("innerhalb" + counter);
                 this.input.on('pointerdown', () => {
                     location.reload();
                 });
