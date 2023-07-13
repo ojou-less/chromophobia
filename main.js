@@ -123,38 +123,112 @@ gameScene.create = function()
 
 
     // -----------------------------------------------------------------------------------
-    // Enemy Animations
+    // Violet Enemy Animations
     this.anims.create({
-        key: 'enemy-walk-front',
-        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[0, 3, 6, 9]}),
+        key: 'enemy-lila-front',
+        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[0, 5, 10, 15]}),
         frameRate: 7,
         repeat: -1
     });
 
     this.anims.create({
-        key: 'enemy-walk-back',
-        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[1, 4, 7, 10]}),
+        key: 'enemy-lila-back',
+        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[1, 6, 11, 16]}),
         frameRate: 7,
         repeat: -1
     });
 
     this.anims.create({
-        key: 'enemy-walk-side',
-        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[2, 5, 8, 11]}),
-        frameRate: 7,
-        repeat: -1
-    });
-    
-    this.anims.create({
-        key: 'enemy-walk-back',
-        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[1, 4, 7, 10]}),
+        key: 'enemy-lila-side',
+        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[2, 7, 12, 17]}),
         frameRate: 7,
         repeat: -1
     });
 
     this.anims.create({
-        key: 'enemy-walk-side',
-        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[2, 5, 8, 11]}),
+        key: 'enemy-lila-nw',
+        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[3, 8, 13, 18]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'enemy-lila-sw',
+        frames: this.anims.generateFrameNumbers('lilaEnemy', {frames:[4, 9, 14, 19]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    // -----------------------------------------------------------------------------------
+    // Green Enemy Animations
+    this.anims.create({
+        key: 'enemy-red-front',
+        frames: this.anims.generateFrameNumbers('redEnemy', {frames:[0, 5, 10, 15]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'enemy-red-back',
+        frames: this.anims.generateFrameNumbers('redEnemy', {frames:[1, 6, 11, 16]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'enemy-red-side',
+        frames: this.anims.generateFrameNumbers('redEnemy', {frames:[2, 7, 12, 17]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'enemy-red-nw',
+        frames: this.anims.generateFrameNumbers('redEnemy', {frames:[3, 8, 13, 18]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'enemy-red-sw',
+        frames: this.anims.generateFrameNumbers('redEnemy', {frames:[4, 9, 14, 19]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    // -----------------------------------------------------------------------------------
+    // Red Enemy Animations
+    this.anims.create({
+        key: 'enemy-green-front',
+        frames: this.anims.generateFrameNumbers('greenEnemy', {frames:[0, 5, 10, 15]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'enemy-green-back',
+        frames: this.anims.generateFrameNumbers('greenEnemy', {frames:[1, 6, 11, 16]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'enemy-green-side',
+        frames: this.anims.generateFrameNumbers('greenEnemy', {frames:[2, 7, 12, 17]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'enemy-green-nw',
+        frames: this.anims.generateFrameNumbers('greenEnemy', {frames:[3, 8, 13, 18]}),
+        frameRate: 7,
+        repeat: -1
+    });
+
+    this.anims.create({
+        key: 'enemy-green-sw',
+        frames: this.anims.generateFrameNumbers('greenEnemy', {frames:[4, 9, 14, 19]}),
         frameRate: 7,
         repeat: -1
     });
