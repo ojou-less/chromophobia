@@ -188,7 +188,7 @@ gameScene.create = function()
     let playerBullets = [new Bullets(this, 200, 200, 50, 'red'), new Bullets(this, 400, 200, 300, 'blue'), new Bullets(this, 600, 500, 150, 'green')];
     player = new MainCharacter(this, 100, 450, 200, 400, playerBullets);
     
-    this.enemies = [new Enemy(this, player.getEntity(), 100, 100, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red'))];
+    this.enemies = [new Enemy(this, player.getEntity(), 50, 0, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red'))];
     this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red')));
 
     this.physics.add.collider(player.getEntity(), bglayer);
