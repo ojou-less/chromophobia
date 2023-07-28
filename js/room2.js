@@ -48,8 +48,8 @@ room2.create = function()
     let playerBullets = [new Bullets(this, 350, 400, 100, 'red'), new Bullets(this, 350, 400, 100, 'blue'), new Bullets(this, 350, 400, 100, 'green')];
     player = new MainCharacter(this, 100, 450, 200, this.get, playerBullets);
     
-    this.enemies = [new Enemy(this, player.getEntity(), 100, 100, 70, 200, 700, 'red', new Bullets(this, 200, 700, 40, 'blue'))];
-    this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 700, 'blue', new Bullets(this, 200, 700, 40, 'green')));
+    this.enemies = [new Enemy(this, player.getEntity(), 100, 100, 70, 200, 500, 'red', new Bullets(this, 200, 700, 45, 'blue'))];
+    this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 500, 'blue', new Bullets(this, 200, 700, 45, 'green')));
 
 
     this.physics.add.collider(player.getEntity(), bglayer);
