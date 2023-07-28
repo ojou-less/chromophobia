@@ -5,10 +5,7 @@ class Bullet extends Phaser.Physics.Arcade.Sprite
         super(scene, x, y, 'bomb');
         this.damage;
         this.color;
-        //let gunshot = gameObj.sound.add("gunshot", {volume: 0.01}, { loop: false});
-        //gunshot.play();
         this.pewpew;
-        //= scene.sound.add("pewpew", {volume: 0.1}, { loop: false});
 
     }
 
@@ -16,6 +13,18 @@ class Bullet extends Phaser.Physics.Arcade.Sprite
     {
         let temp = this.scalar(speed, this.normalize(direction));
         this.body.reset(x, y);
+        if(this.color === 'green')
+        {
+            this.setTint(0x00ff00);
+        }
+        if(this.color === 'red')
+        {
+            this.setTint(0xff0000);
+        }
+        if(this.color === 'blue')
+        {
+            this.setTint(0x0000ff);
+        }
         this.setActive(true);
         this.setVisible(true);
         this.setVelocity(temp[0], temp[1]);
@@ -73,11 +82,17 @@ class Bullets extends Phaser.Physics.Arcade.Group
         this.justShoot = false;
     }
 
+    currentBullet()
+    {
+        return this.getFirstDead(false);
+    }
+
     shootBullet(direction, x, y)
-    {        
+    {   
         if (!(this.justShoot))
         {
-            const bullet = this.getFirstDead(false);
+            const bullet = this.currentBullet();
+            console.log(bullet);
             if (bullet)
             {
                 bullet.shoot(direction, x, y, this.speed);

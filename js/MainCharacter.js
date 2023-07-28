@@ -14,7 +14,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         this.xPos = xPos;
         this.yPos = yPos;
         this.bullets = bullet;
-        this.healthMax = 400;
+        this.healthMax = 700;
 
         this.bullet = bullet[0];
 
@@ -72,7 +72,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
     {
         this.bulletShot = false;
         let pressed = false;
-        this.speed = 200;
+        this.speed = 150;
         let cursors = this.cursor;
 
 
@@ -85,14 +85,45 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         {
             return;
         }
-
-        if (cursors.LEFT.isDown)
+        if (cursors.DOWN.isDown && cursors.LEFT.isDown)
+        {
+            pressed = true;
+            this.entity.facing = 'south-east';
+            this.entity.anims.play('main-walk-south-west', true);
+            this.entity.setVelocity(-this.speed, this.speed);
+            this.entity.flipX = true
+        }
+        else if (cursors.DOWN.isDown && cursors.RIGHT.isDown)
+        {
+            pressed = true;
+            this.entity.facing = 'south-west';
+            this.entity.anims.play('main-walk-south-west', true);
+            this.entity.setVelocity(this.speed, this.speed);
+            this.entity.flipX = false;
+        }
+        else if (cursors.UP.isDown && cursors.LEFT.isDown)
+        {
+            pressed = true;
+            this.entity.facing = "north-east";
+            this.entity.anims.play('main-walk-north-west', true);
+            this.entity.setVelocity(-this.speed, -this.speed);
+            this.entity.flipX = true;
+        }
+        else if (cursors.UP.isDown && cursors.RIGHT.isDown)
+        {
+            this.entity.facing = "north-west";
+            this.entity.anims.play('main-walk-north-west', true);
+            this.entity.flipX = false;
+            this.entity.setVelocity(this.speed, -this.speed);
+            pressed = true;
+        }
+        else if (cursors.LEFT.isDown)
         {
             this.entity.setVelocity(-this.speed, 0);
             pressed = true;
             this.entity.facing = 'east';
             this.entity.anims.play('main-walk-side', true);
-            this.entity.flipX=true
+            this.entity.flipX = true
 
         }
         else if (cursors.RIGHT.isDown)
@@ -101,7 +132,7 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
             pressed = true;
             this.entity.facing = 'west';
             this.entity.anims.play('main-walk-side', true);
-            this.entity.flipX=false
+            this.entity.flipX = false
         }
         else if (cursors.UP.isDown)
         {
@@ -110,34 +141,14 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
             this.entity.facing = 'north';
             this.entity.anims.play('main-walk-back', true);
         }
-
-        if (cursors.DOWN.isDown)
+        else if (cursors.DOWN.isDown)
         {
-            this.entity.setVelocity(0, this.speed);
             pressed = true;
+            this.entity.setVelocity(0, this.speed);
             this.entity.facing = 'south';
             this.entity.anims.play('main-walk-front', true);
         }
 
-        if (cursors.DOWN.isDown && cursors.LEFT.isDown)
-        {
-            this.entity.setVelocity(-this.speed, this.speed);
-            pressed = true;
-        }
-        if (cursors.DOWN.isDown && cursors.RIGHT.isDown)
-        {
-            this.entity.setVelocity(this.speed, this.speed);
-            pressed = true;
-        }
-        if (cursors.UP.isDown && cursors.LEFT.isDown)
-        {
-            this.entity.setVelocity(-this.speed, -this.speed);
-            pressed = true;
-        }
-        if (cursors.UP.isDown && cursors.RIGHT.isDown)
-        {
-            this.entity.setVelocity(this.speed, -this.speed);
-        }
         if(cursors.ONE.isDown)
         {
             console.log("Bullet 1");
@@ -155,24 +166,48 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
         }
         if (cursors.SPACE.isDown)
         {
+            //this.bullet.currentBullet().setTint(0xff0000);
             if (pressed === false) {
                 this.entity.setVelocity(0,0);
+                
             }
             if(this.entity.facing === 'north')
             {
+                this.bullet.currentBullet().angle = -90;
                 this.bullet.shootBullet([0, -1], this.xPos, this.yPos);
             }
             else if(this.entity.facing === 'east')
             {
+                this.bullet.currentBullet().angle = 180;
                 this.bullet.shootBullet([-1, 0], this.xPos, this.yPos);
             }
             else if(this.entity.facing === 'south')
             {
+                this.bullet.currentBullet().angle = 90;
                 this.bullet.shootBullet([0, 1], this.xPos, this.yPos);
             }
-            else
+            else if (this.entity.facing === 'west')
             {
+                this.bullet.currentBullet().angle = 0;
                 this.bullet.shootBullet([1, 0], this.xPos, this.yPos);
+            }
+            else if (this.entity.facing === 'south-east')
+            {
+                this.bullet.currentBullet().angle = 135;
+                this.bullet.shootBullet([-0.5, 0.5], this.xPos, this.yPos);
+            }
+            else if (this.entity.facing === 'south-west')
+            {
+                this.bullet.currentBullet().angle = 45;
+                this.bullet.shootBullet([0.5, 0.5], this.xPos, this.yPos);
+            }
+            else if (this.entity.facing === 'north-east')
+            {
+                this.bullet.currentBullet().angle = -135;
+                this.bullet.shootBullet([-0.5, -0.5], this.xPos, this.yPos);
+            } else {
+                this.bullet.currentBullet().angle = -45;
+                this.bullet.shootBullet([0.5, -0.5], this.xPos, this.yPos);
             }
         }
         else if (pressed === false) 
@@ -192,12 +227,26 @@ class MainCharacter extends Phaser.Physics.Arcade.Sprite
                 this.entity.anims.play('main-idle-side', true);
                 this.entity.flipX = true
             }
-            else
+            else if (this.entity.facing === 'west')
             {
                 this.entity.anims.play('main-idle-side', true);
                 this.entity.flipX=false
             }
-
+            else if (this.entity.facing === "north-east") {
+                this.entity.anims.play('main-idle-north-west', true);
+                this.entity.flipX = true;
+            }
+            else if (this.entity.facing === "north-west") {
+                this.entity.anims.play('main-idle-north-west', true);
+                this.entity.flipX = false;
+            }
+            else if (this.entity.facing === "south-east") {
+                this.entity.anims.play('main-idle-south-west', true);
+                this.entity.flipX = true;
+            } else {
+                this.entity.anims.play('main-idle-south-west', true);
+                this.entity.flipX = false;
+            }
         }
     }
 

@@ -5,7 +5,7 @@ let gameoverTextRoom1;
 
 room2.preload = function()
 {
-    
+    console.log(this.get);
     // -----------------------------------------------------------------------------------
     // Loading Audio Assests
 
@@ -15,7 +15,6 @@ room2.preload = function()
     this.load.image("tiles2_resources", "assets/images/swamp_resources.png");
     this.load.tilemapTiledJSON("map2", "assets/json/chromophobia_room2.json");
 
-    this.load.image('star', 'assets/images/star.png');
     this.load.image('bomb', 'assets/images/bomb.png');
 
     // -----------------------------------------------------------------------------------
@@ -44,13 +43,13 @@ room2.create = function()
     const bglayer = map.createLayer("Background", tileset, 0, 0);
     const treelayer = map.createLayer("Obstacles", treetiles, 0, 0);
     const portallayer = map.createLayer("Portal", tileset, 0, 0);
-    
 
-    let playerBullets = [new Bullets(this, 200, 200, 50, 'red'), new Bullets(this, 50, 200, 300, 'blue'), new Bullets(this, 600, 500, 150, 'green')];
+
+    let playerBullets = [new Bullets(this, 350, 400, 100, 'red'), new Bullets(this, 350, 400, 100, 'blue'), new Bullets(this, 350, 400, 100, 'green')];
     player = new MainCharacter(this, 100, 450, 200, this.get, playerBullets);
     
-    this.enemies = [new Enemy(this, player.getEntity(), 100, 100, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red'))];
-    this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 200, 'blue', new Bullets(this, 200, 700, 40, 'red')));
+    this.enemies = [new Enemy(this, player.getEntity(), 100, 100, 70, 200, 700, 'red', new Bullets(this, 200, 700, 40, 'blue'))];
+    this.enemies.push(new Enemy(this, player.getEntity(), 400, 400, 70, 200, 700, 'blue', new Bullets(this, 200, 700, 40, 'green')));
 
 
     this.physics.add.collider(player.getEntity(), bglayer);
@@ -94,7 +93,7 @@ room2.create = function()
             this.physics.add.collider(player.bullets[i], treelayer, bulletHitObstacles, null, this);
     }
     
-    roomText = this.add.text(16, 16, "Room2 Room", {fontSize: "16px", fill: "#000"});
+    roomText = this.add.text(16, 16, "Room 2", {fontSize: "16px", fill: "#000"});
     gameoverText = this.add.text(400, 300, "Game Over!\nPlease click into the field to restart", {fontSize: "30px", fill: "#000"});
     gameoverText.setOrigin(0.5);
     gameoverText.setVisible(false);

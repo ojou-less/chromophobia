@@ -7,8 +7,21 @@ class Enemy
         this.xPos = xPos;
         this.yPos = yPos;
         this.reach = reach;
+        this.weakness = weakness;
+        if(weakness === 'blue')
+        {
+            this.entity = gameObj.physics.add.sprite(this.xPos, this.yPos, 'enemy-green-n');
+        }
+        else if(weakness === 'red')
+        {
+            this.entity = gameObj.physics.add.sprite(this.xPos, this.yPos, 'enemy-lila-n');
+        }
+        else
+        {
+            this.entity = gameObj.physics.add.sprite(this.xPos, this.yPos, 'enemy-red-n');
+        }
 
-        this.entity = gameObj.physics.add.sprite(this.xPos, this.yPos, 'idleEnemy');
+        
         this.entity.setCollideWorldBounds(true);
         this.entity.health = health;
         this.entity.weakness = weakness;
@@ -17,8 +30,6 @@ class Enemy
 
         
         this.speed = speed;
-        //this.health = health;
-        //this.weakness = weakness;
         this.bullet = bullet;
 
         this.directions = 8;
@@ -31,7 +42,7 @@ class Enemy
 
         this.graphics = gameObj.add.graphics();
 
-        this.line = [];
+        //this.line = [];
         this.interest = [];
         for(let i = 0; i<this.directions; i++)
         {
@@ -62,12 +73,16 @@ class Enemy
                 return true;
             }
         }
+        this.inbetween = [];
+        for(let i = 1; i<=8; i++)
+        {
+            this.inbetween.push([i*2*Math.PI/8])
+        }
+        this.facing = [];
     }
 
     update()
     {
-        this.graphics.clear();
-        
         this.xPos = this.entity.body.transform.x;
         this.yPos = this.entity.body.transform.y;
 
@@ -76,14 +91,10 @@ class Enemy
 
         for(let i = 0; i < this.directions; i++)
         {
-            this.line.push(new Phaser.Geom.Line(this.xPos, this.yPos, this.xPos + this.interest[i][0]*50, this.yPos + this.interest[i][1]*50));
-
-            this.graphics.lineStyle(2, 0x00ffff);
-            this.graphics.strokeLineShape(this.line[i]);
             this.interest[i] = [0, 0];
         }
-        this.line = [];
-        this.entity.anims.play('enemy-idle-front', true);
+
+        this.loadSprite();
 
         this.shoot();
         this.healthBar();
@@ -106,8 +117,20 @@ class Enemy
     {
         let temp = this.magnitude(this.vectorize(this.xPos, this.yPos, this.player.x, this.player.y));
         let direction = [this.entity.body.newVelocity.x, this.entity.body.newVelocity.y]
+
+        let angle 
+        if(direction[1] < 0)
+        {
+            angle = Math.acos(this.dot(this.facing, [1, 0])/ this.magnitude(this.facing));
+        } 
+        else
+        {
+            angle = Math.PI + Math.acos(this.dot(this.facing, [-1, 0])/ this.magnitude(this.facing));
+        }
+
         if(temp < this.reach && this.player.health > 0)
         {
+            this.bullet.currentBullet().rotation = -angle;
             this.bullet.shootBullet(direction, this.xPos, this.yPos);
         }
     }
@@ -123,6 +146,7 @@ class Enemy
         average[0] = (average[0] / this.directions);
         average[1] = (average[1] / this.directions);
         average = this.normalize(average);
+        this.facing = average;
         this.entity.setVelocity(average[0]*this.speed, average[1]*this.speed);
     }
 
@@ -142,14 +166,162 @@ class Enemy
         }
     }
 
+    loadSprite()
+    {
+        let angle 
+        if(this.facing[1] < 0)
+        {
+            angle = Math.acos(this.dot(this.facing, [1, 0])/ this.magnitude(this.facing));
+        } 
+        else
+        {
+            angle = Math.PI + Math.acos(this.dot(this.facing, [-1, 0])/ this.magnitude(this.facing));
+        }
+
+        if(angle > this.inbetween[0] && angle <= this.inbetween[1])
+        {
+            if(this.weakness === 'blue')
+            {
+                this.entity.anims.play('enemy-green-nw', true);
+                this.entity.flipX=false;
+            }
+            else if(this.weakness === 'red')
+            {
+                this.entity.anims.play('enemy-lila-nw', true);
+                this.entity.flipX=false;
+            }
+            else
+            {
+                this.entity.anims.play('enemy-red-nw', true);
+                this.entity.flipX=false;
+            }
+        }
+        else if(angle > this.inbetween[1] && angle <= this.inbetween[2])
+        {
+            if(this.weakness === 'blue')
+            {
+                this.entity.anims.play('enemy-green-s', true);
+            }
+            else if(this.weakness === 'red')
+            {
+                this.entity.anims.play('enemy-lila-s', true);
+            }
+            else
+            {
+                this.entity.anims.play('enemy-red-s', true);
+            }
+        }
+        else if(angle > this.inbetween[2] && angle <= this.inbetween[3])
+        {
+            if(this.weakness === 'blue')
+            {
+                this.entity.anims.play('enemy-green-nw', true);
+                this.entity.flipX=true;
+            }
+            else if(this.weakness === 'red')
+            {
+                this.entity.anims.play('enemy-lila-nw', true);
+                this.entity.flipX=true;
+            }
+            else
+            {
+                this.entity.anims.play('enemy-red-nw', true);
+                this.entity.flipX=true;
+            }
+        }
+        else if(angle > this.inbetween[3] && angle <= this.inbetween[4])
+        {
+            if(this.weakness === 'blue')
+            {
+                this.entity.anims.play('enemy-green-w', true);
+                this.entity.flipX=true;
+            }
+            else if(this.weakness === 'red')
+            {
+                this.entity.anims.play('enemy-lila-w', true);
+                this.entity.flipX=true;
+            }
+            else
+            {
+                this.entity.anims.play('enemy-red-w', true);
+                this.entity.flipX=true;
+            }
+        }
+        else if(angle > this.inbetween[4] && angle <= this.inbetween[5])
+        {
+            if(this.weakness === 'blue')
+            {
+                this.entity.anims.play('enemy-green-sw', true);
+                this.entity.flipX=true;
+            }
+            else if(this.weakness === 'red')
+            {
+                this.entity.anims.play('enemy-lila-sw', true);
+                this.entity.flipX=true;
+            }
+            else
+            {
+                this.entity.anims.play('enemy-red-sw', true);
+                this.entity.flipX=true;
+            }
+        }
+        else if(angle > this.inbetween[5] && angle <= this.inbetween[6])
+        {
+            if(this.weakness === 'blue')
+            {
+                this.entity.anims.play('enemy-green-n', true);
+            }
+            else if(this.weakness === 'red')
+            {
+                this.entity.anims.play('enemy-lila-n', true);
+            }
+            else
+            {
+                this.entity.anims.play('enemy-red-n', true);
+            }
+        }
+        else if(angle > this.inbetween[6] && angle <= this.inbetween[7])
+        {
+            if(this.weakness === 'blue')
+            {
+                this.entity.anims.play('enemy-green-sw', true);
+                this.entity.flipX=false;
+            }
+            else if(this.weakness === 'red')
+            {
+                this.entity.anims.play('enemy-lila-sw', true);
+                this.entity.flipX=false;
+            }
+            else
+            {
+                this.entity.anims.play('enemy-red-sw', true);
+                this.entity.flipX=false;
+            }
+        }
+        else
+        {
+            if(this.weakness === 'blue')
+            {
+                this.entity.anims.play('enemy-green-w', true);
+                this.entity.flipX=false;
+            }
+            else if(this.weakness === 'red')
+            {
+                this.entity.anims.play('enemy-lila-w', true);
+                this.entity.flipX=false;
+            }
+            else
+            {
+                this.entity.anims.play('enemy-red-w', true);
+                this.entity.flipX=false;
+            }
+        }
+
+    }
+
     getEntity()
     {
         return this.entity;
-    }
-    
-    getBulletEntity()
-    {
-        return this.bullet.getEntity();
     }
     
     scalar(scalar, vec)
